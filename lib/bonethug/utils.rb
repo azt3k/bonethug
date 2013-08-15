@@ -1,4 +1,4 @@
-class Utils
+module Bonethug
 
   #arguments can be for example db:migrate
   def self.call_rake(arguments)

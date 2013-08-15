@@ -21,9 +21,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
-  
-  spec.add_dependency 'mina',           github: 'nadarei/mina'
-  spec.add_dependency 'astrails-safe',  github: 'astrails/safe'
-  spec.add_dependency 'whenever',       github: 'javan/whenever'  
+
+  spec.add_dependency 'mina'
+  spec.add_dependency 'astrails-safe'
+  spec.add_dependency 'whenever' 
 
 end
