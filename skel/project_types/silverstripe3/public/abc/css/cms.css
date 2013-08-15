@@ -1,0 +1,36 @@
+#left{
+    width:230px;
+}
+#sitetree_holder {
+    padding-top: 92px;
+    position:relative;
+    overflow: hidden;    
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+    #sitetree_holder #sitetree_ul{
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 100%;
+    }
+    #sitetree_holder #TreeTools{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+    }
+        #sitetree_holder #TreeTools form{
+            width: 169px;
+        }
+        #sitetree_holder #TreeTools select#siteTreeFilterList{
+            font-size: 10px;
+            padding: 2px;
+        }
+        #sitetree_holder #TreeTools form#Form_AddPageOptionsForm select{
+            font-size: 12px;
+            padding: 3px 5px;              
+        }
+        #sitetree_holder #TreeTools form#Form_AddPageOptionsForm input.action{
+            width: 30px;
+            margin-left: 5px;
+        }

@@ -1,0 +1,15 @@
+.row-1{
+	background:#cccccc;
+}
+.row-0{
+	background:#ffffff;
+}
+.clist-table td{
+	padding:5px;
+}
+.clist-table{
+	width:100%;
+}
+.clist-pagination{
+	padding-top:10px;
+}

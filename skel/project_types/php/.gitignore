@@ -1,0 +1,13 @@
+# project framework
+/.bundle
+/vendor
+/bin
+/logs/*
+/backups/*
+/db_dumps
+/tmp/*
+/composer.phar
+
+# components tracked by composer
+/public/assets/*
+/vendor
