@@ -1,6 +1,6 @@
 require 'rake'
 
-namespace :setup do
+namespace :bonethug do
 
   desc "setup ss3.1-dev project"
   task :silverstripe31dev => :environment do
@@ -15,5 +15,5 @@ namespace :setup do
     puts "just pretending 2"
     
   end
-r
+
 end

@@ -47,15 +47,15 @@ module Bonethug
 
     def self.clean(target)
       manifest = File.read(target + '/.bonethug-manifest').split("\n")
-      manifest.each {|file| rm_rf file }
+      manifest.each { |file| rm_rf file }
       self
     end
 
     protected
 
     def self.build_manifest(dir)
-      manifest = Dir.glob(dir + "/*") - (@@conf.get('exlcuded_paths') || []).map({|p| File.expand_path(p) })
-      File.open(dir + '/.bonethug-manifest','w') {|file| file.puts manifest.join("\n") }le }
+      manifest = Dir.glob(dir + "/*") - (@@conf.get('exlcuded_paths') || []).map { |p| File.expand_path(p) }
+      File.open(dir + '/.bonethug-manifest','w') { |file| file.puts manifest.join("\n") }
       self
     end    
       
