@@ -1,22 +1,11 @@
-# project framework
-.bundle
-vendor
-bin
-logs/*
-backups/*
-db_dumps
-tmp/*
-composer.phar
+/.bundle
+/vendor
+/bin
+/logs/*
+/backups/*
+/db_dumps
 
-# components tracked by composer
-public/silverstripe-cache
-public/themes/simple
-public/vendor
-public/assets/*
-public/bootstrap_forms
-public/cms
-public/framework
-public/html5
-public/widgets
-public/compass
-composer.phar
+# project ignores - might need review
+/public/sites/*/files
+/public/sites/*/private
+/public/sites/all/modules/filemanager/files

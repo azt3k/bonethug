@@ -1,0 +1,7 @@
+base:
+project_types:
+  drupal:
+  php:
+  rails3:
+  silverstripe3:
+  sinatra:

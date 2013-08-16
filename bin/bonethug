@@ -1,13 +1,8 @@
 #!/usr/bin/env ruby
+
 root_path = File.expand_path(File.dirname(__FILE__)) + '/..'
-puts root_path
 
 require 'rubygems' unless Object.const_defined?(:Gem)
 require root_path +'/lib/bonethug'
-require 'rake'
 
-ARGV.each do|a|
-  puts "Argument: #{a}"
-end
-
-Bonethug::call_rake('setup:silverstripe31-dev')
+Bonethug::CLI.handle

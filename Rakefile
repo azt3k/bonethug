@@ -1,3 +1,4 @@
 require "bundler/gem_tasks"
 
-Dir.glob('lib/tasks/*.rake').each { |r| import r }
+root_path = File.expand_path(File.dirname(__FILE__))
+import root_path+"/lib/tasks/setup.rake"
