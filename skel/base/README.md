@@ -1,5 +1,5 @@
-Insight Report Framework
-========================
+Bonethug Silverstripe Project Skeleton
+======================================
 
 
 

@@ -14,7 +14,7 @@ class Conf
 
   def initialize(new_hash = nil, options = {})
     raise "New hash must be of type Hash" if new_hash && new_hash.class.name != 'Hash'
-    @options = {use_fallbacks: true}.merge(options)
+    @options = {use_fallbacks: true}.merge options
     @loaded_paths = []
     @paths = {}
     @config_hashes = {}
@@ -29,7 +29,7 @@ class Conf
     else
       raise "add_path only accepts stings or hashes"
     end
-    @paths.merge(path_hash)
+    @paths = @paths.merge path_hash
     self
   end
 
@@ -57,7 +57,7 @@ class Conf
       # create the other nodes
       if options and options.has_key? :root
         fragment = fragment_base
-        nodes = options[:root].split('.')
+        nodes = options[:root].split '.'
         nodes.each_with_index do |node,i|
           fragment[node] = i == nodes.length-1 ? @config_hashes[path] : {}
           fragment = fragment[node]
@@ -67,7 +67,7 @@ class Conf
       end
 
       # output
-      out = out.merge(fragment_base)
+      out = out.merge fragment_base
 
     end
     @compiled_hash = out

@@ -1,6 +1,6 @@
 deploy:
   common:
-    project_type: drupal
+    project_type: rails3 | silverstripe3 | drupal | php | sinatra
     base_dir: /var/www
     repository: git@gitlab.....
     project_slug: tradespot
@@ -12,13 +12,27 @@ deploy:
     development:
     staging:
       domain: staging.domain.com
+      default_branch: master
     production:
-      domain: production.cdomain.com
+      domain: production.domain.com
+      default_branch: stable
 dbs:
   default:
     development:
+      user: root
+      pass:
+      host: localhost
+      port: 3306
     staging:
+      user: staging_db
+      pass: passw0rd
+      host: localhost
+      port: 3306    
     production:
+      user: production_db
+      pass: passw0rd
+      host: localhost
+      port: 3306    
 backup:
   local:
     keep:2
@@ -27,6 +41,16 @@ backup:
     host: backup-host.com
     user: remote_backup
     pass: passw0rd
+  sftp:
+    keep: 10
+    host: backup-host.com
+    user: remote_backup
+    pass: passw0rd
+  s3:
+    keep: 10
+    key: key
+    secret: secret
+    bucket: bucket
 apache:
   development:
   staging:
@@ -46,14 +70,29 @@ apache:
       SS_ENVIRONMENT_TYPE: live
       RAILS_ENV: production
       APPLICATION_ENV: production
-resources:
-permissions:
+chown:
   development:
   staging:
-    www_executable:
-      - vendor/bin
   production:
-    www_executable:
-      - vendor/bin  
+    -
+      path: public/uploads
+      user: www-data
+chmod:
+  development:
+  staging:
+  production:
+    -
+      path: public/uploads
+      mode: 775
+chgrp:
+  development:
+  staging:
+  production:
+    -
+      path: public/uploads
+      group: www-data
+resources:
+  - public/assets
+  - public/uploads
 log_dirs:
   - log

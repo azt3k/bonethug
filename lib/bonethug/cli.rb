@@ -17,7 +17,7 @@ module Bonethug
         # handle args
         type = ARGV[1]
         location = ARGV[2] || '.'
-        puts 'Usage: bonethug install [{location}]' if type.empty?
+        puts 'Usage: bonethug install [location]' if type.empty?
         
         # run the installer
         Installer.install type, location 
@@ -29,7 +29,7 @@ module Bonethug
 
       else
 
-        # We did n't find a task
+        # We didn't find a task
         puts 'Task not found'
 
       end
@@ -37,7 +37,7 @@ module Bonethug
     end
 
     def self.display_help
-      puts 'Usage: bonethug {task} [{arguements}]'
+      puts 'Usage: bonethug task [argument]...'
     end
 
   end

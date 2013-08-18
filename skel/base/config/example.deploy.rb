@@ -197,9 +197,29 @@ task :deploy => :environment do
       queue! %[cd #{deploy_to}/current/public && chown -R www-data:www-data . && chmod -R 775 .]
       queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]      
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]
-
-      (conf.get('permissions.'+env+'.www_executable','Array') || []).each do |dir|
-        queue! %[cd #{deploy_to}/current/#{dir} && chown -R www-data:www-data . && chmod -R 775 .]
+      
+      # apply defined permissions
+      chowns = conf.get('chown.'+env)
+      if chowns
+        chowns.each do |index, chown|
+          queue! %[cd #{deploy_to}/current/#{chown.get('path')} && chown -R chown.get('user') .]
+        end
+      end
+      
+      # apply defined permissions
+      chgrps = conf.get('chgrp.'+env)
+      if chgrps
+        chgrps.each do |index, chgrp|
+          queue! %[cd #{deploy_to}/current/#{chgrp.get('path')} && chgrp -R chgrp.get('group') .]
+        end
+      end      
+      
+      # apply defined permissions
+      chmods = conf.get('chmod.'+env)
+      if chmods
+        chmods.each do |index, chmod|
+          queue! %[cd #{deploy_to}/current/#{chmod.get('path')} && chmod -R chmod.get('mode') .]
+        end
       end
 
       queue! %[a2ensite "#{vhost}"]

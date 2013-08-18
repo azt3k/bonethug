@@ -1,6 +1,6 @@
 # Bonethug
 
-TODO: Write a gem description
+Project Skeleton Manager
 
 ## Installation
 
@@ -18,7 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Commands
+
+	$ bonethug install {rails3|silverstripe3|drupal|php|sinatra}
 
 ## Contributing
 
