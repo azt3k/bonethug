@@ -41,7 +41,7 @@ module Bonethug
       # create tmp dir
       puts 'Creating build directory at ' + tmp_dir
       FileUtils.mkdir tmp_dir
-      FileUtils.mkdir tmp_dir + './bonethug'
+      FileUtils.mkdir tmp_dir + '/.bonethug'
 
       # build the file set
       puts 'Building ' + type + ' skeleton...'
@@ -53,7 +53,7 @@ module Bonethug
       self.build_manifest tmp_dir
 
       # modify the manifest root
-      manifest_path = tmp_dir + '/.bonethug-manifest'
+      manifest_path = tmp_dir + '/.bonethug/manifest'
       File.open(manifest_path,'w') do |file| 
         file.puts File.read(manifest_path).gsub(/\.bonethug-tmp/,'') 
       end
@@ -64,14 +64,14 @@ module Bonethug
 
       # copy the files
       puts 'Installing build to ' + target + '...'
-      FileUtils.mv tmp_dir + '/.', target, force: true
+      FileUtils.cp_r tmp_dir + '/.', target
 
       # try to update the configuration files
       puts 'Updating configs...'
       self.update_configuration_files(target)
 
       # try to update the configuration files
-      puts 'Updating configs...'
+      puts 'Updating build informtation...'
       self.save_project_meta_data(target)
 
       # clean up any exisitng install tmp files
@@ -136,22 +136,34 @@ module Bonethug
     end
 
     def self.update_configuration_files(target)
+
+      # load the existing project's datafile if present
+      meta_data = self.get_project_meta_data target      
       
-       @@project_config_files.each do |config|
+      @@project_config_files.each do |config|
 
         do_copy       = true
-        meta_data     = self.get_project_meta_data target
         example_file  = target + '/config/example.' + config
         target_file   = target + '/config/' + config
-        
-        # don't copy if the file exists...
-        do_copy = false if File.exist?(target_file)
 
-        # unless it hasn't been changed
-        do_copy = true if !do_copy and meta_data and meta_data['config_digests']['example.' + config] == self.contents_md5(target + '/config/' + config)
+        # analyse the config file + build data file
+        file_exists           = File.exist?(target_file)
+        contents_not_modified = false
+        contents_not_modified = true if file_exists and meta_data and meta_data['config_digests'] and meta_data['config_digests']['example.' + config] == self.contents_md5(target_file) 
+
+        # meta_data_is_hash     = meta_data_exists and meta_data.class.name == 'Hash' and meta_data['config_digests'].class.name == 'Hash'
+        # config_digests_found  = meta_data_is_hash and meta_data['config_digests'].methods.include?('has_key?') and meta_data['config_digests'].has_key?('example.' + config)
+        # contents_not_modified = config_digests_found and meta_data['config_digests']['example.' + config] == self.contents_md5(target_file)
+
+        # don't copy if the file exists...
+        do_copy = false if file_exists
+
+        # unless it hasn't been modified, i.e. probably not conf.yml, but possibly some of the other ones
+
+        do_copy = true if contents_not_modified
 
         # Copy if that's ok
-        cp target + '/config/example.' + config, target + '/config/' + config if do_copy
+        FileUtils.cp example_file, target_file if do_copy
 
       end
 
@@ -161,21 +173,22 @@ module Bonethug
     end
 
     def self.contents_md5(file)
+      return false unless File.exist?(file)
       MD5.digest File.read(file)
     end
 
     def self.save_project_meta_data(base_dir)
 
-      meta_data = {}
-      meta_data['config_digests'] = @@project_config_files.map { |file| {'example.' + file => self.contents_md5(base_dir + '/config/example.' + file)} }
+      meta_data = {'config_digests' => {}}
+      @@project_config_files.each do |file| 
+        meta_data['config_digests']['example.' + file] = self.contents_md5(base_dir + '/config/example.' + file)
+      end
       File.open(base_dir + '/.bonethug/data','w') { |file| file.puts meta_data.to_yaml }
 
       # return self for chaining
       self
 
     end
-
-    def config_i
 
     def self.get_project_meta_data(base_dir)
 
