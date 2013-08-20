@@ -1,0 +1,20 @@
+- Silverstripe compass is broken on windows - the below helps in Rubygems::_run
+
+		// $process = proc_open("HOME='$gempath' GEM_HOME='$gempath' " . (@$_GET['flush'] ? "FLUSH={$_GET['flush']} " : '') . $cmd, $descriptorspec, $pipes);
+		$envs = array('HOME' => $gempath, 'GEM_HOME' => $gempath);
+		if (@$_GET['flush']) $envs['FLUSH'] = $_GET['flush'];
+		if (defined('PATH')) $envs['PATH'] = PATH;
+
+		$process = proc_open($cmd, $descriptorspec, $pipes, null, $envs);
+
+but it still throws:
+
+C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/config_file.rb:77:in `join': can't convert nil into String (TypeError)
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/config_file.rb:77:in `<class:configfile>'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/config_file.rb:30:in `<top (required)="">'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/gem_runner.rb:9:in `<top (required)="">'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+	from C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+	from C:/Ruby193/bin/gem:18:in `<main>'

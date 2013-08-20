@@ -19,17 +19,20 @@ deploy:
 dbs:
   default:
     development:
-      user: root
+      name: project_development
+      user: project_development
       pass:
       host: localhost
       port: 3306
     staging:
-      user: staging_db
+      name: project_staging
+      user: project_staging
       pass: passw0rd
       host: localhost
       port: 3306    
     production:
-      user: production_db
+      name: project_production
+      user: project_production
       pass: passw0rd
       host: localhost
       port: 3306    

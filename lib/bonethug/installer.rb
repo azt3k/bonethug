@@ -143,17 +143,17 @@ module Bonethug
       @@project_config_files.each do |config|
 
         do_copy       = true
-        example_file  = target + '/config/example.' + config
+        example_file  = target + '/config/example/' + config
         target_file   = target + '/config/' + config
 
         # analyse the config file + build data file
         file_exists           = File.exist?(target_file)
         contents_not_modified = false
-        contents_not_modified = true if file_exists and meta_data and meta_data['config_digests'] and meta_data['config_digests']['example.' + config] == self.contents_md5(target_file) 
+        contents_not_modified = true if file_exists and meta_data and meta_data['config_digests'] and meta_data['config_digests']['example/' + config] == self.contents_md5(target_file) 
 
         # meta_data_is_hash     = meta_data_exists and meta_data.class.name == 'Hash' and meta_data['config_digests'].class.name == 'Hash'
-        # config_digests_found  = meta_data_is_hash and meta_data['config_digests'].methods.include?('has_key?') and meta_data['config_digests'].has_key?('example.' + config)
-        # contents_not_modified = config_digests_found and meta_data['config_digests']['example.' + config] == self.contents_md5(target_file)
+        # config_digests_found  = meta_data_is_hash and meta_data['config_digests'].methods.include?('has_key?') and meta_data['config_digests'].has_key?('example/' + config)
+        # contents_not_modified = config_digests_found and meta_data['config_digests']['example/' + config] == self.contents_md5(target_file)
 
         # don't copy if the file exists...
         do_copy = false if file_exists
@@ -181,7 +181,7 @@ module Bonethug
 
       meta_data = {'config_digests' => {}}
       @@project_config_files.each do |file| 
-        meta_data['config_digests']['example.' + file] = self.contents_md5(base_dir + '/config/example.' + file)
+        meta_data['config_digests']['example/' + file] = self.contents_md5(base_dir + '/config/example/' + file)
       end
       File.open(base_dir + '/.bonethug/data','w') { |file| file.puts meta_data.to_yaml }
 

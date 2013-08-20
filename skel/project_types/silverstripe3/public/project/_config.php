@@ -4,8 +4,19 @@ require '../../vendor/autoload.php';
 
 use Symfony\Component\Yaml\Yaml;
 
+// ss env translation
+$ss_env = array(
+	'development'	=> 'dev',
+	'staging'		=> 'test',
+	'production'	=> 'live'
+);
+
 // Transfer environmental vars to constants
-define('SS_ENVIRONMENT_TYPE', getenv('SS_ENVIRONMENT_TYPE'));
+define('APPLICATION_ENV', getenv('APPLICATION_ENV'));
+
+// Set SS env vars
+putenv('SS_ENVIRONMENT_TYPE='+$ss_env[APPLICATION_ENV]);
+define('SS_ENVIRONMENT_TYPE', $ss_env[APPLICATION_ENV]);
 define('SS_SEND_ALL_EMAILS_TO', getenv('SS_SEND_ALL_EMAILS_TO'));
 
 global $project, $databaseConfig, $_FILE_TO_URL_MAPPING;
@@ -18,10 +29,15 @@ SSViewer::set_theme('project');
 $cnf = Yaml::parse(__DIR__.'/../../config/cnf.yml');
 $db = $cnf['dbs']['default'];
 
-// Env specific settings
-switch(SS_ENVIRONMENT_TYPE){
+// file to url
+$base_dir = __DIR__ . '/..';
+$url = $cnf['apache'][APPLICATION_ENV]['server_name'];
+$_FILE_TO_URL_MAPPING[$base_dir] = $url;
 
-	case 'dev':
+// Env specific settings
+switch(APPLICATION_ENV){
+
+	case 'development':
 
 		// Debug Settings
 		ini_set("display_errors",1);
@@ -56,7 +72,8 @@ switch(SS_ENVIRONMENT_TYPE){
 		
 		break;
 
-	case 'test':	
+	case 'staging':	
+
 		// Debug Settings
 		ini_set("display_errors",1);
 		error_reporting(E_ALL & ~E_STRICT);		
@@ -93,7 +110,7 @@ switch(SS_ENVIRONMENT_TYPE){
 		break;
 
 	default:
-	case 'live':
+	case 'production':
 
 		Director::set_environment_type("live");		
 		

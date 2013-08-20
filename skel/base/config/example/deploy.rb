@@ -169,7 +169,8 @@ task :deploy => :environment do
 
   DocumentRoot #{deploy_to}/current/public
 
-  #{env_vars}          
+  #{env_vars}
+  PassEnv PATH
 
   CustomLog #{deploy_to}/shared/log/bytes.log bytes
   CustomLog #{deploy_to}/shared/log/combined.log combined
