@@ -25,9 +25,14 @@ global $project, $databaseConfig, $_FILE_TO_URL_MAPPING;
 $project = 'project';
 SSViewer::set_theme('project');
 
-// load db settings
+// load conf
 $cnf = Yaml::parse(__DIR__.'/../../config/cnf.yml');
-$db = $cnf['dbs']['default'];
+
+// load db settings
+$db_cnf = (object) $cnf['dbs']['default'][APPLICATION_ENV];
+
+// load mail settings
+$mail = (object) $cnf['mail']['smtp'][APPLICATION_ENV];
 
 // file to url
 $base_dir = __DIR__ . '/..';
@@ -43,9 +48,6 @@ switch(APPLICATION_ENV){
 		ini_set("display_errors",1);
 		error_reporting(E_ALL & ~E_STRICT);		
 		Director::set_environment_type("dev");
-
-		// load env db conf
-		$db_cnf = (object) $db['development'];	
 		
 		// Ensure that all emails get directed to the developer email address
 		Config::inst()->update('Email', 'send_all_emails_to', SS_SEND_ALL_EMAILS_TO);
@@ -54,21 +56,10 @@ switch(APPLICATION_ENV){
 		Config::inst()->update('Email', 'admin_email', SS_SEND_ALL_EMAILS_TO);
 		
 		// Log file
-		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../logs/log.log'), SS_Log::WARN, '<=');
+		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../log/development.log'), SS_Log::WARN, '<=');
 
 		// hard code user / pass
-		Security::setDefaultAdmin('admin', 'admin');		
-		
-		// Smtp Email Conf
-		define('SMTPMAILER_DEFAULT_FROM_NAME', 'dev');
-		define('SMTPMAILER_DEFAULT_FROM_EMAIL', 'abcdigital@abcdigital.co.nz');		
-		define('SMTPMAILER_SMTP_SERVER_ADDRESS', 'smtp.gmail.com'); # SMTP server address
-		define('SMTPMAILER_DO_AUTHENTICATE', true); # Turn on SMTP server authentication. Set to false for an anonymous connection
-		define('SMTPMAILER_USERNAME', 'abcd.testuser@gmail.com'); # SMTP server username, if SMTPAUTH == true
-		define('SMTPMAILER_PASSWORD', 'testing420'); # SMTP server password, if SMTPAUTH == true
-		define('SMTPMAILER_CHARSET_ENCODING', 'utf-8'); # E-mails characters encoding, e.g. : 'utf-8' or 'iso-8859-1'
-		define('SMTPMAILER_USE_SECURE_CONNECTION', 'tls'); # SMTP encryption method : Set to '' or 'tls' or 'ssl'
-		define('SMTPMAILER_SMTP_SERVER_PORT', 587); # SMTP server port. Set to 25 if no encryption or tls. Set to 465 if ssl
+		Security::setDefaultAdmin('admin', 'admin');
 		
 		break;
 
@@ -78,9 +69,6 @@ switch(APPLICATION_ENV){
 		ini_set("display_errors",1);
 		error_reporting(E_ALL & ~E_STRICT);		
 		Director::set_environment_type("test");
-		
-		// load env db conf
-		$db_cnf = (object) $db['staging'];
 		
 		// Ensure that all emails get directed to the developer email address
 		Email::send_all_emails_to(SS_SEND_ALL_EMAILS_TO);
@@ -92,47 +80,17 @@ switch(APPLICATION_ENV){
 		Security::setDefaultAdmin('admin', 'admin');			
 		
 		// Log file
-		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../logs/log.log'), SS_Log::WARN, '<=');
-
-		// Smtp Email Conf
-		define('SMTPMAILER_DEFAULT_FROM_NAME', 'test');
-		define('SMTPMAILER_DEFAULT_FROM_EMAIL', 'abcdigital@abcdigital.co.nz');		
-		define('SMTPMAILER_SMTP_SERVER_ADDRESS', 'smtp.gmail.com'); # SMTP server address
-		define('SMTPMAILER_DO_AUTHENTICATE', true); # Turn on SMTP server authentication. Set to false for an anonymous connection
-		define('SMTPMAILER_USERNAME', 'abcd.testuser@gmail.com'); # SMTP server username, if SMTPAUTH == true
-		define('SMTPMAILER_PASSWORD', 'testing420'); # SMTP server password, if SMTPAUTH == true
-		define('SMTPMAILER_CHARSET_ENCODING', 'utf-8'); # E-mails characters encoding, e.g. : 'utf-8' or 'iso-8859-1'
-		define('SMTPMAILER_USE_SECURE_CONNECTION', 'tls'); # SMTP encryption method : Set to '' or 'tls' or 'ssl'
-		define('SMTPMAILER_SMTP_SERVER_PORT', 587); # SMTP server port. Set to 25 if no encryption or tls. Set to 465 if ssl
-		
-		// Requirements::javascript('http://www.bugherd.com/sidebarv2.js?apikey=lmnw4b6srak6dujqwjqchw');
+		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../log/staging.log'), SS_Log::WARN, '<=');
 		
 		break;
 
 	default:
 	case 'production':
 
-		Director::set_environment_type("live");		
-		
-		// load env db conf
-		$db_cnf = (object) $db['production'];
+		Director::set_environment_type("live");
 
 		// Log file
-		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../logs/log.log'), SS_Log::WARN, '<=');
-		
-		// hard code user / pass
-		Security::setDefaultAdmin('admin', 'admin');		
-		
-		// Smtp Email Conf
-		define('SMTPMAILER_DEFAULT_FROM_NAME', 'live');
-		define('SMTPMAILER_DEFAULT_FROM_EMAIL', 'abcdigital@abcdigital.co.nz');		
-		define('SMTPMAILER_SMTP_SERVER_ADDRESS', 'smtp.gmail.com'); # SMTP server address
-		define('SMTPMAILER_DO_AUTHENTICATE', true); # Turn on SMTP server authentication. Set to false for an anonymous connection
-		define('SMTPMAILER_USERNAME', 'abcd.testuser@gmail.com'); # SMTP server username, if SMTPAUTH == true
-		define('SMTPMAILER_PASSWORD', 'testing420'); # SMTP server password, if SMTPAUTH == true
-		define('SMTPMAILER_CHARSET_ENCODING', 'utf-8'); # E-mails characters encoding, e.g. : 'utf-8' or 'iso-8859-1'
-		define('SMTPMAILER_USE_SECURE_CONNECTION', 'tls'); # SMTP encryption method : Set to '' or 'tls' or 'ssl'
-		define('SMTPMAILER_SMTP_SERVER_PORT', 587); # SMTP server port. Set to 25 if no encryption or tls. Set to 465 if ssl
+		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../log/production.log'), SS_Log::WARN, '<=');
 
 		break;
 		
@@ -148,6 +106,17 @@ $databaseConfig = array(
 	"path" 		=> '',
 );	
 Config::inst()->update('MySQLDatabase', 'connection_charset', 'utf8');
+
+// set up mail
+define('SMTPMAILER_DEFAULT_FROM_NAME', 		$mail->default_from['name']);
+define('SMTPMAILER_DEFAULT_FROM_EMAIL', 	$mail->default_from['email']);		
+define('SMTPMAILER_SMTP_SERVER_ADDRESS',	$mail->server);
+define('SMTPMAILER_DO_AUTHENTICATE', 		$mail->authenticate);
+define('SMTPMAILER_USERNAME', 				$mail->user);
+define('SMTPMAILER_PASSWORD', 				$mail->pass);
+define('SMTPMAILER_CHARSET_ENCODING', 		$mail->charset_encoding);
+define('SMTPMAILER_USE_SECURE_CONNECTION', 	$mail->secure);
+define('SMTPMAILER_SMTP_SERVER_PORT', 		$mail->port);
 
 // Set the site locale
 i18n::set_locale('en_NZ');

@@ -54,6 +54,21 @@ backup:
     key: key
     secret: secret
     bucket: bucket
+mail:
+  smtp:
+    development:
+    staging:
+    production:
+      default_from:
+        name: dev
+        email: dev@domain.com
+      server: smtp.gmail.com
+      authenticate: true
+      user: username@domain.com
+      pass: passw0rd
+      secure: tls
+      charset_encoding: utf-8
+      port: 587
 apache:
   development:
   staging:
@@ -61,7 +76,6 @@ apache:
     server_aliases:
       - www.staging.domain.com
     env_vars:
-      SS_ENVIRONMENT_TYPE: test
       RAILS_ENV: staging
       APPLICATION_ENV: staging
   production:
@@ -70,12 +84,14 @@ apache:
       - www.production.domain.com
     server_admin: dev@domain.com
     env_vars:
-      SS_ENVIRONMENT_TYPE: live
       RAILS_ENV: production
       APPLICATION_ENV: production
 chown:
   development:
   staging:
+    -
+      path: public/uploads
+      user: www-data  
   production:
     -
       path: public/uploads
@@ -83,6 +99,9 @@ chown:
 chmod:
   development:
   staging:
+    -
+      path: public/uploads
+      mode: 775  
   production:
     -
       path: public/uploads
@@ -90,6 +109,9 @@ chmod:
 chgrp:
   development:
   staging:
+    -
+      path: public/uploads
+      group: www-data  
   production:
     -
       path: public/uploads
