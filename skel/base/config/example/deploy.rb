@@ -34,7 +34,7 @@ log_dirs  = conf.get('log_dirs','Array') || []
 vhost = deploy.get('project_slug') + '_' + env
 
 # composer?
-use_composer = ['silverstripe','drupal','php'].include? deploy.get('project_type')
+use_composer = ['silverstripe','silverstripe3','drupal','php'].include? deploy.get('project_type')
 
 # directories we need to track
 resources += ['backups']
@@ -103,7 +103,7 @@ desc "Updates bundled dependencies"
 task :update_packages => :environment do
   invoke :'bundle:update'
   queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
-  queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if deploy.get('project_type') == 'silverstripe'
+  queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
 end
 
 desc "Restores application state to the most recent backup"
@@ -203,7 +203,7 @@ task :deploy => :environment do
       chowns = conf.get('chown.'+env)
       if chowns
         chowns.each do |index, chown|
-          queue! %[cd #{deploy_to}/current/#{chown.get('path')} && chown -R chown.get('user') .]
+          queue! %[cd #{deploy_to}/current/#{chown.get('path')} && chown -R #{chown.get('user')} .]
         end
       end
       
@@ -211,7 +211,7 @@ task :deploy => :environment do
       chgrps = conf.get('chgrp.'+env)
       if chgrps
         chgrps.each do |index, chgrp|
-          queue! %[cd #{deploy_to}/current/#{chgrp.get('path')} && chgrp -R chgrp.get('group') .]
+          queue! %[cd #{deploy_to}/current/#{chgrp.get('path')} && chgrp -R #{chgrp.get('group')} .]
         end
       end      
       
@@ -219,7 +219,7 @@ task :deploy => :environment do
       chmods = conf.get('chmod.'+env)
       if chmods
         chmods.each do |index, chmod|
-          queue! %[cd #{deploy_to}/current/#{chmod.get('path')} && chmod -R chmod.get('mode') .]
+          queue! %[cd #{deploy_to}/current/#{chmod.get('path')} && chmod -R #{chmod.get('mode')} .]
         end
       end
 
@@ -227,7 +227,7 @@ task :deploy => :environment do
       queue! %[/etc/init.d/apache2 reload]
       invoke :'whenever:update'
 
-      queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if deploy.get('project_type') == 'silverstripe'
+      queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
 
     end
   end

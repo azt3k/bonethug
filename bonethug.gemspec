@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mina'
   spec.add_dependency 'astrails-safe'
   spec.add_dependency 'whenever' 
+  spec.add_dependency 'sprockets'  
 
 end

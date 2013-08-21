@@ -5,3 +5,6 @@ project_types:
   rails3:
   silverstripe3:
   sinatra:
+exlcuded_paths:
+  - Gemfile
+  - composer.json

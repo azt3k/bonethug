@@ -1,3 +1,9 @@
+# Todo
+# ----------------
+# - Have some sort of safe vs forced install - tie in with exlcuded paths
+# - Check that excluded paths is working in manifest
+# ----------------
+
 require File.expand_path(File.dirname(__FILE__)) + '/../../skel/base/lib/conf'
 require 'fileutils'
 require 'find'
