@@ -119,5 +119,14 @@ chgrp:
 resources:
   - public/assets
   - public/uploads
+watch:
+  sass:
+    -
+      src: public/assets/scss
+      dest: public/assets/css
+  coffee_script:
+    -
+      src: public/assets/coffee
+      dest: public/assets/js  
 log_dirs:
   - log

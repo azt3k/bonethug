@@ -2,6 +2,7 @@
 # ----------------
 # - Have some sort of safe vs forced install - tie in with exlcuded paths
 # - Check that excluded paths is working in manifest
+# - Gemfile, .gitignore, composer.json need to be no go zones
 # ----------------
 
 require File.expand_path(File.dirname(__FILE__)) + '/../../skel/base/lib/conf'

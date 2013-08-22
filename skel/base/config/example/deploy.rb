@@ -194,6 +194,14 @@ task :deploy => :environment do
 
     to :launch do
 
+      if ['rails3'].include? deploy.get('project_type')
+
+        # make sure passenger runs the app as apache
+        queue! %[cd #{deploy_to}/current/config && chown -R www-data:www-data environment.rb]
+        queue! %[cd #{deploy_to}/current && chown -R www-data:www-data config.ru]
+
+      end      
+
       # ensure that the correct directory permissions are set
       queue! %[cd #{deploy_to}/current/public && chown -R www-data:www-data . && chmod -R 775 .]
       queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]      

@@ -7,4 +7,5 @@ gemspec
 gem 'mina',           github: 'nadarei/mina'
 gem 'astrails-safe',  github: 'astrails/safe'
 gem 'whenever',       github: 'javan/whenever'
-gem 'sprockets',      github: 'sstephenson/sprockets'
+gem 'sass',           github: 'nex3/sass'
+gem 'coffee-script',  github: 'jashkenas/coffee-script'

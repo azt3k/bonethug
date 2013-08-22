@@ -36,7 +36,7 @@ $mail = (object) $cnf['mail']['smtp'][APPLICATION_ENV];
 
 // file to url
 $base_dir = __DIR__ . '/..';
-$url = $cnf['apache'][APPLICATION_ENV]['server_name'];
+$url = 'http://'.$cnf['apache'][APPLICATION_ENV]['server_name'];
 $_FILE_TO_URL_MAPPING[$base_dir] = $url;
 
 // Env specific settings
