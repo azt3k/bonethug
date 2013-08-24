@@ -6,8 +6,8 @@
 
 # Requires
 # ---------------------------------------------------------------
-
-require File.join(File.dirname(__FILE__), '..', 'lib', 'conf')
+require 'rubygems'
+require 'bonethug/conf'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
@@ -18,7 +18,7 @@ require 'mina/whenever'
 # ---------------------------------------------------------------
 
 # load the conf
-conf = Conf.new
+conf = Bonethug::Conf.new
 cnf = conf.to_hash
 
 # pull config from environment vars

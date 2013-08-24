@@ -5,7 +5,8 @@
 # - Gemfile, .gitignore, composer.json need to be no go zones
 # ----------------
 
-require File.expand_path(File.dirname(__FILE__)) + '/../../skel/base/lib/conf'
+require 'rubygems'
+require 'bonethug/conf'
 require 'fileutils'
 require 'find'
 require 'digest/md5'

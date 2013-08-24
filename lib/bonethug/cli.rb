@@ -22,6 +22,10 @@ module Bonethug
         # run the installer
         Installer.install type, location
 
+      when 'init'
+
+      when 'backup'        
+
       when 'watch'
 
         # handle args

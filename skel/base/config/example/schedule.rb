@@ -30,5 +30,5 @@ set :output, {:error => base_path+'/log/cron_error.log', :standard => base_path+
 
 # actual jobs
 every 1.day, :at => '11 pm' do
-  command "cd #{base_path} && export to=#{@environment} && bundle exec astrails-safe config/backup.rb"
+  command "cd #{base_path} && export to=#{@environment} && bundle exec astrails-safe .bonethug/backup.rb"
 end

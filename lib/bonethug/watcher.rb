@@ -4,7 +4,7 @@
 # - Check that excluded paths is working in manifest
 # ----------------
 
-require File.expand_path(File.dirname(__FILE__)) + '/../../skel/base/lib/conf'
+require 'conf'
 require 'fileutils'
 require 'find'
 require 'digest/md5'
@@ -88,7 +88,7 @@ module Bonethug
 
       # puts 'Starting Watch Daemon...'
       exec "guard --guardfile " + target + '/.bonethug/Guardfile'
-      
+
       # puts 'Starting Watch Daemons...'
       # puts 'This may start more than one watch process and you may have to ctrl + c more than once to quit.'
 

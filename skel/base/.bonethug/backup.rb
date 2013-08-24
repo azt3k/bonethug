@@ -2,6 +2,12 @@
 # bundle exec astrails-safe CONFIG_FILE
 # more info: https://github.com/astrails/safe
 
+# require some shit
+# --------------------------------
+
+require 'rubygems'
+require 'bonethug/conf'
+
 # Load some data
 # --------------------------------
 
@@ -10,8 +16,7 @@ exec_path   = File.expand_path(File.dirname(__FILE__))
 env         = ENV['to']
 
 # load config
-require exec_path + '/lib/conf'
-conf = Conf.new.add(exec_path + '/config/cnf.yml').add(exec_path + '/config/database.yml' => { root: 'dbs.default' })
+conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml').add(exec_path + '/config/database.yml' => { root: 'dbs.default' })
 
 # do a check
 raise 'could not find deployment environment' unless conf.get('deploy.environments').has_key? env
