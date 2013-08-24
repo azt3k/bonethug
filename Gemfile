@@ -4,8 +4,27 @@ source 'https://rubygems.org'
 gemspec
 
 # tell bundler to get stuff from git hub
-gem 'mina',           github: 'nadarei/mina'
-gem 'astrails-safe',  github: 'astrails/safe'
-gem 'whenever',       github: 'javan/whenever'
-gem 'sass',           github: 'nex3/sass'
-gem 'coffee-script',  github: 'jashkenas/coffee-script'
+gem 'mina',             github: 'nadarei/mina'
+gem 'astrails-safe',    github: 'astrails/safe'
+gem 'whenever',         github: 'javan/whenever'
+
+# gem 'sass',             github: 'nex3/sass'
+# gem 'coffee-script',    github: 'jashkenas/coffee-script'
+
+gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
+gem 'uglifier'
+
+# gem 'less'
+# gem 'sass-rails'
+# gem 'execjs'
+
+# if RUBY_PLATFORM.downcase.include?('linux')
+#   gem 'therubyracer' 
+#   gem 'rb-inotify'
+# end
+
+# if RUBY_PLATFORM.downcase.include?('darwin')
+#   gem 'rb-fsevent'
+#   gem 'terminal-notifier-guard'
+#   gem 'growl'
+# end

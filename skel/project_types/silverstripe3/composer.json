@@ -8,8 +8,7 @@
     "silverstripe/installer"        : "3.1.*@dev",
     "silverstripe/bootstrap-forms"  : "dev-master",
     "silverstripe/html5"            : "dev-master",
-    "silverstripe/widgets"          : "dev-master",
-    "silverstripe/compass"          : "dev-master"
+    "silverstripe/widgets"          : "dev-master"
   },
   "extra": {
     "installer-paths": {
@@ -17,14 +16,16 @@
       ],
       "public/themes/{$name}": [
         "silverstripe-themes/simple"
-      ],      
+      ],
+      "public": [
+        "silverstripe/installer"
+      ],
       "public/{$name}": [
         "silverstripe/framework",
         "silverstripe/cms",
         "silverstripe/bootstrap-forms",        
         "silverstripe/html5",
         "silverstripe/widgets",
-        "silverstripe/compass"
       ]
     }
   }

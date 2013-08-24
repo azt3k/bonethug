@@ -33,26 +33,26 @@ every 1.day, :at => '11 pm' do
   command "cd #{base_path} && export to=#{@environment} && bundle exec astrails-safe config/backup.rb"
 end
 
-every 15.minutes do
-  command "php #{base_path}/public/framework/cli-script.php /QuarterlyHourlyTask"
-end
+# every 15.minutes do
+#   command "php #{base_path}/public/framework/cli-script.php /QuarterlyHourlyTask"
+# end
 
-every 1.hour do
-  command "php #{base_path}/public/framework/cli-script.php /HourlyTask"
-end
+# every 1.hour do
+#   command "php #{base_path}/public/framework/cli-script.php /HourlyTask"
+# end
 
-every 1.day :at => '2am'.minutes do
-  command "php #{base_path}/public/framework/cli-script.php /DailyTask"
-end
+# every 1.day :at => '2am'.minutes do
+#   command "php #{base_path}/public/framework/cli-script.php /DailyTask"
+# end
 
-every 1.week do
-  command "php #{base_path}/public/framework/cli-script.php /WeeklyTask"
-end
+# every 1.week do
+#   command "php #{base_path}/public/framework/cli-script.php /WeeklyTask"
+# end
 
-every 1.month do
-  command "php #{base_path}/public/framework/cli-script.php /MonthlyTask"
-end
+# every 1.month do
+#   command "php #{base_path}/public/framework/cli-script.php /MonthlyTask"
+# end
 
-every 1.year do
-  command "php #{base_path}/public/framework/cli-script.php YearlyTask"
-end
+# every 1.year do
+#   command "php #{base_path}/public/framework/cli-script.php YearlyTask"
+# end

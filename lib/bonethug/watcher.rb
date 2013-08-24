@@ -39,34 +39,81 @@ module Bonethug
       end
 
       sass = []
-      conf.get('watch.sass').each do |watch|
-        sass.push {src: watch.get('src'), dest: watch.get('dest')}
+      if sasses = conf.get('watch.sass')
+        sasses.each do |index, watch|
+          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'))
+        end
       end
 
       coffee = []
-      conf.get('watch.coffee').each do |watch|
-        coffee.push {src: watch.get('src'), dest: watch.get('dest')}
+      if coffees = conf.get('watch.coffee')
+        coffees.each do |index, watch|
+          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'))
+        end
       end
 
-      puts 'Starting Watch Daemons...'
+      # Generate Guardfile
+      puts 'Generating Guardfile...'
+      guardfile_content = ''
+
+      # puts 'Starting Watch Daemons...'
+      # puts 'This may start more than one watch process and you may have to ctrl + c more than once to quit.'
 
       # sass compiler
       sass_watch_str = ''
       sass.each do |watch|
-        sass_watch_str += ' '+watch[:src]+':'+watch[:dest]
+        filter = watch[:filter] ? "watch '#{watch[:filter]}'" : ""
+        guardfile_content += "
+          guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
+            #{filter}
+          end
+        "
       end
-      sass_cmd = "sass --watch #{sass_watch_str} --style compressed"
       
-      # Coffescript compiler
+      # # Coffescript compiler
       coffee_watch_str = ''
       coffee.each do |watch|
-        coffee_watch_str += ' && coffee -o '+watch[:dest]+'/ -cw '+watch[:src]+'/'
-      end
-      coffee_cmd = coffee_watch_str
+        filter = watch[:filter] ? "watch '#{watch[:filter]}'" : ""
+        guardfile_content += "
+          guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
+            #{filter}
+          end
+        "
+      end 
 
-      # call it
-      log = `#{sass_cmd} #{coffee_cmd}` 
+      # save the guardfile
+      File.open(target + '/.bonethug/Guardfile','w') do |file| 
+        file.puts guardfile_content 
+      end
+
+      # puts 'Starting Watch Daemon...'
+      exec "guard --guardfile " + target + '/.bonethug/Guardfile'
+      
+      # puts 'Starting Watch Daemons...'
+      # puts 'This may start more than one watch process and you may have to ctrl + c more than once to quit.'
+
+      # # sass compiler
+      # sass_watch_str = ''
+      # sass.each do |watch|
+      #   sass_watch_str += ' '+watch[:src]+':'+watch[:dest]
+      # end
+      # sass_cmd = "sass --watch #{sass_watch_str} --style compressed"
+      
+      # # Coffescript compiler
+      # coffee_watch_str = ''
+      # coffee.each do |watch|
+      #   coffee_watch_str += ' && coffee -o '+watch[:dest]+'/ -cw '+watch[:src]+'/'
+      # end
+      # coffee_cmd = coffee_watch_str
+
+      # # call it
+      # cmd = "#{sass_cmd} #{coffee_cmd}"
+      # puts "Running: " + cmd
+      
+      # log = `#{cmd}` 
 
     end
+
+  end
 
 end
