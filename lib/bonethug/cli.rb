@@ -24,6 +24,34 @@ module Bonethug
 
       when 'init'
 
+      when 'deploy'
+
+        # handle args
+        environment = ARGV[1]
+
+        # validate
+        if environment.empty?
+          puts 'Usage: bonethug deploy [environment] [location]' 
+          return
+        end
+
+        # call command
+        exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy --verbose"
+
+      when 'setup'
+
+        # handle args
+        environment = ARGV[1]
+
+        # validate
+        if environment.empty?
+          puts 'Usage: bonethug setup [environment]' 
+          return
+        end
+
+        # call command
+        exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup --verbose"        
+
       when 'backup'        
 
       when 'watch'
