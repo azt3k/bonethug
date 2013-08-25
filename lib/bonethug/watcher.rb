@@ -88,10 +88,10 @@ module Bonethug
       end
 
       puts 'Starting Watch Daemon...'
-      puts "Guardfile content "
-      puts guardfile_content
+      # puts "Guardfile content "
+      # puts guardfile_content
       cmd = 'bundle exec guard --guardfile ' + target + '/.bonethug/Guardfile'
-      puts "calling: " + cmd
+      # puts "calling: " + cmd
       exec cmd
 
       # puts 'Starting Watch Daemons...'
