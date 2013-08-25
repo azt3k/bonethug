@@ -2,6 +2,8 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'bonethug/version'
+require 'rbconfig'
+
 
 Gem::Specification.new do |spec|
 
@@ -27,6 +29,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whenever' 
   # spec.add_dependency 'sass'
   # spec.add_dependency 'coffee-script'
-  spec.add_dependency 'guard-sprockets'   
+  spec.add_dependency 'guard-sprockets'
+
+  if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
+    spec.add_dependency 'wdm', '>= 0.1.0'
+  end
 
 end

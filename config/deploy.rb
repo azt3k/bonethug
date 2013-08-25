@@ -112,6 +112,11 @@ task :init_db => :environment do
 end
 
 desc "Restores application state to the most recent backup"
+task :backup => :environment do
+  queue! %[cd #{deploy_to}/current && export to=#{env} && bundle exec astrails-safe .bonethug/backup.rb] if deploy.get('project_type') == 'rails'
+end
+
+desc "Restores application state to the most recent backup"
 task :restore_backup => :environment do
   # to be implemented
 end

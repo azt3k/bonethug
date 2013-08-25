@@ -19,9 +19,10 @@ module Bonethug
     include FileUtils
     include Digest
 
-    @@skel_dir = File.expand_path(File.dirname(__FILE__)) + '/../../skel'
+    @@bonthug_gem_dir = File.expand_path(File.dirname(__FILE__)) + '/../..'
+    @@skel_dir = @@bonthug_gem_dir + '/skel'
     @@conf = Conf.new.add(@@skel_dir + '/skel.yml')
-    @@project_config_files = ['backup.rb','cnf.yml','deploy.rb','schedule.rb']
+    @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['backup.rb','deploy.rb']}
 
     def self.install(type, target = '.')
 
@@ -75,18 +76,18 @@ module Bonethug
       FileUtils.cp_r tmp_dir + '/.', target
 
       # try to update the configuration files
-      puts 'Updating configs...'
-      self.update_configuration_files(target)
-
-      # try to update the configuration files
       puts 'Updating build informtation...'
       self.save_project_meta_data(target)
 
       # clean up any exisitng install tmp files
       puts 'Cleaning up temporary files...'
-      FileUtils.rm_rf tmp_dir     
+      FileUtils.rm_rf tmp_dir  
 
       puts "Installation Complete"
+
+      # try to update the configuration files
+      puts 'Updating configs...'
+      self.bonethugise(target, :init)      
 
     end
 
@@ -138,46 +139,9 @@ module Bonethug
 
     def self.build_manifest(dir)
       dir_contents = Find.find(dir).map { |p| File.expand_path(p) }
-      manifest = dir_contents - ((@@conf.get('exlcuded_paths') || []).map { |p| File.expand_path(p) })
+      manifest = dir_contents - ((@@conf.get('exlcuded_paths','Array') || []).map { |p| File.expand_path(p) })
       File.open(dir + '/.bonethug/manifest','w') { |file| file.puts manifest.join("\n") }
       self
-    end
-
-    def self.update_configuration_files(target)
-
-      # load the existing project's datafile if present
-      meta_data = self.get_project_meta_data target      
-      
-      @@project_config_files.each do |config|
-
-        do_copy       = true
-        example_file  = target + '/config/example/' + config
-        target_file   = target + '/config/' + config
-
-        # analyse the config file + build data file
-        file_exists           = File.exist?(target_file)
-        contents_not_modified = false
-        contents_not_modified = true if file_exists and meta_data and meta_data['config_digests'] and meta_data['config_digests']['example/' + config] == self.contents_md5(target_file) 
-
-        # meta_data_is_hash     = meta_data_exists and meta_data.class.name == 'Hash' and meta_data['config_digests'].class.name == 'Hash'
-        # config_digests_found  = meta_data_is_hash and meta_data['config_digests'].methods.include?('has_key?') and meta_data['config_digests'].has_key?('example/' + config)
-        # contents_not_modified = config_digests_found and meta_data['config_digests']['example/' + config] == self.contents_md5(target_file)
-
-        # don't copy if the file exists...
-        do_copy = false if file_exists
-
-        # unless it hasn't been modified, i.e. probably not conf.yml, but possibly some of the other ones
-
-        do_copy = true if contents_not_modified
-
-        # Copy if that's ok
-        FileUtils.cp example_file, target_file if do_copy
-
-      end
-
-      # return self for chaining
-      self
-
     end
 
     def self.contents_md5(file)
@@ -188,7 +152,7 @@ module Bonethug
     def self.save_project_meta_data(base_dir)
 
       meta_data = {'config_digests' => {}}
-      @@project_config_files.each do |file| 
+      @@project_config_files[:editable].each do |file| 
         meta_data['config_digests']['example/' + file] = self.contents_md5(base_dir + '/config/example/' + file)
       end
       File.open(base_dir + '/.bonethug/data','w') { |file| file.puts meta_data.to_yaml }
@@ -204,7 +168,78 @@ module Bonethug
       return YAML.load_file data_file if File.exists? data_file
       return false
 
-    end    
+    end
+
+    # mode == :init
+    # copy cnf.yml + schedule.rb to config if possible
+    # copy cnf.yml + schedule.rb to config/example if possible
+    # copy backup.rb and deploy.rb to .bonethug if possible
+    # add bonethug to gemfile if required
+    # run bundle install      
+
+    # mode == :update
+    # copy cnf.yml + schedule.rb to config if possible
+    # force copy cnf.yml + schedule.rb to config/example 
+    # force copy backup.rb and deploy.rb to .bonethug
+    # add bonethug to gemfile if required
+    # run bundle install 
+
+    def self.bonethugise(dir='.', mode=:init)
+
+      target = File.expand_path(dir)
+
+      # check for the existence of required dirs and create if required
+      [target + '/.bonethug', target + '/config', target + '/config/example'].each do |path|
+        FileUtils.mkdir path unless File.directory? path
+      end
+
+      # Handle config files
+      @@project_config_files.each do |type, dirs|
+        dirs.each do |config|
+
+          src_file      = @@bonthug_gem_dir + '/config/' + config
+          example_file  = target + '/config/example/' + config if type == :editable
+          target_file   = type == :editable ? target + '/config/' + config : target + '/.bonethug/' + config
+
+          if mode == :init
+            FileUtils.cp src_file, example_file if type == :editable and !File.exist?(example_file)
+            FileUtils.cp src_file, target_file unless File.exist?(target_file)
+          elsif mode == :update
+            FileUtils.cp src_file, example_file if type == :editable
+            FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)          
+          else
+            raise "invalid bonethugise mode"
+          end
+
+        end
+      end
+
+      # handle gemfile
+      gemfile_path = target + '/Gemfile'
+      if File.exist? gemfile_path
+        gemfile_contents = File.read(gemfile_path)
+        unless /gem ["']bonethug["']/ =~ File.read(gemfile_path)
+          File.open(gemfile_path,'w') { |file| gemfile_contents + "\n" + 'gem "bonethug"' }
+        end
+      else
+        FileUtils.cp @@skel_dir + '/base/Gemfile', gemfile_path
+      end
+
+      # run bundler
+      exec 'bundle install --path vendor --binstubs'
+
+      # self
+
+    end
+
+    def self.update(dir = '.')
+      self.bonethugise(dir,:update)
+    end
+
+    def self.init(dir = '.')
+      self.bonethugise(dir,:init)
+    end  
+
   end
 
 end

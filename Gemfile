@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in bonethug.gemspec
@@ -17,6 +19,10 @@ gem 'uglifier'
 # gem 'less'
 # gem 'sass-rails'
 # gem 'execjs'
+
+if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
+  gem 'wdm', '>= 0.1.0'
+end
 
 # if RUBY_PLATFORM.downcase.include?('linux')
 #   gem 'therubyracer' 

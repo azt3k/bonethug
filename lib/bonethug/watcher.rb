@@ -4,7 +4,7 @@
 # - Check that excluded paths is working in manifest
 # ----------------
 
-require 'conf'
+require 'bonethug/conf'
 require 'fileutils'
 require 'find'
 require 'digest/md5'
