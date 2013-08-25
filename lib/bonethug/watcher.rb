@@ -41,52 +41,55 @@ module Bonethug
       sass = []
       if sasses = conf.get('watch.sass')
         sasses.each do |index, watch|
-          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'))
+          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'))
         end
       end
 
       coffee = []
       if coffees = conf.get('watch.coffee')
         coffees.each do |index, watch|
-          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'))
+          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'))
         end
       end
 
+      # combine the watches
+      watches = coffee + sass
+
       # Generate Guardfile
       puts 'Generating Guardfile...'
+
       guardfile_content = ''
+      watches.each do |watch|
 
-      # puts 'Starting Watch Daemons...'
-      # puts 'This may start more than one watch process and you may have to ctrl + c more than once to quit.'
+        case watch[:filter].class.name
+        when 'NilClass'
+          watch_val = ''
+        when 'String'
+          watch_val = "'#{watch[:filter]}'"
+        when 'Regexp'
+          watch_val = watch[:filter].inspect
+        else
+          raise "invalid filter type: " + watch[:filter].class.name
+        end
 
-      # sass compiler
-      sass_watch_str = ''
-      sass.each do |watch|
-        filter = watch[:filter] ? "watch '#{watch[:filter]}'" : ""
+        filter = watch[:filter] ? "watch #{watch_val}" : ""
         guardfile_content += "
           guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
             #{filter}
           end
         "
       end
-      
-      # # Coffescript compiler
-      coffee_watch_str = ''
-      coffee.each do |watch|
-        filter = watch[:filter] ? "watch '#{watch[:filter]}'" : ""
-        guardfile_content += "
-          guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
-            #{filter}
-          end
-        "
-      end 
 
       # save the guardfile
-      File.open(target + '/.bonethug/Guardfile','w') do |file| 
+      guardfile = target + '/.bonethug/Guardfile'
+      FileUtils.rm_rf guardfile
+      File.open(guardfile,'w') do |file| 
         file.puts guardfile_content 
       end
 
       puts 'Starting Watch Daemon...'
+      puts "Guardfile content "
+      puts guardfile_content
       cmd = 'bundle exec guard --guardfile ' + target + '/.bonethug/Guardfile'
       puts "calling: " + cmd
       exec cmd

@@ -9,16 +9,10 @@ gemspec
 gem 'mina',             github: 'nadarei/mina'
 gem 'astrails-safe',    github: 'astrails/safe'
 gem 'whenever',         github: 'javan/whenever'
-
-# gem 'sass',             github: 'nex3/sass'
-# gem 'coffee-script',    github: 'jashkenas/coffee-script'
-
 gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
 gem 'uglifier'
-
-# gem 'less'
-# gem 'sass-rails'
-# gem 'execjs'
+gem 'sass-rails'
+gem 'coffee-rails'
 
 if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
   gem 'wdm', '>= 0.1.0'

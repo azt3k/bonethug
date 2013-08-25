@@ -27,9 +27,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mina'
   spec.add_dependency 'astrails-safe'
   spec.add_dependency 'whenever' 
-  # spec.add_dependency 'sass'
-  # spec.add_dependency 'coffee-script'
   spec.add_dependency 'guard-sprockets'
+  spec.add_dependency 'uglifier'
+  spec.add_dependency 'sass-rails'
+  spec.add_dependency 'coffee-rails'  
 
   if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
     spec.add_dependency 'wdm', '>= 0.1.0'

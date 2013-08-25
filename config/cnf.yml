@@ -124,11 +124,11 @@ watch:
     -
       src: public/assets/scss
       dest: public/assets/css
-      filter:
+      filter: !ruby/regexp '/^.+\.scss$/'
   coffee:
     -
       src: public/assets/coffee
       dest: public/assets/js
-      filter: 
+      filter: !ruby/regexp '/^.+\.coffee$/'
 log_dirs:
   - log
