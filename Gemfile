@@ -17,13 +17,13 @@ gem 'sass-rails'
 gem 'coffee-rails'
 
 # asset pipeline - guard coffeescript / sass
-gem 'rake'
-gem 'guard'
-gem 'coffee-script'
-gem 'sass'
-gem 'guard-sass'
-gem 'guard-coffeescript'
-gem 'listen'
+# gem 'rake'
+# gem 'guard'
+# gem 'coffee-script'
+# gem 'sass'
+# gem 'guard-sass'
+# gem 'guard-coffeescript'
+# gem 'listen'
 
 if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
   gem 'wdm', '>= 0.1.0'

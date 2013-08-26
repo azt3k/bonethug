@@ -29,13 +29,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whenever'
 
   # asset pipeline - guard coffeescript / sass
-  spec.add_dependency 'rake'
-  spec.add_dependency 'guard'
-  spec.add_dependency 'coffee-script'
-  spec.add_dependency 'sass'
-  spec.add_dependency 'guard-sass'
-  spec.add_dependency 'guard-coffeescript'
-  spec.add_dependency 'listen'  
+  # spec.add_dependency 'rake'
+  # spec.add_dependency 'guard'
+  # spec.add_dependency 'coffee-script'
+  # spec.add_dependency 'sass'
+  # spec.add_dependency 'guard-sass'
+  # spec.add_dependency 'guard-coffeescript'
+  # spec.add_dependency 'listen'  
 
   # asset pipeline guard sprockets
   spec.add_dependency 'guard-sprockets'
