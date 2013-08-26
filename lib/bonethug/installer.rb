@@ -2,6 +2,7 @@
 # ----------------
 # - Have some sort of safe vs forced install - tie in with exlcuded paths
 # - Check that excluded paths is working in manifest
+# - bonethug init seems doesn't seem to update gemfile if there is one
 # - Gemfile, .gitignore, composer.json need to be no go zones
 # ----------------
 

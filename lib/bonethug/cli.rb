@@ -66,11 +66,12 @@ module Bonethug
       when 'watch'
 
         # handle args
-        type = ARGV[1] || 'all'
-        location = ARGV[2] || '.'        
+        type = ARGV[1] || 'sprockets'
+        location = ARGV[2] || '.'
+        watch_only = ARGV[3] || nil   
         
         # run the installer
-        Watcher.watch type, location         
+        Watcher.watch type, location, watch_only   
       
       when 'clean'
 

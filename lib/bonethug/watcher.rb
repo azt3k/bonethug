@@ -1,7 +1,8 @@
 # Todo
 # ----------------
-# - Have some sort of safe vs forced install - tie in with exlcuded paths
-# - Check that excluded paths is working in manifest
+# - sass minification isn't working
+# - actually add the filter to filter by type
+# - make type filtering more flexible so other types can be used without code modifications
 # ----------------
 
 require 'bonethug/conf'
@@ -17,7 +18,7 @@ module Bonethug
     include FileUtils
     include Digest
 
-    def self.watch(type = 'all', target = '.')
+    def self.watch(type = 'sprockets', target = '.', watch_only = nil)
 
       # create full path
       target = File.expand_path target
@@ -41,14 +42,14 @@ module Bonethug
       sass = []
       if sasses = conf.get('watch.sass')
         sasses.each do |index, watch|
-          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'))
+          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :sass)
         end
       end
 
       coffee = []
       if coffees = conf.get('watch.coffee')
         coffees.each do |index, watch|
-          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'))
+          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :coffee)
         end
       end
 
@@ -71,13 +72,32 @@ module Bonethug
         else
           raise "invalid filter type: " + watch[:filter].class.name
         end
-
+        
         filter = watch[:filter] ? "watch #{watch_val}" : ""
-        guardfile_content += "
-          guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
-            #{filter}
+        
+        case type
+        when 'sprockets'
+          guardfile_content += "
+            guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
+              #{filter}
+            end
+          "
+        when 'sass_coffee', 'coffee_sass'
+          if watch[:type] == :coffee
+            guardfile_content += "
+              guard :coffee, :minify => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+                #{filter}
+              end
+            "
+          elsif watch[:type] == :sass
+            guardfile_content += "
+              guard :sass, :minify => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+                #{filter}
+              end
+            "
           end
-        "
+        end
+
       end
 
       # save the guardfile
@@ -90,7 +110,7 @@ module Bonethug
       puts 'Starting Watch Daemon...'
       # puts "Guardfile content "
       # puts guardfile_content
-      cmd = 'bundle exec guard --guardfile ' + target + '/.bonethug/Guardfile'
+      cmd = 'bundle exec guard --guardfile "' + target + '/.bonethug/Guardfile"'
       # puts "calling: " + cmd
       exec cmd
 

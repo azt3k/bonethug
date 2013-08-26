@@ -26,14 +26,44 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'mina'
   spec.add_dependency 'astrails-safe'
-  spec.add_dependency 'whenever' 
+  spec.add_dependency 'whenever'
+
+  # asset pipeline - guard coffeescript / sass
+  spec.add_dependency 'rake'
+  spec.add_dependency 'guard'
+  spec.add_dependency 'coffee-script'
+  spec.add_dependency 'sass'
+  spec.add_dependency 'guard-sass'
+  spec.add_dependency 'guard-coffeescript'
+  spec.add_dependency 'listen'  
+
+  # asset pipeline guard sprockets
   spec.add_dependency 'guard-sprockets'
   spec.add_dependency 'uglifier'
   spec.add_dependency 'sass-rails'
   spec.add_dependency 'coffee-rails'  
 
+  # spec.add_dependency 'rb-fsevent'
+  # spec.add_dependency 'compass'
+  # spec.add_dependency 'guard-compass'
+  # spec.add_dependency 'guard-process'
+  # spec.add_dependency 'guard-livereload'
+  # spec.add_dependency 'juicer'
+  # spec.add_dependency 'guard-uglify'
+
   if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
     spec.add_dependency 'wdm', '>= 0.1.0'
   end
+
+  # if RUBY_PLATFORM.downcase.include?('linux')
+  #   spec.add_dependency 'therubyracer'
+  #   spec.add_dependency 'rb-inotify'    
+  # end
+
+  # if RUBY_PLATFORM.downcase.include?('darwin')
+  #   spec.add_dependency 'rb-fsevent'
+  #   spec.add_dependency 'terminal-notifier-guard'
+  #   spec.add_dependency 'growl'
+  # end
 
 end
