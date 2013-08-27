@@ -170,12 +170,16 @@ class DataObjectHelper{
 	/*
 	 * Gets sub classes of the provided class - possibly should work off the manifest rather than get declared classes
 	 */
-	public function getSubclassesOf($parent) {
-		$result = array();
-		foreach (get_declared_classes() as $class) {
-			if (is_subclass_of($class, $parent))
-				$result[] = $class;
-		}
+	public static function getSubclassesOf($parent) {
+
+		return ClassInfo::subclassesFor($parent);
+
+		// $result = array();
+		// foreach (get_declared_classes() as $class) {
+		// 	if (is_subclass_of($class, $parent))
+		// 		$result[] = $class;
+		// }
+		
 	}	
 
 	protected static function getFieldsForObj($obj) {

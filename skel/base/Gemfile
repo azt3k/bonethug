@@ -1,3 +1,6 @@
 source "https://rubygems.org"
 
+gem 'mina',             github: 'nadarei/mina'
+gem 'astrails-safe',    github: 'astrails/safe'
+gem 'whenever',         github: 'javan/whenever'
 gem 'bonethug'

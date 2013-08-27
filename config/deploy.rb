@@ -74,6 +74,12 @@ task :setup => :environment do
     queue! %[mkdir -p "#{deploy_to}/shared/#{path}"]
   end
 
+  # set appropriate permissions on the resource dirs
+  resources.each do |path|
+    queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
+    queue! %[chmod -R 0775 "#{deploy_to}/shared/#{path}"]
+  end  
+
   # set appropriate permissions on the logs
   log_dirs.each do |path|
     queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
@@ -240,7 +246,7 @@ task :deploy => :environment do
       queue! %[/etc/init.d/apache2 reload]
       invoke :'whenever:update'
 
-      queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
+      queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
 
     end
   end

@@ -218,11 +218,50 @@ module Bonethug
       # handle gemfile
       gemfile_path = target + '/Gemfile'
       if File.exist? gemfile_path
+
+        # extract the contents
         gemfile_contents = File.read(gemfile_path)
-        unless /gem ["']bonethug["']/ =~ File.read(gemfile_path)
-          File.open(gemfile_path,'w') { |file| gemfile_contents + "\n" + 'gem "bonethug"' }
+
+        # identify what we are looking for
+        required_gems = {
+          'mina'          => 'nadarei/mina',
+          'astrails-safe' => 'astrails/safe',
+          'whenever'      => 'javan/whenever',
+          'bonethug'      => nil
+        }
+
+        # look at each requirement and identify if we need things
+        required_gems.each do |gem_name, github|
+
+          add_gem = false;
+          gem_reg = Regexp.new('gem ["\']'+gem_name+'["\']')
+          git_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\'],[^,]+github: ["\']'+github+'["\'],') if github
+
+          if gem_reg =~ gemfile_contents
+            if !github
+              puts 'Found '+gem_name+' in gem file'
+            else
+              puts 'Requires github version, checking...'
+              unless git_reg =~ gemfile_contents
+                puts 'Couldn\'t find '+gem_name+' in gem file adding...'
+                gemfile_contents.gsub(gem_reg,'')
+                add_gem = true;
+              end
+            end
+          else
+            puts "Couldn't find "+gem_name+" in gem file adding..."
+            add_gem = true;
+          end
+
+          if add_gem
+            gemfile_contents += "\n" + 'gem "'+gem_name+'"'+(github ? ', github: "'+github+'"' : '') 
+            File.open(gemfile_path,'w') { |file| file.puts gemfile_contents }
+          end
+
         end
+
       else
+        puts 'No Gemfile found, creating one...'
         FileUtils.cp @@skel_dir + '/base/Gemfile', gemfile_path
       end
 

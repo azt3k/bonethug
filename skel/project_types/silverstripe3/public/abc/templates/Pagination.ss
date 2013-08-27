@@ -5,7 +5,7 @@
 
 		|
 		
-		<% control Paginator.PageLinks %>
+		<% with Paginator.PageLinks %>
 
 			<% if PreviousPage %><a href="$PreviousPage" title="Previous" class="terminator">Prev</a><% end_if %> 
 			<% if FirstPage %>
@@ -13,13 +13,13 @@
 				...
 			<% end_if %>
 
-			<% control QuickLinks %>
+			<% loop QuickLinks %>
 				<% if PageLink %>
 					<a href="$PageLink">$PageNum</a>
 				<% else %>
 					<span class="selected">$PageNum</span>
 				<% end_if %>
-			<% end_control %>
+			<% end_loop %>
 
 			<% if LastPage %>
 				...
@@ -27,6 +27,6 @@
 			<% end_if %>
 			<% if NextPage %><a href="$NextPage" title="Next" class="terminator">Next</a><% end_if %>
 	
-		<% end_control %>
+		<% end_with %>
 	</div>
 <% end_if %>

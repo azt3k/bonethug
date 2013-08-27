@@ -7,16 +7,16 @@
 /db_dumps
 /tmp/*
 /composer.phar
+!.gitkeep
 
 # components tracked by composer
-public/silverstripe-cache
-public/themes/simple
-public/vendor
-public/assets/*
-public/bootstrap_forms
-public/cms
-public/framework
-public/html5
-public/widgets
-public/compass
-composer.phar
+/public/silverstripe-cache/*
+/public/themes/simple
+/public/vendor
+/public/assets/*
+/public/bootstrap_forms
+/public/cms
+/public/framework
+/public/html5
+/public/widgets
+/public/compass

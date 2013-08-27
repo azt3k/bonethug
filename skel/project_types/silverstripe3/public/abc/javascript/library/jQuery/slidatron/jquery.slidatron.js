@@ -26,7 +26,8 @@
         classNameSpace  : "slidatron",
 		holdTime		: 9000,
 		transitionTime	: 1500,
-		onAfterInit		: null
+		onAfterInit		: null,
+		onAfterMove		: null		
     };
 
     // The actual plugin constructor
@@ -280,6 +281,13 @@
 				var ids = _this.generateIndentifiers(index);
 				$('.slidatron-ctrl-wrapper a').removeClass('current');
 				$('#'+ids.ctrlId).addClass('current');
+
+				// add the curret class to the current slide
+				$('.slidatron-slide').removeClass('current');
+				$('.slidatron-slide-'+index).addClass('current');
+
+				// run the post
+				if (typeof _this.options.onAfterMove == 'function') _this.options.onAfterMove();				
 				
 			});			
 			

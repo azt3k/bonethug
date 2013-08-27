@@ -27,7 +27,7 @@ class AbcPaginator extends ViewableData{
 	public function __construct($initHitsPerPage = null, $pageVar = null, $hitsVar = null){
 
 		// requirements
-		Requirements::javascript(ADD_PATH.'/javascript/pagination.js');
+		Requirements::javascript(ABC_PATH.'/javascript/pagination.js');
 
 		// Set up environment
 		$this->pageVar 			= $pageVar 		? $pageVar 		: self::$defaultPageVar ;
@@ -50,12 +50,12 @@ class AbcPaginator extends ViewableData{
 		$dropdownOptions = array();
 		if ( $options && count($options) ){
 			foreach($options as $option){
-				$dropdownOptions[AddURL::get($baseURL)->q(array( $this->hitsVar => $option, $this->pageVar => 1))->URL] = $option;
+				$dropdownOptions[AbcURL::get($baseURL)->q(array( $this->hitsVar => $option, $this->pageVar => 1))->URL] = $option;
 			}
 		}else{
 			$default = array(12,24,36,48,60);
 			foreach($default as $dindex){
-				$dropdownOptions[AddURL::get($baseURL)->q(array( $this->hitsVar => $dindex, $this->pageVar => 1))->URL] = $dindex;
+				$dropdownOptions[AbcURL::get($baseURL)->q(array( $this->hitsVar => $dindex, $this->pageVar => 1))->URL] = $dindex;
 			}
 		}
     
@@ -63,7 +63,7 @@ class AbcPaginator extends ViewableData{
     		$name = 'Hits',
     		$title = ' ',
     		$source = $dropdownOptions,
-    		$value = AddURL::get($baseURL)->q(array( $this->hitsVar => $this->limit, $this->pageVar => 1))->URL
+    		$value = AbcURL::get($baseURL)->q(array( $this->hitsVar => $this->limit, $this->pageVar => 1))->URL
         );		
 	}	
 
@@ -115,8 +115,16 @@ class AbcPaginator extends ViewableData{
 
 		// Add caller class filter if its on a shared table
 		if ($callerClass != $oTable){
-			$wSQL.= $wSQL ? " AND " : " WHERE " ; 
-			$wSQL.= "(".$table.".ClassName='".$callerClass."')";
+			$wSQL.= $wSQL ? " AND " : " WHERE " ;
+			$wSQL.= "(".$table.".ClassName='".$callerClass."'";
+
+			if ($subclasses = DataObjectHelper::getSubclassesOf($callerClass)) {
+				foreach($subclasses as $subclass) {
+					$wSQL.= " OR ".$table.".ClassName='".$subclass."'";
+				}
+			}
+
+			$wSQL.= ")";	
 		}
 
 		// Filter
@@ -132,7 +140,7 @@ class AbcPaginator extends ViewableData{
 	}
 
 	public static function getUnlimitedRowCountForSQL($sql){
-		$r = AddDB::getInstance()->query($sql);
+		$r = AbcDB::getInstance()->query($sql);
 		if ( $r ) return $r->fetch(PDO::FETCH_OBJ)->total;
 		
 		return false;		
@@ -160,10 +168,10 @@ class AbcPaginator extends ViewableData{
 		$pageLinks->Total = $totalPages;
 
 		// Prep page links
-		if ($this->currentPage > 1+$pageDisplayRange)			$pageLinks->FirstPage		= AddURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>1))->URL;
-		if ($this->currentPage < $totalPages-$pageDisplayRange)	$pageLinks->LastPage		= AddURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>$totalPages))->URL;
-		if ($this->currentPage != 1)							$pageLinks->PreviousPage 	= AddURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>($this->currentPage - 1)))->URL;
-		if ($this->currentPage != $totalPages)					$pageLinks->NextPage 		= AddURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>($this->currentPage + 1)))->URL;
+		if ($this->currentPage > 1+$pageDisplayRange)			$pageLinks->FirstPage		= AbcURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>1))->URL;
+		if ($this->currentPage < $totalPages-$pageDisplayRange)	$pageLinks->LastPage		= AbcURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>$totalPages))->URL;
+		if ($this->currentPage != 1)							$pageLinks->PreviousPage 	= AbcURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>($this->currentPage - 1)))->URL;
+		if ($this->currentPage != $totalPages)					$pageLinks->NextPage 		= AbcURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>($this->currentPage + 1)))->URL;
 
 		// page quick links
 		$pageLinks->QuickLinks = new ArrayList;
@@ -177,10 +185,12 @@ class AbcPaginator extends ViewableData{
 		// make links
 		for($i = $minShow; $i <= $maxShow; $i++){
 			$link = new DataObject;
-			$link->PageLink = $i == $this->currentPage ? null : AddURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>$i))->URL ;
+			$link->PageLink = $i == $this->currentPage ? null : AbcURL::get($baseURL)->q(array('hits'=>$this->limit,'page'=>$i))->URL ;
 			$link->PageNum = $i;
 			$pageLinks->QuickLinks->push($link);
 		}
+
+		// die($totalHits .' vs '. $this->limit);
 
 		// Prep return data
 		$return->HitsSelector			= $this->HitsSelector($baseURL,$hitsSelectorOptions);
