@@ -1,45 +1,22 @@
 <?php
 
-require '../../vendor/autoload.php';
+// Load stuff / set up environment
+// -------------------------------
 
-use Symfony\Component\Yaml\Yaml;
+global $project, $databaseConfig;
 
-// ss env translation
-$ss_env = array(
-	'development'	=> 'dev',
-	'staging'		=> 'test',
-	'production'	=> 'live'
-);
-
-// Transfer environmental vars to constants
-define('APPLICATION_ENV', getenv('APPLICATION_ENV'));
-
-// Set SS env vars
-putenv('SS_ENVIRONMENT_TYPE='+$ss_env[APPLICATION_ENV]);
-define('SS_ENVIRONMENT_TYPE', $ss_env[APPLICATION_ENV]);
-define('SS_SEND_ALL_EMAILS_TO', getenv('SS_SEND_ALL_EMAILS_TO'));
-
-global $project, $databaseConfig, $_FILE_TO_URL_MAPPING;
+// parse the config file and env vars
+require_once __DIR__ . '/../../lib/ss_loadconf.php';
+$ss_cnf = SS_LoadConf::conf();
 
 // Project Specific Settings
 $project = 'project';
 SSViewer::set_theme('project');
 
-// load conf
-$cnf = Yaml::parse(__DIR__.'/../../config/cnf.yml');
 
-// load db settings
-$db_cnf = (object) $cnf['dbs']['default'][APPLICATION_ENV];
+// Env Settings
+// ---------------------------
 
-// load mail settings
-$mail = (object) $cnf['mail']['smtp'][APPLICATION_ENV];
-
-// file to url
-$base_dir = __DIR__ . '/..';
-$url = 'http://'.$cnf['apache'][APPLICATION_ENV]['server_name'];
-$_FILE_TO_URL_MAPPING[$base_dir] = $url;
-
-// Env specific settings
 switch(APPLICATION_ENV){
 
 	case 'development':
@@ -81,6 +58,8 @@ switch(APPLICATION_ENV){
 		
 		// Log file
 		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../log/staging.log'), SS_Log::WARN, '<=');
+
+		Requirements::javascript('http://www.bugherd.com/sidebarv2.js?apikey=pt0wdpdahlzyroate2lnbg');
 		
 		break;
 
@@ -96,27 +75,36 @@ switch(APPLICATION_ENV){
 		
 }
 
-// set up db
+// DB
+// ---------------------------
+
 $databaseConfig = array(
 	"type" 		=> 'MySQLDatabase',
-	"server" 	=> $db_cnf->host,
-	"username" 	=> $db_cnf->user,
-	"password" 	=> $db_cnf->pass,
-	"database" 	=> $db_cnf->name,
+	"server" 	=> $ss_cnf->db->host,
+	"username" 	=> $ss_cnf->db->user,
+	"password" 	=> $ss_cnf->db->pass,
+	"database" 	=> $ss_cnf->db->name,
 	"path" 		=> '',
 );	
 Config::inst()->update('MySQLDatabase', 'connection_charset', 'utf8');
 
-// set up mail
-define('SMTPMAILER_DEFAULT_FROM_NAME', 		$mail->default_from['name']);
-define('SMTPMAILER_DEFAULT_FROM_EMAIL', 	$mail->default_from['email']);		
-define('SMTPMAILER_SMTP_SERVER_ADDRESS',	$mail->server);
-define('SMTPMAILER_DO_AUTHENTICATE', 		$mail->authenticate);
-define('SMTPMAILER_USERNAME', 				$mail->user);
-define('SMTPMAILER_PASSWORD', 				$mail->pass);
-define('SMTPMAILER_CHARSET_ENCODING', 		$mail->charset_encoding);
-define('SMTPMAILER_USE_SECURE_CONNECTION', 	$mail->secure);
-define('SMTPMAILER_SMTP_SERVER_PORT', 		$mail->port);
+
+// Mail
+// ---------------------------
+
+define('SMTPMAILER_DEFAULT_FROM_NAME', 		$ss_cnf->mail->default_from['name']);
+define('SMTPMAILER_DEFAULT_FROM_EMAIL', 	$ss_cnf->mail->default_from['email']);		
+define('SMTPMAILER_SMTP_SERVER_ADDRESS',	$ss_cnf->mail->server);
+define('SMTPMAILER_DO_AUTHENTICATE', 		$ss_cnf->mail->authenticate);
+define('SMTPMAILER_USERNAME', 				$ss_cnf->mail->user);
+define('SMTPMAILER_PASSWORD', 				$ss_cnf->mail->pass);
+define('SMTPMAILER_CHARSET_ENCODING', 		$ss_cnf->mail->charset_encoding);
+define('SMTPMAILER_USE_SECURE_CONNECTION', 	$ss_cnf->mail->secure);
+define('SMTPMAILER_SMTP_SERVER_PORT', 		$ss_cnf->mail->port);
+
+
+// Misc
+// ---------------------------
 
 // Set the site locale
 i18n::set_locale('en_NZ');

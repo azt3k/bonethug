@@ -27,7 +27,6 @@
     <% require themedCSS('typography') %>
     <% require themedCSS('form') %>
     <% require themedCSS('layout') %>
-    <link rel="stylesheet" href="/abc/lib/bootstrap/css/bootstrap.min.css">
 
     <link rel="icon" type="image/png" href="themes/project/images/favicon.png">
     <link rel="apple-touch-icon" type="image/png" href="themes/project/images/apple-touch-icon.png">
@@ -65,8 +64,6 @@
     <div class="container">
       $Layout
     </div>
-
-    <script src="/abc/lib/bootstrap/css/bootstrap.min.js"></script>
     
   </body>
 
