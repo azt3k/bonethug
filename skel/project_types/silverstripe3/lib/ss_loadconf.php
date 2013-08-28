@@ -29,7 +29,7 @@ class SS_LoadConf {
 				define('SS_ENVIRONMENT_TYPE', getenv('SS_ENVIRONMENT_TYPE'));
 			}
 
-			self::$constans_set = true;
+			self::$constants_set = true;
 		}
 
 	}
@@ -39,19 +39,21 @@ class SS_LoadConf {
 		// ensure constants are set;
 		self::set_constants();
 
+		// paths
+		$base_dir = realpath(__DIR__ . '/..');
+		$public_dir = realpath($base_dir . '/public');
+
 		// load conf
-		$cnf = Yaml::parse(__DIR__.'/../../config/cnf.yml');
+		$cnf = Yaml::parse($base_dir . '/config/cnf.yml');
+
+		// expected urls
+		$url = 'http://' . $cnf['apache'][APPLICATION_ENV]['server_name'];		
 
 		// load db settings
 		$db = (object) $cnf['dbs']['default'][APPLICATION_ENV];
 
 		// load mail settings
 		$mail = (object) $cnf['mail']['smtp'][APPLICATION_ENV];
-
-		// paths and urls
-		$base_dir = realpath(__DIR__ . '/..');
-		$public_dir = realpath($base_dir . '/public');
-		$url = 'http://'.$cnf['apache'][APPLICATION_ENV]['server_name'];
 
 		return (object) array(
 			'cnf'			=> $cnf,

@@ -211,13 +211,18 @@ task :deploy => :environment do
         queue! %[cd #{deploy_to}/current/config && chown -R www-data:www-data environment.rb]
         queue! %[cd #{deploy_to}/current && chown -R www-data:www-data config.ru]
 
-      end      
+      end
 
-      # ensure that the correct directory permissions are set
+      # ensure that the correct directory permissions are set - public is a bit heavy handed
       queue! %[cd #{deploy_to}/current/public && chown -R www-data:www-data . && chmod -R 775 .]
-      queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]      
-      queue! %[touch #{deploy_to}/current/tmp/restart.txt]
+      queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]
       
+      # set appropriate permissions on the resource dirs
+      resources.each do |path|
+        queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
+        queue! %[chmod -R 0775 "#{deploy_to}/shared/#{path}"]
+      end
+
       # apply defined permissions
       chowns = conf.get('chown.'+env)
       if chowns
@@ -242,6 +247,10 @@ task :deploy => :environment do
         end
       end
 
+      # trigger a restart on rack based systems   
+      queue! %[touch #{deploy_to}/current/tmp/restart.txt]      
+
+      # handle apache and cron
       queue! %[a2ensite "#{vhost}"]
       queue! %[/etc/init.d/apache2 reload]
       invoke :'whenever:update'

@@ -2,21 +2,24 @@
 /.bundle
 /vendor
 /bin
-/logs/*
+/log/*
 /backups/*
 /db_dumps
 /tmp/*
 /composer.phar
-!.gitkeep
+.sass-cache
+/public/assets/*
 
 # components tracked by composer
 /public/silverstripe-cache/*
 /public/themes/simple
-/public/vendor
-/public/assets/*
 /public/bootstrap_forms
 /public/cms
+/public/abc-silverstripe
 /public/framework
 /public/html5
-/public/widgets
-/public/compass
+
+# files to keep
+!.gitkeep
+!/public/assets/error-404.html
+!/public/assets/error-500.html
