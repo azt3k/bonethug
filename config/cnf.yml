@@ -119,6 +119,9 @@ chgrp:
 resources:
   - public/assets
   - public/uploads
+vendor:
+  - vendor
+  - public/vendor
 watch:
   sass:
     -

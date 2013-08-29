@@ -29,6 +29,7 @@ raise 'could not find deployment environment' unless conf.get('deploy.environmen
 deploy    = conf.node_merge('deploy.common','deploy.environments.'+env)
 resources = conf.get('resources','Array') || []
 log_dirs  = conf.get('log_dirs','Array') || []
+vendor_dirs  = conf.get('vendor','Array') || []
 
 # vhost name
 vhost = deploy.get('project_slug') + '_' + env
@@ -44,7 +45,7 @@ resources.push 'vendor' if use_composer
 log_dirs.push 'log' unless log_dirs.include? 'log'
 
 # shared paths
-shared = resources + log_dirs + ['tmp']
+shared = resources + log_dirs + vendor_dirs + ['tmp']
 shared.push 'composer.phar' if use_composer
 
 # shared config
@@ -70,7 +71,7 @@ desc "Sets up the Project"
 task :setup => :environment do
 
   # make shared resource dirs
-  (resources + log_dirs).each do |path|
+  (resources + log_dirs + vendor_dirs).each do |path|
     queue! %[mkdir -p "#{deploy_to}/shared/#{path}"]
   end
 
@@ -143,7 +144,7 @@ task :deploy => :environment do
     end
 
     # update composer
-    queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
+    queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
 
     # build the vhosts
     vh_cnf = conf.get('apache.'+env)
@@ -217,10 +218,10 @@ task :deploy => :environment do
       queue! %[cd #{deploy_to}/current/public && chown -R www-data:www-data . && chmod -R 775 .]
       queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]
       
-      # set appropriate permissions on the resource dirs
+      # set appropriate permissions on the resource dirs - if they just need read / write - should prob be 0666
       resources.each do |path|
         queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
-        queue! %[chmod -R 0775 "#{deploy_to}/shared/#{path}"]
+        queue! %[chmod -R 0776 "#{deploy_to}/shared/#{path}"]
       end
 
       # apply defined permissions
