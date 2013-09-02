@@ -123,9 +123,25 @@ task :backup => :environment do
   queue! %[cd #{deploy_to}/current && export to=#{env} && bundle exec astrails-safe .bonethug/backup.rb]
 end
 
-desc "Restores application state to the most recent backup"
-task :restore_backup => :environment do
-  # to be implemented
+desc "Syncs files to a location"
+task :sync_to => :environment do
+  if rsync = conf.get('backup.rsync')  
+    rsync = conf.get('backup.rsync')
+    path = deploy.get('project_slug') + "_" + env + "_backup/sync"
+    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.user}" --delete . #{rsync.host}:/#{path}/ ]
+  else
+    raise 'no rsync conf'
+  end  
+end
+
+desc "Restores files from a location"
+task :sync_from => :environment do
+  if rsync = conf.get('backup.rsync')
+    path = deploy.get('project_slug') + "_" + env + "_backup/sync"
+    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.user}" --delete #{rsync.host}:/#{path}/ .]
+  else
+    raise 'no rsync conf'
+  end
 end
 
 desc "Deploys the current version to the server."

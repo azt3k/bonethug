@@ -19,7 +19,7 @@ module Bonethug
         location = ARGV[2] || '.'
 
         # validate
-        if type.empty?
+        unless type
           puts 'Usage: bonethug install [type] [location]'
           return
         end
@@ -33,7 +33,7 @@ module Bonethug
         location = ARGV[1] || '.'
 
         # validate
-        if location.empty?
+        unless location
           puts 'Usage: bonethug #{task} [location]'
           return
         end
@@ -41,13 +41,13 @@ module Bonethug
         # run the initaliser
         Installer.bonethugise(location, task.to_sym)
 
-      when 'deploy', 'setup', 'remote-backup', 'local-backup'
+      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-to', 'sync-from'
 
         # handle args
         environment = ARGV[1]
 
         # validate
-        if environment.empty?
+        unless environment
           puts 'Usage: bonethug #{task} [environment]' 
           return
         end
@@ -60,7 +60,11 @@ module Bonethug
         when 'remote-backup'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb backup --verbose"                   
         when 'local-backup'
-          exec "export to=#{environment} && bundle exec astrails-safe .bonethug/backup.rb" 
+          exec "export to=#{environment} && bundle exec astrails-safe .bonethug/backup.rb"
+        when 'sync-to'
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_to --verbose"
+        when 'sync-from'
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_from --verbose"          
         end 
 
       when 'watch'

@@ -60,6 +60,15 @@ argument*
 
 
 
+**Trigger Backup on Local Copy**
+
+*Uses astrails-safe to make a backup using the .bonethug/backup.rb file.  Uses
+the info contained in cnf.yml*
+
+`bonethug backup {development|staging|production}`
+
+
+
 ### Remote Commands
 
 For these commands to work you need to have the desired host already added to
@@ -81,8 +90,19 @@ Host *
 
 *This wraps mina and deploys using the information contained in cnf.yml*
 
-`bonethug setup {develoment|staging|production}`  
-`bonethug deploy {develoment|staging|production}`  
+`bonethug setup {development|staging|production}`  
+`bonethug deploy {develoment|staging|production}`
+
+
+
+**Trigger a Backup from the Remote Server**
+
+*This wraps mina and runs the backup task in the bonethug deploy.rb file. Uses
+the info contained in cnf.yml*
+
+`bonethug remote-backup {develoment|staging|production}`
+
+  
 
 
 Contributing

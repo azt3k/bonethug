@@ -16,7 +16,8 @@ exec_path   = File.expand_path(File.dirname(__FILE__))
 env         = ENV['to']
 
 # load config
-conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml').add(exec_path + '/config/database.yml' => { root: 'dbs.default' })
+conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
 
 # do a check
 raise 'could not find deployment environment' unless conf.get('deploy.environments').has_key? env
@@ -27,6 +28,8 @@ resources   = conf.get('resources','Array')
 log_dirs    = conf.get('log_dirs','Array')
 backup      = conf.get('backup')
 backup_slug = deploy.get('project_slug') + "_" + env + "_backup"
+
+raise "No backup configuraton available" unless backup
 
 # add in any standard folders
 log_dirs.push('log') unless log_dirs.include? 'log'
@@ -39,7 +42,7 @@ safe do
 
   verbose true
 
-  local :path => "#{exec_path}/backups/:kind/:id"  
+  local :path => "#{exec_path}/backups/:kind/:id"
 
   # use ftp to back stuff up
   if backup.get('ftp')  
@@ -71,13 +74,14 @@ safe do
     end 
   end
 
-  # how many days are we holding on to backups?
-  keep do
-    local backup.get('local.keep')
-    ftp   backup.get('ftp.keep')
-    sftp  backup.get('sftp.keep')
-    s3    backup.get('s3.keep')    
-  end  
+  # # how many days are we holding on to backups?
+  # keep expects a hash - just don't now why??
+  # keep do
+  #   local backup.get('local.keep')
+  #   ftp   backup.get('ftp.keep') if backup.get('ftp')
+  #   sftp  backup.get('sftp.keep') if backup.get('sftp')
+  #   s3    backup.get('s3.keep') if backup.get('s3')  
+  # end  
 
   # backup mysql databases with mysqldump
   mysqldump do

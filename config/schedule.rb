@@ -29,6 +29,8 @@ base_path = File.expand_path(File.dirname(__FILE__))+"/../../../current"
 set :output, {:error => base_path+'/log/cron_error.log', :standard => base_path+'/log/cron.log'}
 
 # actual jobs
-every 1.day, :at => '11 pm' do
-  command "cd #{base_path} && export to=#{@environment} && bundle exec astrails-safe .bonethug/backup.rb"
+if @environment == 'production'
+  every 1.day, :at => '11 pm' do
+    command "cd #{base_path} && export to=#{@environment} && bundle exec astrails-safe .bonethug/backup.rb"
+  end
 end

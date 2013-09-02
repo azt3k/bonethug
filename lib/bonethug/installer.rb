@@ -234,16 +234,15 @@ module Bonethug
         required_gems.each do |gem_name, github|
 
           add_gem = false;
-          gem_reg = Regexp.new('gem ["\']'+gem_name+'["\']')
-          git_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\'],[^,]+github: ["\']'+github+'["\'],') if github
+          gem_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\']')
+          git_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\'],[^,]+github: ["\']'+github+'["\']') if github
 
           if gem_reg =~ gemfile_contents
-            if !github
-              puts 'Found '+gem_name+' in gem file'
-            else
+            puts 'Found '+gem_name+' in gem file.'
+            if github 
               puts 'Requires github version, checking...'
               unless git_reg =~ gemfile_contents
-                puts 'Couldn\'t find '+gem_name+' in gem file adding...'
+                puts 'Couldn\'t find '+gem_name+' (github) in gem file adding...'
                 gemfile_contents.gsub(gem_reg,'')
                 add_gem = true;
               end

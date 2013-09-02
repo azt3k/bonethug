@@ -54,6 +54,10 @@ backup:
     key: key
     secret: secret
     bucket: bucket
+  rsync:
+    host: backup-host.com
+    user: remote_backup
+    pass: passw0rd  
 mail:
   smtp:
     development:
