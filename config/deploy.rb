@@ -120,7 +120,7 @@ end
 
 desc "Restores application state to the most recent backup"
 task :backup => :environment do
-  queue! %[cd #{deploy_to}/current && export to=#{env} && bundle exec astrails-safe .bonethug/backup.rb] if deploy.get('project_type') == 'rails'
+  queue! %[cd #{deploy_to}/current && export to=#{env} && bundle exec astrails-safe .bonethug/backup.rb]
 end
 
 desc "Restores application state to the most recent backup"
@@ -221,7 +221,7 @@ task :deploy => :environment do
       # set appropriate permissions on the resource dirs - if they just need read / write - should prob be 0666
       resources.each do |path|
         queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
-        queue! %[chmod -R 0776 "#{deploy_to}/shared/#{path}"]
+        queue! %[chmod -R 0775 "#{deploy_to}/shared/#{path}"]
       end
 
       # apply defined permissions
