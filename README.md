@@ -97,8 +97,11 @@ Host *
 
 **Trigger a Backup from the Remote Server**
 
-*This wraps mina and runs the backup task in the bonethug deploy.rb file. Uses
-the info contained in cnf.yml*
+*This wraps mina and runs the backup task in the local .bonethug/deploy.rb file.
+It calls astrails-safe on the remote server and using the remote
+.bonethug/backup.rb file which pulls the info out of the remote config/cnf.yml.
+If you are using FTP, make sure the directory exists before triggering a
+backup.*
 
 `bonethug remote-backup {develoment|staging|production}`
 
