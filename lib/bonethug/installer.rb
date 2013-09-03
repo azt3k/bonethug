@@ -265,7 +265,7 @@ module Bonethug
       end
 
       # run bundler
-      exec 'bundle install --path vendor --binstubs'
+      exec 'bundle install --path vendor --binstubs' + (mode == :update ? ' && bundle update bonethug' : '')
 
       # self
 

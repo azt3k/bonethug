@@ -40,7 +40,7 @@ use_composer = ['silverstripe','silverstripe3','drupal','php'].include? deploy.g
 
 # directories we need to track
 resources += ['backups']
-resources.push 'vendor' if use_composer
+# resources.push 'vendor' if use_composer
 
 # logs
 log_dirs.push 'log' unless log_dirs.include? 'log'
@@ -125,21 +125,28 @@ task :backup => :environment do
 end
 
 desc "Syncs files to a location"
-task :sync_to => :environment do
+task :sync_from => :environment do
   if rsync = conf.get('backup.rsync')  
-    rsync = conf.get('backup.rsync')
-    path = deploy.get('project_slug') + "_" + env + "_backup/sync"
-    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.get('user')}" --delete . #{rsync.host}:/#{path}/ ]
+    path = deploy.get('project_slug') + "_" + env + "_sync"
+    ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
+    queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
+    (resources + log_dirs).each do |item|
+      queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks ./#{item} #{rsync.get('host')}:#{path}/]
+    end
   else
     raise 'no rsync conf'
   end  
 end
 
 desc "Restores files from a location"
-task :sync_from => :environment do
+task :sync_to => :environment do
   if rsync = conf.get('backup.rsync')
-    path = deploy.get('project_slug') + "_" + env + "_backup/sync"
-    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.get('user')}" --delete #{rsync.host}:/#{path}/ .]
+    path = deploy.get('project_slug') + "_" + env + "_sync"
+    ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
+    queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
+    (resources + log_dirs).each do |item|
+      queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks #{rsync.get('host')}:#{path}/#{item} ./]
+    end
   else
     raise 'no rsync conf'
   end
