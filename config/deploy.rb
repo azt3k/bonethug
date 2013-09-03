@@ -3,6 +3,7 @@
 # - implement a cleanup task when a deploy fails - its not good if the apache conf gets malformed
 # - review directory permissions
 # - passenger executes rails as the user that owns evironment.rb - if root owns it it runs as nobody
+# - certain parts break if it can't find the config entries - should just check for them and skip if it can't find them
 
 # Requires
 # ---------------------------------------------------------------
@@ -128,7 +129,7 @@ task :sync_to => :environment do
   if rsync = conf.get('backup.rsync')  
     rsync = conf.get('backup.rsync')
     path = deploy.get('project_slug') + "_" + env + "_backup/sync"
-    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.user}" --delete . #{rsync.host}:/#{path}/ ]
+    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.get('user')}" --delete . #{rsync.host}:/#{path}/ ]
   else
     raise 'no rsync conf'
   end  
@@ -138,7 +139,7 @@ desc "Restores files from a location"
 task :sync_from => :environment do
   if rsync = conf.get('backup.rsync')
     path = deploy.get('project_slug') + "_" + env + "_backup/sync"
-    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.user}" --delete #{rsync.host}:/#{path}/ .]
+    queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "ssh -l #{rsync.get('user')}" --delete #{rsync.host}:/#{path}/ .]
   else
     raise 'no rsync conf'
   end
