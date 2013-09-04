@@ -4,6 +4,10 @@
 # - review directory permissions
 # - passenger executes rails as the user that owns evironment.rb - if root owns it it runs as nobody
 # - certain parts break if it can't find the config entries - should just check for them and skip if it can't find them
+# - we run into problems if there is stuff that needs to be tracked by git in the vendor dirs 
+#   -> if we add vendor to the shared paths stuff doesn't get updated properly
+#   -> if we dont it means that composer downloads stuff every deployment
+#   -> looks like composer breaks if we use symlniked paths
 
 # Requires
 # ---------------------------------------------------------------
@@ -30,7 +34,7 @@ raise 'could not find deployment environment' unless conf.get('deploy.environmen
 deploy    = conf.node_merge('deploy.common','deploy.environments.'+env)
 resources = conf.get('resources','Array') || []
 log_dirs  = conf.get('log_dirs','Array') || []
-vendor_dirs  = conf.get('vendor','Array') || []
+vendor  = conf.get('vendor','Array') || []
 
 # vhost name
 vhost = deploy.get('project_slug') + '_' + env
@@ -46,7 +50,7 @@ resources += ['backups']
 log_dirs.push 'log' unless log_dirs.include? 'log'
 
 # shared paths
-shared = resources + log_dirs + vendor_dirs + ['tmp']
+shared = resources + log_dirs + vendor + ['tmp']
 shared.push 'composer.phar' if use_composer
 
 # shared config
@@ -72,7 +76,7 @@ desc "Sets up the Project"
 task :setup => :environment do
 
   # make shared resource dirs
-  (resources + log_dirs + vendor_dirs).each do |path|
+  (resources + log_dirs + vendor).each do |path|
     queue! %[mkdir -p "#{deploy_to}/shared/#{path}"]
   end
 
@@ -126,12 +130,14 @@ end
 
 desc "Syncs files to a location"
 task :sync_from => :environment do
-  if rsync = conf.get('backup.rsync')  
+  if rsync = conf.get('backup.rsync') 
     path = deploy.get('project_slug') + "_" + env + "_sync"
     ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
     queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
     (resources + log_dirs).each do |item|
+      
       queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks ./#{item} #{rsync.get('host')}:#{path}/]
+
     end
   else
     raise 'no rsync conf'
@@ -145,7 +151,9 @@ task :sync_to => :environment do
     ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
     queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
     (resources + log_dirs).each do |item|
+
       queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks #{rsync.get('host')}:#{path}/#{item} ./]
+   
     end
   else
     raise 'no rsync conf'

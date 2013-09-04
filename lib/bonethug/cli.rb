@@ -41,7 +41,7 @@ module Bonethug
         # run the initaliser
         Installer.bonethugise(location, task.to_sym)
 
-      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-to', 'sync-from'
+      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-backup-to', 'sync-backup-from', 'sync-local-to', 'sync-local-from'
 
         # handle args
         environment = ARGV[1]
@@ -53,18 +53,29 @@ module Bonethug
         end
 
         case task
+
+        # Setup and Deploy
         when 'deploy'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy --verbose"
         when 'setup'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup --verbose"
+
+        # Snapshot Backup
         when 'remote-backup'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb backup --verbose"                   
         when 'local-backup'
           exec "export to=#{environment} && bundle exec astrails-safe .bonethug/backup.rb"
-        when 'sync-to'
+
+        # Synchronised backup
+        when 'sync-backup-to'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_to --verbose"
-        when 'sync-from'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_from --verbose"          
+        when 'sync-backup-from'
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_from --verbose"
+
+        when 'sync-local-to'
+          exec "ruby .bonethug/syncer.rb sync_local_to #{environment}"
+        when 'sync-local-from'
+          exec "ruby .bonethug/syncer.rb sync_local_from #{environment}"                 
         end 
 
       when 'watch'
