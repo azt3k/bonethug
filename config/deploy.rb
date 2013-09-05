@@ -11,6 +11,7 @@
 
 # Requires
 # ---------------------------------------------------------------
+
 require 'rubygems'
 require 'bonethug/conf'
 require 'mina/bundler'
@@ -54,6 +55,7 @@ shared = resources + log_dirs + vendor + ['tmp']
 shared.push 'composer.phar' if use_composer
 
 # shared config
+set :keep,          deploy.get('keep') || 2
 set :deploy_to,     deploy.get('base_dir') + '/' + vhost
 set :repository,    deploy.get('repository')
 set :branch,        ENV['branch'] || deploy.get('default_branch')

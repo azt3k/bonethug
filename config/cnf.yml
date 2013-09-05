@@ -8,6 +8,7 @@ deploy:
     domain: domain.com
     user: root
     port: 22
+    keep: 2
   environments:
     development:
     staging:
