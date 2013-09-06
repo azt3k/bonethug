@@ -1,5 +1,5 @@
-Bonethug Silverstripe Project Skeleton
-======================================
+Bonethug Project Skeleton
+=========================
 
 
 
@@ -25,7 +25,7 @@ Overview
 
 -   Cron handled wtih whenever. [https://github.com/javan/whenever]
 
--   Backups handled with astrails-safe. see https://github.com/astrails/safe
+-   Backups handled with astrails-safe. [see https://github.com/astrails/safe]
 
 -   Ruby dependency management handled with bundler. see
 
@@ -92,13 +92,13 @@ This only works on \*nix based OSes
 
 1.  Setup the project
 
-`export to={staging|production} && bundle exec mina setup`
+`bundle exec bonethug setup {staging|production}`
 
 
 
 1.  Deploy the project
 
-`export to={staging|production} && bundle exec mina deploy`
+`bundle exec bonethug deploy {staging|production}`
 
 
 

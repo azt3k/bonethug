@@ -1,0 +1,41 @@
+source "https://rubygems.org"
+
+gem 'mina',             github: 'nadarei/mina'
+gem 'astrails-safe',    github: 'astrails/safe'
+gem 'whenever',         github: 'javan/whenever'
+gem 'bonethug'
+
+gem 'rails', '3.2.13'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails'
+  gem 'compass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+  gem "therubyracer", :require => 'v8', :platforms => :ruby
+end
+
+# Gems used only for development / not needed on production / staging
+group :development do
+  gem 'sextant'
+  gem "mina", github: "nadarei/mina"  
+end
+
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'bootstrap-sass'
+gem 'modernizr-rails'
+gem 'slim-rails'
+gem 'simple_form'
+
+# validation
+gem 'obscenity'
+gem 'validate_as_email'
+gem 'honeypot-captcha'
+gem 'mysql2'
+
+# To use ActiveModel has_secure_password
+gem 'bcrypt-ruby'
+gem 'cancan'
