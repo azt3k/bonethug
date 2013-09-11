@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Bonethug
 
   #arguments can be for example db:migrate
@@ -10,6 +12,13 @@ module Bonethug
     puts "calling #{rake_cmd} " + arguments
     puts system("#{rake_cmd} " + arguments)
     puts $?
+  end
+
+  def self.setup_gitpull(target = '.')
+
+    path = File.expand_path target
+    `chown www-data #{path}`
+    
   end
 
 end

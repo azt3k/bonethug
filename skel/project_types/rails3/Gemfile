@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 source "https://rubygems.org"
 
 gem 'mina',             github: 'nadarei/mina'
@@ -34,7 +36,13 @@ gem 'simple_form'
 gem 'obscenity'
 gem 'validate_as_email'
 gem 'honeypot-captcha'
-gem 'mysql2'
+
+# mysql
+if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
+  gem 'mysql2', '0.3.11'
+else
+  gem 'mysql2'
+end
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'

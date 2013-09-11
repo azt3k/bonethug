@@ -122,7 +122,7 @@ end
 
 desc "Restores application state to the most recent backup"
 task :init_db => :environment do
-  queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') == 'rails'
+  queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/
 end
 
 desc "Restores application state to the most recent backup"
@@ -172,7 +172,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
 
     # rails deploy tasks
-    if deploy.get('project_type') == 'rails'
+    if deploy.get('project_type') =~ /rails[0-9]?/
       invoke :'rails:db_migrate'
       invoke :'rails:assets_precompile'
     end
@@ -240,7 +240,7 @@ task :deploy => :environment do
 
     to :launch do
 
-      if ['rails3'].include? deploy.get('project_type')
+      if deploy.get('project_type') =~ /rails[0-9]?/
 
         # make sure passenger runs the app as apache
         queue! %[cd #{deploy_to}/current/config && chown -R www-data:www-data environment.rb]
@@ -290,7 +290,9 @@ task :deploy => :environment do
       queue! %[/etc/init.d/apache2 reload]
       invoke :'whenever:update'
 
+      # run chache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
+      queue! %[cd #{deploy_to}/lib && php flush_drupal_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
 
     end
   end

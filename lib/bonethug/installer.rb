@@ -4,6 +4,7 @@
 # - Check that excluded paths is working in manifest
 # - bonethug init seems doesn't seem to update gemfile if there is one
 # - Gemfile, .gitignore, composer.json need to be no go zones
+# - for rails it should copy the gem file call bundle install, do a cleanup then call bundle exec rails new application_name
 # ----------------
 
 require 'rubygems'
@@ -55,8 +56,8 @@ module Bonethug
 
       # build the file set
       puts 'Building ' + type + ' skeleton...'
+      FileUtils.cp_r @@skel_dir + '/base/.', tmp_dir      
       FileUtils.cp_r @@skel_dir + '/project_types/' + type + '/.', tmp_dir
-      FileUtils.cp_r @@skel_dir + '/base/.', tmp_dir
 
       # build the manifest
       puts 'Creating manifest...'

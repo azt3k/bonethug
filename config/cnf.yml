@@ -1,6 +1,6 @@
 deploy:
   common:
-    project_type: rails3 | silverstripe3 | drupal | php | sinatra
+    project_type: rails3 | rails4 | silverstripe3 | drupal | php | sinatra
     base_dir: /var/www
     repository: git@gitlab.....
     project_slug: tradespot

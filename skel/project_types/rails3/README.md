@@ -69,6 +69,7 @@ Set Up
 3.  run:
 
 `bundle exec rake db:migrate`
+
 `bundle exec rake db:seed`
 
 
