@@ -1,0 +1,27 @@
+.typography {
+
+	// default editor styles
+	
+	.left {
+		text-align:left;
+	}
+	.center {
+		text-align:center;
+	}
+	.right {
+		text-align:right;
+	}
+	img.right,
+	div.right {
+		float:right;
+	}
+	img.left,
+	div.right {
+		float:left;
+	}
+
+	p.MsoNormal,  
+	p.MsoBodyText {
+		margin: 0;
+	}
+}

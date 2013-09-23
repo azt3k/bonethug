@@ -58,8 +58,6 @@ switch(APPLICATION_ENV){
 		
 		// Log file
 		SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH.'/../log/staging.log'), SS_Log::WARN, '<=');
-
-		Requirements::javascript('http://www.bugherd.com/sidebarv2.js?apikey=pt0wdpdahlzyroate2lnbg');
 		
 		break;
 

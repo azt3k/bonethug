@@ -1,7 +1,7 @@
 <?php
 class Page extends SiteTree {
 
-	private static $can_be_root = false;	
+	private static $can_be_root = true;	
 
 	private static $db = array(
 	);

@@ -62,10 +62,30 @@ backup:
 mail:
   smtp:
     development:
-    staging:
-    production:
       default_from:
         name: dev
+        email: dev@domain.com
+      server: smtp.gmail.com
+      authenticate: true
+      user: username@domain.com
+      pass: passw0rd
+      secure: tls
+      charset_encoding: utf-8
+      port: 587    
+    staging:
+      default_from:
+        name: staging
+        email: dev@domain.com
+      server: smtp.gmail.com
+      authenticate: true
+      user: username@domain.com
+      pass: passw0rd
+      secure: tls
+      charset_encoding: utf-8
+      port: 587    
+    production:
+      default_from:
+        name: production
         email: dev@domain.com
       server: smtp.gmail.com
       authenticate: true
@@ -76,6 +96,12 @@ mail:
       port: 587
 apache:
   development:
+    server_name: development.domain.local
+    server_aliases:
+      - www.development.domain.local
+    env_vars:
+      RAILS_ENV: development
+      APPLICATION_ENV: development  
   staging:
     server_name: staging.domain.com
     server_aliases:

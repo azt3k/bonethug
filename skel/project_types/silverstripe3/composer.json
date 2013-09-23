@@ -1,31 +1,24 @@
 {
-  "name" : "insight/report-framework",
+  "name" : "bonethug/ss3-skel",
   "require" : {
-    "symfony/yaml"                  : "2.3.*@dev",     
-    "silverstripe/framework"        : "3.1.*@dev",
-    "silverstripe/cms"              : "3.1.*@dev",
-    "silverstripe-themes/simple"    : "dev-master",
-    "silverstripe/installer"        : "3.1.*@dev",
-    "silverstripe/bootstrap-forms"  : "dev-master",
-    "silverstripe/html5"            : "dev-master",
-    "azt3k/abc-silverstripe"        : "dev-master"
+    "symfony/yaml"                      : "2.3.*@dev",     
+    "silverstripe/framework"            : "3.1.*@dev",
+    "silverstripe/cms"                  : "3.1.*@dev",
+    "silverstripe/html5"                : "dev-master",
+    "phpmailer/phpmailer"               : "dev-master",
+    "azt3k/abc-silverstripe"            : "dev-master",
+    "azt3k/abc-silverstripe-mailer"     : "dev-master"  
   },
   "extra": {
     "installer-paths": {
         "public/vendor/{$name}": [
       ],
-      "public/themes/{$name}": [
-        "silverstripe-themes/simple"
-      ],
-      "public": [
-        "silverstripe/installer"
-      ],
       "public/{$name}": [
         "silverstripe/framework",
-        "silverstripe/cms",
-        "silverstripe/bootstrap-forms",        
+        "silverstripe/cms",     
         "silverstripe/html5",
-        "azt3k/abc-silverstripe"
+        "azt3k/abc-silverstripe",
+        "azt3k/abc-silverstripe-mailer"
       ]
     }
   }
