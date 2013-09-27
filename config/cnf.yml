@@ -66,6 +66,7 @@ mail:
         name: dev
         email: dev@domain.com
       server: smtp.gmail.com
+      domain: gmail.com
       authenticate: true
       user: username@domain.com
       pass: passw0rd
@@ -77,6 +78,7 @@ mail:
         name: staging
         email: dev@domain.com
       server: smtp.gmail.com
+      domain: gmail.com
       authenticate: true
       user: username@domain.com
       pass: passw0rd
@@ -88,6 +90,7 @@ mail:
         name: production
         email: dev@domain.com
       server: smtp.gmail.com
+      domain: gmail.com
       authenticate: true
       user: username@domain.com
       pass: passw0rd

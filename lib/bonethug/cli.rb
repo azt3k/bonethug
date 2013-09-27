@@ -81,7 +81,7 @@ module Bonethug
       when 'watch'
 
         # handle args
-        type = ARGV[1] || 'sprockets'
+        type = ARGV[1] || 'coffee_sass'
         location = ARGV[2] || '.'
         watch_only = ARGV[3] || nil   
         
