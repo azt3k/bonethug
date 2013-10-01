@@ -41,7 +41,7 @@ module Bonethug
         # run the initaliser
         Installer.bonethugise(location, task.to_sym)
 
-      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-backup-to', 'sync-backup-from', 'sync-local-to', 'sync-local-from', 'init-db'
+      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-backup-to', 'sync-backup-from', 'sync-local-to', 'sync-local-from', 'init-db', 'force-unlock', 'cleanup'
 
         # handle args
         environment = ARGV[1]
@@ -60,9 +60,13 @@ module Bonethug
         when 'setup'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup --verbose"
 
-        # remote db scripts
+        # remote mina scripts
         when 'init-db'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"          
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
+        when 'force-unlock'
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:force_unlock --verbose"
+        when 'cleanup'
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:cleanup --verbose"          
 
         # Snapshot Backup
         when 'remote-backup'
