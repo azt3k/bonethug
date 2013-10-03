@@ -1,5 +1,5 @@
-Bonethug Project Skeleton
-=========================
+SilverStripe Bonethug Project Skeleton
+======================================
 
 
 
@@ -8,7 +8,7 @@ Requirements
 
 -   Ruby 1.9.3 +
 
--   PHP 5.3 + (if using a php based project skeleton)
+-   PHP 5.3 +
 
 -   Linux / OSX
 
@@ -51,7 +51,7 @@ Set Up
 2.  Firstly you need an MAMP / LAMP / WAMP etc stack, ruby 1.9.3 and curl for
     composer, if you're on windows there's an installer for composer
 
-3.  You need to have bundler and composer (for PHP) installed
+3.  You need to have bundler and composer installed
 
 
 

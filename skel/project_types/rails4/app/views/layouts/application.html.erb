@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="ie6" lang="en"><![endif]-->
+<!--[if IE 7]><html class="ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <%= csrf_meta_tags %>
+
+    <!-- Icons -->
+    <%= favicon_link_tag 'favicon/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png' %>  
+    <%= favicon_link_tag 'favicon/apple-touch-icon-57x57.png', rel: 'apple-touch-icon', sizes: '57x57', type: 'image/png' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', sizes: '72x72', type: 'image/png' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon-114x114.png', rel: 'apple-touch-icon', sizes: '114x114', type: 'image/png' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon-120x120.png', rel: 'apple-touch-icon', sizes: '120x120', type: 'image/png' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon-144x144.png', rel: 'apple-touch-icon', sizes: '144x144', type: 'image/png' %>
+    <%= favicon_link_tag 'favicon/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152', type: 'image/png' %>
+
+    <title>Unitec Graduation Ceremony</title>
+
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    
+    <!--[if (gte IE 6)&(lte IE 8)]>
+      <%= javascript_include_tag "lte-ie8-shims", "data-turbolinks-track" => true %>
+      <noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+    <![endif]-->    
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-197000-18', 'unitec.ac.nz');
+      ga('send', 'pageview');
+
+    </script> 
+
+    <%= javascript_include_tag "modernizr", "data-turbolinks-track" => true %>
+
+  </head>
+  <body>
+
+    <%= yield %>  
+
+    <footer>
+      <p>
+        &copy; 2013 Unitec Copyright. All rights reserved. &nbsp;
+        <a target="_blank" href="http://www.unitec.ac.nz/privacy-information.cfm">Privacy policy</a>. &nbsp;
+        <a target="_blank" href="http://www.unitec.ac.nz/terms-of-use.cfm">Terms of use</a>. 
+      </p>
+    </footer>
+
+  </body>
+  
+</html>

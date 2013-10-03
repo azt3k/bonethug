@@ -9,13 +9,14 @@
 /composer.phar
 .sass-cache
 /public/assets/*
+/vendor/ruby
 
 # components tracked by composer
 /public/silverstripe-cache/*
-/public/themes/simple
 /public/bootstrap_forms
 /public/cms
 /public/abc-silverstripe
+/public/abc-silverstripe-mailer
 /public/framework
 /public/html5
 
