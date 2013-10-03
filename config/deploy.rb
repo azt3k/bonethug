@@ -43,6 +43,9 @@ vhost = deploy.get('project_slug') + '_' + env
 # composer?
 use_composer = ['silverstripe','silverstripe3','drupal','php'].include? deploy.get('project_type')
 
+# composer?
+use_bower = ['silverstripe','silverstripe3','drupal','php'].include? deploy.get('project_type')
+
 # directories we need to track
 resources += ['backups']
 # resources.push 'vendor' if use_composer
@@ -179,6 +182,9 @@ task :deploy => :environment do
 
     # update composer
     queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
+
+    # update bower
+    queue! %[cd #{deploy_to}/current && bower install] if use_bower  
 
     # build the vhosts
     vh_cnf = conf.get('apache.'+env)
