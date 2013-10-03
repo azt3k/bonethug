@@ -9,6 +9,7 @@
 /composer.phar
 .sass-cache
 /public/assets/*
+/public/vendor/*
 /vendor/ruby
 
 # components tracked by composer

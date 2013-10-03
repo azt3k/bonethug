@@ -1,0 +1,15 @@
+{
+  "name": "bonethug/ss3-skel",
+  "version": "0.0.1",
+  "authors": [
+    "azt3k <breaks.nz@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "~1.10.2",
+    "modernizr": "~2.6.2",
+    "modernizr": "~1.0.2",    
+    "respond": "~1.3.0"
+  }  
+}

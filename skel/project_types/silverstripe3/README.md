@@ -16,6 +16,14 @@ Requirements
 
 -   MySQL 5.5 +
 
+-   Bundler
+
+-   Composer
+
+-   NPM
+
+-   Bower
+
 
 
 Overview
@@ -25,13 +33,17 @@ Overview
 
 -   Cron handled wtih whenever. [https://github.com/javan/whenever]
 
--   Backups handled with astrails-safe. [see https://github.com/astrails/safe]
+-   Backups handled with astrails-safe. see [https://github.com/astrails/safe]
 
 -   Ruby dependency management handled with bundler. see
 
 -   Built on the Silverstripe framework, CMS and Installer - 3.1.x dev branch.
 
 -   PHP dpendency management handled with composer. see [https://packagist.org/]
+
+-   Javascript assets are managed via [https://github.com/bower/bower]
+
+-   Bower depends on node.js [http://nodejs.org] and NPM [https://npmjs.org]
 
 
 
@@ -49,9 +61,10 @@ Set Up
     http://www.robvanderwoude.com/unixports.php
 
 2.  Firstly you need an MAMP / LAMP / WAMP etc stack, ruby 1.9.3 and curl for
-    composer, if you're on windows there's an installer for composer
+    composer, and node.js / npm for bower.  If you're on windows there's an 
+    installer for composer, node.js and npm
 
-3.  You need to have bundler and composer installed
+3.  You need to have bundler, composer and bower installed
 
 
 
@@ -67,6 +80,11 @@ Set Up
 
 
 
+**bower**
+
+`npm install bower -g`
+
+
 ### Development
 
 
@@ -80,6 +98,8 @@ Set Up
 `bundle install -–path vendor`
 
 `php composer.phar install`
+
+`bower install`
 
 
 
