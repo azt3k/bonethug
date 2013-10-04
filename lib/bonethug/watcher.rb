@@ -18,7 +18,7 @@ module Bonethug
     include FileUtils
     include Digest
 
-    def self.watch(type = 'sprockets', target = '.', watch_only = nil)
+    def self.watch(type = 'coffee_sass', target = '.', watch_only = nil)
 
       # create full path
       target = File.expand_path target

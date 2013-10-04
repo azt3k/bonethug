@@ -1,22 +1,28 @@
 Bonethug
 ========
 
+
+
 Project Skeleton Manager
+
+
 
 Installation
 ------------
 
 Add this line to your application's Gemfile:
 
-    gem 'bonethug'
+    `gem 'bonethug'`
 
 And then execute:
 
-    bundle
+    `bundle`
 
 Or install it yourself as:
 
-    gem install bonethug
+    `gem install bonethug`
+
+
 
 Usage
 -----
@@ -52,11 +58,10 @@ config/example/cnf.yml, config/example/schedule.rb config files*
 
 **Watch for changes to SCSS / CoffeeScript**
 
-*Configure the watch in the config/cnf.yml.  Uses sprockets by default, but can
-use vanilla coffeescript and sass compilers if you pass it the coffee_sass
-argument*
+*Configure the watch in the config/cnf.yml.  Uses vanilla coffeescript and sass
+compilers by default, but can use sprockets if passed the sprockets argument*
 
-`bonethug watch [coffee_sass]`
+`bonethug watch [sprockets]`
 
 
 
@@ -73,10 +78,9 @@ the info contained in cnf.yml*
 
 Most of these are piped through mina.  Mina uses SSH to send a bash script to
 the remote server where it is executed.  For these commands to work you need to
-have the desired host already added to your known hosts file:
-~/.ssh/known_hosts which means you can either connect to the host first,
-manually add it or switch off the checking by adding the following to
-~/.ssh/config.
+have the desired host already added to your known hosts file: ~/.ssh/known_hosts
+which means you can either connect to the host first, manually add it or switch
+off the checking by adding the following to ~/.ssh/config.
 
 
 
@@ -117,7 +121,8 @@ up an ssh key with no pass on the remote server so it can talk to the sync
 location then you wont need to provide a pass in the cnf.yml.  this is prefereed
 as it keeps the password out of the log files.*
 
-BE CAREFUL USING SYNC-TO - if there are no files in the source location it will wipe the files from your deploy copy.
+BE CAREFUL USING SYNC-TO - if there are no files in the source location it will
+wipe the files from your deploy copy.
 
 `bonethug sync-from {develoment|staging|production}`
 
