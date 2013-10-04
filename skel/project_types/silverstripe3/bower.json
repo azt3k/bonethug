@@ -9,7 +9,7 @@
   "dependencies": {
     "jquery": "~1.10.2",
     "modernizr": "~2.6.2",
-    "modernizr": "~1.0.2",    
+    "selectivizr": "~1.0.2",    
     "respond": "~1.3.0"
   }  
 }
