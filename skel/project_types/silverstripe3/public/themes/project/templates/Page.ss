@@ -23,10 +23,8 @@
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <% require themedCSS('reset') %>
+    <% require themedCSS('application') %>
     <% require themedCSS('typography') %>
-    <% require themedCSS('form') %>
-    <% require themedCSS('layout') %>
 
     <link rel="shortcut icon" href="themes/project/images/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="themes/project/images/apple-touch-icon.png" />

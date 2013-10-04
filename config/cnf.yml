@@ -159,13 +159,17 @@ vendor:
 watch:
   sass:
     -
-      src: public/assets/scss
-      dest: public/assets/css
-      filter: !ruby/regexp '/^.+\.scss$/'
+      src: public/themes/project/scss
+      dest: public/themes/project/css
+      filter: !ruby/regexp '/main\.scss$/'
+    -
+      src: public/themes/project/scss
+      dest: public/themes/project/css
+      filter: !ruby/regexp '/typography\.scss$/'      
   coffee:
     -
-      src: public/assets/coffee
-      dest: public/assets/js
-      filter: !ruby/regexp '/^.+\.coffee$/'
+      src: public/project/coffee
+      dest: public/project/javascript
+      filter: !ruby/regexp '/main\.coffee$/'
 log_dirs:
   - log

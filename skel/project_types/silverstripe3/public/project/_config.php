@@ -117,3 +117,31 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 
 //jpeg quality
 Config::inst()->update('GDBackend', 'default_quality', 80);
+
+
+// JS Assets
+// ---------------------------
+
+Config::inst()->update('Requirements', 'write_js_to_body', false);
+Requirements::combine_files(
+    'application.js',
+    array(
+    	'vendor/jquery/jquery.min.js',
+    	'project/javascript/main.js',
+    	'vendor/selectivizr/selectivizr.min.js',
+    	'vendor/respond/respond.min.js',
+    	'vendor/modernizr/modernizr.js'      
+    )
+);
+
+
+// CSS Assets
+// ---------------------------
+
+Requirements::combine_files(
+    'application.css',
+    array(
+    	'themes/project/main.css',
+    	'themes/project/typography.css'   
+    )
+);
