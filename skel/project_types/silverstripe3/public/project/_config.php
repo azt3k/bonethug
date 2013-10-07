@@ -73,6 +73,13 @@ switch(APPLICATION_ENV){
 		
 }
 
+// Allow override in dev and stage mode for testing asset pipeline
+// ---------------------------
+
+if (!empty($_GET['env']) && (APPLICATION_ENV == 'staging' || APPLICATION_ENV == 'development')) {
+	Director::set_environment_type(SS_LoadConf::translate_env($_GET['env']));
+}
+
 // DB
 // ---------------------------
 
@@ -119,29 +126,46 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 Config::inst()->update('GDBackend', 'default_quality', 80);
 
 
-// JS Assets
+// Assets
 // ---------------------------
 
-Config::inst()->update('Requirements', 'write_js_to_body', false);
+Requirements::set_write_js_to_body(ftrue);
+Requirements::set_combined_files_enabled(true);
+
+// CSS
+Requirements::combine_files(
+    'application.css',
+    array(
+    	'themes/project/css/main.css',
+    	'themes/project/css/typography.css'   
+    )
+);
+
+// Primary JS
 Requirements::combine_files(
     'application.js',
     array(
     	'vendor/jquery/jquery.min.js',
-    	'project/javascript/main.js',
+    	'project/javascript/main.js'     
+    )
+);
+
+// HTML5 Shims
+Requirements::combine_files(
+    'lte-ie8-shims.js',
+    array(
     	'vendor/selectivizr/selectivizr.min.js',
     	'vendor/respond/respond.min.js',
     	'vendor/modernizr/modernizr.js'      
     )
 );
+Requirements::block('assets/_combinedfiles/lte-ie8-shims.js');
+Requirements::insertHeadTags('
+    <!--[if (gte IE 6)&(lte IE 8)]>
+      <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
+    <![endif]--> 
+');
 
-
-// CSS Assets
-// ---------------------------
-
-Requirements::combine_files(
-    'application.css',
-    array(
-    	'themes/project/main.css',
-    	'themes/project/typography.css'   
-    )
-);
+// block some files from the cms
+LeftAndMainHelper::require_block('assets/_combinedfiles/application.css');
+LeftAndMainHelper::require_block('themes/project/css/main.css');

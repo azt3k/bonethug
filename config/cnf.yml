@@ -165,11 +165,11 @@ watch:
     -
       src: public/themes/project/scss
       dest: public/themes/project/css
-      filter: !ruby/regexp '/typography\.scss$/'      
+      filter: !ruby/regexp '/typography\.scss$/'   
   coffee:
     -
       src: public/project/coffee
       dest: public/project/javascript
-      filter: !ruby/regexp '/main\.coffee$/'
+      filter: !ruby/regexp '/^.+\.coffee$/'
 log_dirs:
   - log

@@ -33,6 +33,14 @@ class SS_LoadConf {
 		}
 
 	}
+
+	public static function translate_env($env) {
+		if (!empty(self::$ss_env[$env])) {
+			return self::$ss_env[$env];
+		} else {
+			return $env;
+		}
+	}
 	
 	public static function cnf() {
 

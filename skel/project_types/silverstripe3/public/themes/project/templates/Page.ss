@@ -19,13 +19,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     $MetaTags(false)
 
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <% require themedCSS('application') %>
-    <% require themedCSS('typography') %>
-
     <link rel="shortcut icon" href="themes/project/images/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="themes/project/images/apple-touch-icon.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="themes/project/images/apple-touch-icon-57x57.png" />
