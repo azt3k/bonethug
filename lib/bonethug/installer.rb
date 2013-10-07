@@ -233,10 +233,15 @@ module Bonethug
         if project_type
           bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
           bonethug_files.each do |index, file|
+
+            # push some output
             puts 'Handling ' + index.to_s + ':' + file.to_s
+
+            # do the copy
             src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
             dst_file = target + '/' + file
             FileUtils.cp src_file, dst_file
+            
           end
         else
           puts "Couldn't find project type in " + target_cnf

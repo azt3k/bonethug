@@ -41,7 +41,47 @@ module Bonethug
         # run the initaliser
         Installer.bonethugise(location, task.to_sym)
 
-      when 'deploy', 'setup', 'remote-backup', 'local-backup', 'sync-backup-to', 'sync-backup-from', 'sync-local-to', 'sync-local-from', 'init-db', 'force-unlock', 'cleanup'
+      when  'run', 
+            'rake', 
+            'drush', 
+            'sake'
+
+        # get env
+        environment = ARGV.last
+
+        # handle args
+        if task == 'run'
+          cmd_task = ARGV[1]
+          args = ARGV[2..(ARGV.length-2)]
+        else
+          case task
+          when 'rake'
+            cmd_task = 'rake'
+          when 'drush'
+            cmd_task = 'vendor/drush/drush'
+          when 'sake'
+            cmd_task = 'public/framework/sake'
+          end
+          args = ARGV[1..(ARGV.length-2)]
+        end
+
+        # build command
+        run = "\"run[#{cmd_task} #{args.join(' ')}]\""
+
+        # do it!
+        exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb #{run} --verbose"         
+
+      when  'deploy', 
+            'setup', 
+            'remote-backup', 
+            'local-backup', 
+            'sync-backup-to', 
+            'sync-backup-from', 
+            'sync-local-to', 
+            'sync-local-from', 
+            'init-db', 
+            'force-unlock', 
+            'cleanup'
 
         # handle args
         environment = ARGV[1]
@@ -66,7 +106,7 @@ module Bonethug
         when 'force-unlock'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:force_unlock --verbose"
         when 'cleanup'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:cleanup --verbose"          
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:cleanup --verbose"      
 
         # Snapshot Backup
         when 'remote-backup'

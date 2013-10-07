@@ -1,3 +1,3 @@
 module Bonethug
-  VERSION = "0.0.32"
+  VERSION = "0.0.35"
 end
