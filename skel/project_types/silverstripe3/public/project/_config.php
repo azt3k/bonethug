@@ -157,7 +157,10 @@ $shimRequirments = array(
     'vendor/modernizr/modernizr.js'      
 );
 Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
-Requirements::block('assets/_combinedfiles/lte-ie8-shims.js');
+RequirementsHelper::require_block(array_merge(
+    array('assets/_combinedfiles/lte-ie8-shims.js'),
+    $shimRequirments
+);
 Requirements::insertHeadTags('
     <!--[if (gte IE 6)&(lte IE 8)]>
         <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
