@@ -126,6 +126,9 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 Config::inst()->update('GDBackend', 'default_quality', 80);
 
 
+// Assets
+// ---------------------------
+
 Requirements::set_write_js_to_body(true);
 Requirements::set_combined_files_enabled(true);
 
@@ -160,7 +163,7 @@ Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
 RequirementsHelper::require_block(array_merge(
     array('assets/_combinedfiles/lte-ie8-shims.js'),
     $shimRequirments
-);
+));
 Requirements::insertHeadTags('
     <!--[if (gte IE 6)&(lte IE 8)]>
         <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
