@@ -202,10 +202,15 @@ module Bonethug
       @@project_config_files.each do |type, dirs|
         dirs.each do |config|
 
+          # vars
           src_file      = @@bonthug_gem_dir + '/config/' + config
           example_file  = target + '/config/example/' + config if type == :editable
           target_file   = type == :editable ? target + '/config/' + config : target + '/.bonethug/' + config
 
+          # output
+          puts 'Handling ' + target_file
+
+          # what mode are we in?
           if mode == :init
             FileUtils.cp src_file, example_file if type == :editable and !File.exist?(example_file)
             FileUtils.cp src_file, target_file unless File.exist?(target_file)
@@ -227,12 +232,9 @@ module Bonethug
         project_type = project_conf.get('deploy.common.project_type')
         if project_type
           bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
-          bonethug_files.each do |file|
-            src_file =  @@bonthug_gem_dir + 
-                        '/skel/project_types/' + 
-                        project_type + 
-                        '/' + 
-                        file
+          bonethug_files.each do |index, file|
+            puts 'Handling ' + index.to_s + ':' + file.to_s
+            src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
             dst_file = target + '/' + file
             FileUtils.cp src_file, dst_file
           end
