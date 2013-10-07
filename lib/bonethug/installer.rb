@@ -37,7 +37,10 @@ module Bonethug
       puts 'Installing '+ type + ' to ' + target + '...'
 
       # load the configuration
-      raise "Unsupported type: " + type.to_s unless @@conf.get('project_types').has_key? type.to_s
+      unless @@conf.get('project_types').has_key? type.to_s
+        puts "Unsupported type: " + type.to_s 
+        exit
+      end
       conf = @@conf.node_merge 'base', 'project_types.' + type
 
       # set the tmp dir
@@ -210,9 +213,27 @@ module Bonethug
             FileUtils.cp src_file, example_file if type == :editable
             FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)          
           else
-            raise "invalid bonethugise mode"
+            puts "Invalid bonethugise mode"
+            exit
           end
 
+        end
+      end
+
+      # Handle project type specific files
+      if mode == :update
+        target_cnf = target + '/config/cnf.yml'
+        project_conf = Conf.new.add target_cnf
+        project_type = project_conf.get('deploy.common.project_type')
+        if project_type
+          bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
+          bonethug_files.each do |file|
+            src_file = @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
+            dst_file = target + '/' + file
+            FileUtils.cp src_file, dst_file
+          end
+        else
+          puts "Couldn't find project type in " + target_cnf
         end
       end
 

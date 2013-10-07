@@ -1,0 +1,15 @@
+@function image-path($file) {
+  @return $image-path + '/' + $file;
+}
+
+@function font-path($file) {
+  @return $font-path + '/' + $file;;
+}
+
+@function image-url($file) {
+  @return url(image-path($file));
+}
+
+@function font-url($file) {
+  @return url(font-path($file));
+}

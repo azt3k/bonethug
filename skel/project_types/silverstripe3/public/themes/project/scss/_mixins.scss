@@ -1,0 +1,10 @@
+@mixin define-font($font-name, $font) {
+  @font-face {  
+    font-family: $font-name;
+    src: url(font_path('#{$font}.eot'));
+    src: url(font_path('#{$font}.eot')) format('embedded-opentype'),
+      url(font_path('#{$font}.woff')) format('woff'),
+      url(font_path('#{$font}.ttf')) format('truetype'),
+      url(font_path('#{$font}.svg')) format('svg');
+  }
+}
