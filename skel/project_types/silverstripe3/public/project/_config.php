@@ -126,46 +126,52 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 Config::inst()->update('GDBackend', 'default_quality', 80);
 
 
-// Assets
-// ---------------------------
-
-Requirements::set_write_js_to_body(ftrue);
+Requirements::set_write_js_to_body(true);
 Requirements::set_combined_files_enabled(true);
 
 // CSS
-Requirements::combine_files(
-    'application.css',
-    array(
-    	'themes/project/css/main.css',
-    	'themes/project/css/typography.css'   
-    )
+// ---
+
+$cssRequirements = array(
+    'themes/project/css/styles.css',
+    'themes/project/css/typography.css'   
 );
+Requirements::combine_files('application.css', $cssRequirements);
 
 // Primary JS
-Requirements::combine_files(
-    'application.js',
-    array(
-    	'vendor/jquery/jquery.min.js',
-    	'project/javascript/main.js'     
-    )
+// ----------
+
+$jsRequirements = array(
+    'vendor/jquery/jquery.min.js',
+    'project/javascript/main.js',
+    'project/javascript/forms.js'
 );
+Requirements::combine_files('application.js', $jsRequirements);
 
 // HTML5 Shims
-Requirements::combine_files(
-    'lte-ie8-shims.js',
-    array(
-    	'vendor/selectivizr/selectivizr.min.js',
-    	'vendor/respond/respond.min.js',
-    	'vendor/modernizr/modernizr.js'      
-    )
+// -----------
+
+$shimRequirments = array(
+    'vendor/selectivizr/selectivizr.min.js',
+    'vendor/respond/respond.min.js',
+    'vendor/modernizr/modernizr.js'      
 );
+Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
 Requirements::block('assets/_combinedfiles/lte-ie8-shims.js');
 Requirements::insertHeadTags('
     <!--[if (gte IE 6)&(lte IE 8)]>
-      <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
+        <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
     <![endif]--> 
 ');
 
-// block some files from the cms
-LeftAndMainHelper::require_block('assets/_combinedfiles/application.css');
-LeftAndMainHelper::require_block('themes/project/css/main.css');
+// block all front end requirements from the cms
+LeftAndMainHelper::require_block(array_merge(
+    array(
+        'assets/_combinedfiles/application.css',
+        'assets/_combinedfiles/application.js',
+        'assets/_combinedfiles/lte-ie8-shims.js'
+    ),   
+    $cssRequirements,
+    $jsRequirements,
+    $shimRequirments
+));
