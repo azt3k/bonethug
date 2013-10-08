@@ -1,6 +1,8 @@
 <?php
 class Page extends SiteTree {
 
+	protected static $page_cache = array();
+
 	private static $can_be_root = true;	
 
 	private static $db = array(
@@ -20,6 +22,35 @@ class Page extends SiteTree {
 
 		return $fields;
 	}
+
+	// Helper functions
+	// -----------------
+
+	public static function get_a($pageType = 'Page') {
+		$page = null;
+		if (!empty(self::$page_cache[$pageType])) $page = self::$page_cache[$pageType];
+		else if ($page = DataObject::get_one($pageType)) self::$page_cache[$pageType] = $page;
+		return $page;
+	}
+	
+	public function IsA ($className) {
+		return is_a($this, $className);
+	}
+	
+	public function AreSamePage ($page1, $page2) {
+		return $page1->ID == $page2->ID;
+	}	
+
+	public function PaginatedChildren($limit = null, $order = 'Created DESC', $hitsOptions = null){
+		
+		if ($limit === null) $limit = self::$hits_per_page;
+		
+		$do					= new DataObject;
+		$do->DataSet 		= AbcPaginator::get($limit)->fetch('Page', "ParentID = ".$this->ID, $order);
+		$do->Paginator 		= $do->DataSet->Paginator->dataForTemplate($do->DataSet->unlimitedRowCount, 2, null, $hitsOptions);
+		$do->HitsSelector	= $do->Paginator->HitsSelector;
+		return $do;	
+	}	
 
 }
 class Page_Controller extends ContentController {

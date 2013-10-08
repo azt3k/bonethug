@@ -4,6 +4,9 @@
 # install native stuff
 # -----------------------------------------------------
 
+# add repos
+sudo add-apt-repository ppa:richarvey/nodejs
+
 # update
 sudo apt-get update && sudo apt-get upgrade
 

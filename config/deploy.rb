@@ -184,7 +184,7 @@ task :deploy => :environment do
     queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
 
     # update bower
-    queue! %[cd #{deploy_to}/current && bower install] if use_bower  
+    queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower  
 
     # build the vhosts
     vh_cnf = conf.get('apache.'+env)
