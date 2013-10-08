@@ -1,1 +1,1 @@
-- guard 2.0.3 seems to not work - using 2.0.2 in the mean time
+- guard 2 seems to not work - using 1.8.3 in the mean time
