@@ -108,34 +108,7 @@ module Bonethug
       end
 
       puts 'Starting Watch Daemon...'
-      # puts "Guardfile content "
-      # puts guardfile_content
-      cmd = 'bundle exec guard --guardfile "' + target + '/.bonethug/Guardfile"'
-      # puts "calling: " + cmd
-      exec cmd
-
-      # puts 'Starting Watch Daemons...'
-      # puts 'This may start more than one watch process and you may have to ctrl + c more than once to quit.'
-
-      # # sass compiler
-      # sass_watch_str = ''
-      # sass.each do |watch|
-      #   sass_watch_str += ' '+watch[:src]+':'+watch[:dest]
-      # end
-      # sass_cmd = "sass --watch #{sass_watch_str} --style compressed"
-      
-      # # Coffescript compiler
-      # coffee_watch_str = ''
-      # coffee.each do |watch|
-      #   coffee_watch_str += ' && coffee -o '+watch[:dest]+'/ -cw '+watch[:src]+'/'
-      # end
-      # coffee_cmd = coffee_watch_str
-
-      # # call it
-      # cmd = "#{sass_cmd} #{coffee_cmd}"
-      # puts "Running: " + cmd
-      
-      # log = `#{cmd}` 
+      exec 'bundle exec guard --guardfile "' + target + '/.bonethug/Guardfile"'
 
     end
 

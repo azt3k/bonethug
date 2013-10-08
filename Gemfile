@@ -18,7 +18,7 @@ gem 'coffee-rails'
 
 # asset pipeline - guard coffeescript / sass
 gem 'rake'
-gem 'guard'
+gem 'guard', '2.0.2'
 gem 'coffee-script'
 gem 'sass'
 gem 'guard-sass'

@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   # asset pipeline - guard coffeescript / sass
   spec.add_dependency 'rake'
-  spec.add_dependency 'guard'
+  spec.add_dependency 'guard', '2.0.2'
   spec.add_dependency 'coffee-script'
   spec.add_dependency 'sass'
   spec.add_dependency 'guard-sass'
