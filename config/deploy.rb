@@ -56,6 +56,7 @@ log_dirs.push 'log' unless log_dirs.include? 'log'
 # shared paths
 shared = resources + log_dirs + vendor + ['tmp']
 shared.push 'composer.phar' if use_composer
+shared.push 'public/vendor' if use_bower
 
 # shared config
 set :keep_releases, deploy.get('keep') || 2
@@ -180,12 +181,6 @@ task :deploy => :environment do
       invoke :'rails:assets_precompile'
     end
 
-    # update composer
-    queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
-
-    # update bower
-    queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower  
-
     # build the vhosts
     vh_cnf = conf.get('apache.'+env)
 
@@ -287,6 +282,12 @@ task :deploy => :environment do
           queue! %[cd #{deploy_to}/current/#{chmod.get('path')} && chmod -R #{chmod.get('mode')} .]
         end
       end
+
+      # update composer
+      queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
+
+      # update bower
+      queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower      
 
       # trigger a restart on rack based systems   
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]      
