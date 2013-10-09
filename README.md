@@ -24,6 +24,19 @@ Or install it yourself as:
 
 
 
+Update
+------------
+
+execute:
+
+    `bundle update bonethug`
+
+update the bonethug files in your project:
+
+    `bundle exec bonethug update`
+
+
+
 Usage
 -----
 
