@@ -7,7 +7,8 @@
     "silverstripe/html5"                : "dev-master",
     "phpmailer/phpmailer"               : "dev-master",
     "azt3k/abc-silverstripe"            : "dev-master",
-    "azt3k/abc-silverstripe-mailer"     : "dev-master"  
+    "azt3k/abc-silverstripe-mailer"     : "dev-master",
+    "nathancox/minify"                  : "dev-master" 
   },
   "extra": {
     "installer-paths": {
@@ -18,7 +19,8 @@
         "silverstripe/cms",     
         "silverstripe/html5",
         "azt3k/abc-silverstripe",
-        "azt3k/abc-silverstripe-mailer"
+        "azt3k/abc-silverstripe-mailer",
+        "nathancox/minify"
       ]
     }
   }
