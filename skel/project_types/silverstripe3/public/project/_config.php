@@ -133,6 +133,17 @@ Config::inst()->update('GDBackend', 'default_quality', 80);
 Requirements::set_write_js_to_body(true);
 Requirements::set_combined_files_enabled(true);
 
+// HTML5 Shims
+// -----------
+
+$shimRequirments = array(
+    'vendor/selectivizr/selectivizr.min.js',
+    'vendor/respond/respond.min.js',
+    'vendor/modernizr/modernizr.js'      
+);
+Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
+Requirements::process_combined_files(); // forces ss to generate the file regardless of blocking
+
 // CSS
 // ---
 
@@ -152,19 +163,20 @@ $jsRequirements = array(
 );
 Requirements::combine_files('application.js', $jsRequirements);
 
-// HTML5 Shims
-// -----------
+// Asset loading
+// -------------
 
-$shimRequirments = array(
-    'vendor/selectivizr/selectivizr.min.js',
-    'vendor/respond/respond.min.js',
-    'vendor/modernizr/modernizr.js'      
-);
-Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
+// block jquery
+// block the combined shims + component files so we can lead them manually
 RequirementsHelper::require_block(array_merge(
-    array('assets/_combinedfiles/lte-ie8-shims.js'),
-    $shimRequirments
+    array(
+        'assets/_combinedfiles/lte-ie8-shims.js'
+        'framework/thirdparty/jquery/jquery.js'
+    ),
+    $shimRequirements
 ));
+
+// dump this into a conditional
 Requirements::insertHeadTags('
     <!--[if (gte IE 6)&(lte IE 8)]>
         <script src="/assets/_combinedfiles/lte-ie8-shims.js"></script>
@@ -180,5 +192,10 @@ LeftAndMainHelper::require_block(array_merge(
     ),   
     $cssRequirements,
     $jsRequirements,
-    $shimRequirments
+    $shimRequirements
+));
+
+// let the cms load its preferred version of jquery
+LeftAndMainHelper::require_unblock(array(
+    'framework/thirdparty/jquery/jquery.js'
 ));
