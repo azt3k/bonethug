@@ -53,12 +53,15 @@ resources += ['backups']
 # logs
 log_dirs.push 'log' unless log_dirs.include? 'log'
 
+# other vendor dirs
+vendor.push 'public/vendor' if use_bower and !vendor.include? 'public/vendor'
+
 # shared paths
 shared = resources + log_dirs + vendor + ['tmp']
 shared.push 'composer.phar' if use_composer
-shared.push 'public/vendor' if use_bower
 
 # shared config
+set :term_mode,     :system
 set :keep_releases, deploy.get('keep') || 2
 set :deploy_to,     deploy.get('base_dir') + '/' + vhost
 set :repository,    deploy.get('repository')

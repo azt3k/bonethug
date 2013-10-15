@@ -12,6 +12,11 @@ module Bonethug
 
         display_help
 
+      when 'version'
+
+        puts 'bonethug v' + VERSION + ' - build date: ' + BUILD_DATE
+        exit
+
       when 'install'
 
         # handle args

@@ -1,0 +1,3 @@
+- Create front end skeleton
+- Need to have project specific cnf.yml files
+- Local sync for assets

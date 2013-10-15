@@ -1,7 +1,8 @@
 <?php
 
+// --------------------------------- //
 // Load stuff / set up environment
-// -------------------------------
+// --------------------------------- //
 
 global $project, $databaseConfig;
 
@@ -14,8 +15,9 @@ $project = 'project';
 SSViewer::set_theme('project');
 
 
+// --------------------------------- //
 // Env Settings
-// ---------------------------
+// --------------------------------- //
 
 switch(APPLICATION_ENV){
 
@@ -73,15 +75,19 @@ switch(APPLICATION_ENV){
 		
 }
 
+
+// --------------------------------- //
 // Allow override in dev and stage mode for testing asset pipeline
-// ---------------------------
+// --------------------------------- //
 
 if (!empty($_GET['env']) && (APPLICATION_ENV == 'staging' || APPLICATION_ENV == 'development')) {
 	Director::set_environment_type(SS_LoadConf::translate_env($_GET['env']));
 }
 
+
+// --------------------------------- //
 // DB
-// ---------------------------
+// --------------------------------- //
 
 $databaseConfig = array(
 	"type" 		=> 'MySQLDatabase',
@@ -94,22 +100,16 @@ $databaseConfig = array(
 Config::inst()->update('MySQLDatabase', 'connection_charset', 'utf8');
 
 
+// --------------------------------- //
 // Mail
-// ---------------------------
+// --------------------------------- //
 
-define('SMTPMAILER_DEFAULT_FROM_NAME', 		$ss_cnf->mail->default_from['name']);
-define('SMTPMAILER_DEFAULT_FROM_EMAIL', 	$ss_cnf->mail->default_from['email']);		
-define('SMTPMAILER_SMTP_SERVER_ADDRESS',	$ss_cnf->mail->server);
-define('SMTPMAILER_DO_AUTHENTICATE', 		$ss_cnf->mail->authenticate);
-define('SMTPMAILER_USERNAME', 				$ss_cnf->mail->user);
-define('SMTPMAILER_PASSWORD', 				$ss_cnf->mail->pass);
-define('SMTPMAILER_CHARSET_ENCODING', 		$ss_cnf->mail->charset_encoding);
-define('SMTPMAILER_USE_SECURE_CONNECTION', 	$ss_cnf->mail->secure);
-define('SMTPMAILER_SMTP_SERVER_PORT', 		$ss_cnf->mail->port);
+SmtpMailer::set_conf($ss_cnf->mail);
 
 
+// --------------------------------- //
 // Misc
-// ---------------------------
+// --------------------------------- //
 
 // Set the site locale
 i18n::set_locale('en_NZ');
@@ -126,8 +126,9 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 Config::inst()->update('GDBackend', 'default_quality', 80);
 
 
+// --------------------------------- //
 // Assets
-// ---------------------------
+// --------------------------------- //
 
 Requirements::set_write_js_to_body(true);
 Requirements::set_combined_files_enabled(true);

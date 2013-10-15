@@ -10,6 +10,7 @@ require 'fileutils'
 require 'find'
 require 'digest/md5'
 require 'yaml'
+require 'rbconfig'
 
 module Bonethug
 
@@ -108,7 +109,12 @@ module Bonethug
       end
 
       puts 'Starting Watch Daemon...'
-      exec 'bundle exec guard --guardfile "' + target + '/.bonethug/Guardfile"'
+      # guard 2.0.x polling fix
+      # poll = RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i ? '--force-polling' : ''
+      poll = ''
+      cmd = 'bundle exec guard --debug ' + poll + ' --guardfile "' + target + '/.bonethug/Guardfile"'
+      puts cmd
+      exec cmd
 
     end
 

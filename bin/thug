@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+root_path = File.expand_path(File.dirname(__FILE__)) + '/..'
+
+require 'rubygems' unless Object.const_defined?(:Gem)
+require root_path +'/lib/bonethug'
+
+Bonethug::CLI.handle

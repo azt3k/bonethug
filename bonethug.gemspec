@@ -21,21 +21,32 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  # Dev
+  # ---
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
 
+  # "Production"
+  # ------------
+
+  spec.add_dependency 'rake'
+  spec.add_dependency 'rubygems-bundler'
+
+  # these should come from github
   spec.add_dependency 'mina'
   spec.add_dependency 'astrails-safe'
   spec.add_dependency 'whenever'
 
+  # guard
+  spec.add_dependency 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
+  spec.add_dependency 'listen'
+
   # asset pipeline - guard coffeescript / sass
-  spec.add_dependency 'rake'
-  spec.add_dependency 'guard', '>= 1.8.3', '< 2.0'
   spec.add_dependency 'coffee-script'
   spec.add_dependency 'sass'
   spec.add_dependency 'guard-sass'
   spec.add_dependency 'guard-coffeescript'
-  # spec.add_dependency 'listen'  
 
   # asset pipeline guard sprockets
   spec.add_dependency 'guard-sprockets'
@@ -51,9 +62,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency 'juicer'
   # spec.add_dependency 'guard-uglify'
 
-  if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
-    spec.add_dependency 'wdm', '>= 0.1.0'
-  end
+  spec.add_dependency 'wdm', '>= 0.1.0' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
 
   # if RUBY_PLATFORM.downcase.include?('linux')
   #   spec.add_dependency 'therubyracer'
