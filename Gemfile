@@ -19,7 +19,7 @@ gem 'astrails-safe',    github: 'astrails/safe'
 gem 'whenever',         github: 'javan/whenever'
 
 # guard
-gem 'guard', '>=2.0.5' # '>= 1.8.3', '< 2.0' # '>=2.0.5'
+gem 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
 gem 'listen', github: 'guard/listen'
 
 # asset pipeline - guard sprockets
