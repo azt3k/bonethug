@@ -136,12 +136,12 @@ Requirements::set_combined_files_enabled(true);
 // HTML5 Shims
 // -----------
 
-$shimRequirments = array(
+$shimRequirements = array(
     'vendor/selectivizr/selectivizr.min.js',
     'vendor/respond/respond.min.js',
     'vendor/modernizr/modernizr.js'      
 );
-Requirements::combine_files('lte-ie8-shims.js',$shimRequirments);
+Requirements::combine_files('lte-ie8-shims.js',$shimRequirements);
 Requirements::process_combined_files(); // forces ss to generate the file regardless of blocking
 
 // CSS
@@ -170,7 +170,7 @@ Requirements::combine_files('application.js', $jsRequirements);
 // block the combined shims + component files so we can lead them manually
 RequirementsHelper::require_block(array_merge(
     array(
-        'assets/_combinedfiles/lte-ie8-shims.js'
+        'assets/_combinedfiles/lte-ie8-shims.js',
         'framework/thirdparty/jquery/jquery.js'
     ),
     $shimRequirements
