@@ -125,6 +125,10 @@ if (!defined('SS_SITE_DATABASE_NAME'))	define('SS_SITE_DATABASE_NAME', $database
 //jpeg quality
 Config::inst()->update('GDBackend', 'default_quality', 80);
 
+// block the default page build
+SiteTree::set_create_default_pages(false);
+Config::inst()->update('SiteTree', 'create_default_pages', false);
+
 
 // --------------------------------- //
 // Assets

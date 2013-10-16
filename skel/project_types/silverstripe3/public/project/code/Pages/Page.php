@@ -3,7 +3,7 @@ class Page extends SiteTree {
 
 	protected static $page_cache = array();
 
-	private static $can_be_root = true;	
+	private static $can_be_root = false;	
 
 	private static $db = array(
 	);
@@ -50,26 +50,56 @@ class Page extends SiteTree {
 		$do->Paginator 		= $do->DataSet->Paginator->dataForTemplate($do->DataSet->unlimitedRowCount, 2, null, $hitsOptions);
 		$do->HitsSelector	= $do->Paginator->HitsSelector;
 		return $do;	
+	}
+
+	/**
+	 * Add default records to database.
+	 *
+	 * This function is called whenever the database is built, after the
+	 * database tables have all been created. Overload this to add default
+	 * records when the database is built, but make sure you call
+	 * parent::requireDefaultRecords().
+	 */
+	public function requireDefaultRecords() {
+		
+		
+		if(!SiteTree::get_by_link(Config::inst()->get('RootURLController', 'default_homepage_link'))) {
+			$homepage = new HomePage;
+			$homepage->Title = 'Home';
+			$homepage->URLSegment = Config::inst()->get('RootURLController', 'default_homepage_link');
+			$homepage->Sort = 1;
+			$homepage->write();
+			$homepage->publish('Stage', 'Live');
+			$homepage->flushCache();
+			DB::alteration_message('Home page created', 'created');
+		}
+
+		if(DB::query("SELECT COUNT(*) FROM \"SiteTree\"")->value() == 1) {
+			$aboutus = new RootPage;
+			$aboutus->Title = 'About Us';
+			$aboutus->Sort = 2;
+			$aboutus->write();
+			$aboutus->publish('Stage', 'Live');
+			$aboutus->flushCache();
+			DB::alteration_message('Book 1 created', 'created');
+
+			$contactus = new RootPage;
+			$contactus->Title = 'Contact Us';
+			$contactus->Sort = 3;
+			$contactus->write();
+			$contactus->publish('Stage', 'Live');
+			$contactus->flushCache();
+			DB::alteration_message('Book 2 created', 'created');
+		}
+		
+		// call it on the parent
+		parent::requireDefaultRecords();		
 	}	
+
 
 }
 class Page_Controller extends ContentController {
 
-	/**
-	 * An array of actions that can be accessed via a request. Each array element should be an action name, and the
-	 * permissions or conditions required to allow the user to access it.
-	 *
-	 * <code>
-	 * array (
-	 *     'action', // anyone can access this action
-	 *     'action' => true, // same as above
-	 *     'action' => 'ADMIN', // you must have ADMIN permissions to access this action
-	 *     'action' => '->checkAction' // you can only access this action if $this->checkAction() returns true
-	 * );
-	 * </code>
-	 *
-	 * @var array
-	 */
 	private static $allowed_actions = array (
 	);
 
