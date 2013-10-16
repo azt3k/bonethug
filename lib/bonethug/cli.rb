@@ -25,7 +25,7 @@ module Bonethug
 
         # validate
         unless type
-          puts 'Usage: bonethug install [type] [location]'
+          puts 'Usage: thug install [type] [location]'
           return
         end
         
@@ -39,7 +39,7 @@ module Bonethug
 
         # validate
         unless location
-          puts 'Usage: bonethug #{task} [location]'
+          puts 'Usage: thug #{task} [location]'
           return
         end
 
@@ -93,7 +93,7 @@ module Bonethug
 
         # validate
         unless environment
-          puts 'Usage: bonethug #{task} [environment]' 
+          puts 'Usage: thug #{task} [environment]' 
           return
         end
 

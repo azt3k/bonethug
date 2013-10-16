@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whenever'
 
   # guard
-  spec.add_dependency 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
+  spec.add_dependency 'guard', '>=2.0.5' # '>= 1.8.3', '< 2.0' # '>=2.0.5'
   spec.add_dependency 'listen'
 
   # asset pipeline - guard coffeescript / sass

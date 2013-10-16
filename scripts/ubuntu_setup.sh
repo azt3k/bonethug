@@ -4,8 +4,13 @@
 # install native stuff
 # -----------------------------------------------------
 
+# install the repo adding scripts
+sudo apt-get install software-properties-common python-software-properties
+
 # add repos
 sudo add-apt-repository ppa:richarvey/nodejs
+# or 
+# apt-get-repository ppa:chris-lea/node.js
 
 # update
 sudo apt-get update && sudo apt-get upgrade
