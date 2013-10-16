@@ -1,7 +1,7 @@
 module Bonethug
   class CLI
 
-    def self.handle
+    def self.handle(bin_name = 'thug')
 
       # what are we doing?
       task = ARGV[0] || 'help'
@@ -25,12 +25,31 @@ module Bonethug
 
         # validate
         unless type
-          puts 'Usage: thug install [type] [location]'
+          puts 'Usage: ' + bin_name + ' install [type] [location]'
           return
         end
         
         # run the installer
         Installer.install type, location
+
+      when 'setup_env'
+
+        # handle args
+        env = ARGV[1]
+
+        # validate
+        unless env
+          puts 'Usage: ' + bin_name + ' setup_env [env]'
+          return
+        end
+
+        if env == 'local'
+          gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
+          script = gem_dir '/scripts/ubuntu_setup.sh'
+          exec 'sudo bash ' + script
+        else
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup_env --verbose"
+        end     
 
       when 'init', 'update'
 
@@ -39,7 +58,7 @@ module Bonethug
 
         # validate
         unless location
-          puts 'Usage: thug #{task} [location]'
+          puts 'Usage: ' + bin_name + ' #{task} [location]'
           return
         end
 
@@ -155,8 +174,8 @@ module Bonethug
 
     end
 
-    def self.display_help
-      puts 'Usage: bonethug task [argument]...'
+    def self.display_help(bin_name = 'thug')
+      puts 'Usage:  ' + bin_name + '  task [argument]...'
     end
 
   end

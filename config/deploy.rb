@@ -127,7 +127,14 @@ task :update_packages => :environment do
   queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
 end
 
-desc "Restores application state to the most recent backup"
+desc "Sets up an environemt"
+task :setup_env => :environment do
+  Bonethug::Installer.get_setup_env_cmds.each do |cmd| 
+    queue! %[#{cmd}]
+  end
+end
+
+desc "Initialises the db"
 task :init_db => :environment do
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/
 end
