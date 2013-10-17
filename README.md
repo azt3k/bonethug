@@ -33,7 +33,7 @@ execute:
 
 update the bonethug files in your project:
 
-    `bundle exec bonethug update`
+    `bundle exec thug update`
 
 
 
@@ -48,7 +48,7 @@ Usage
 
 **Set up a project Skeleton**
 
-`bonethug install {rails3|silverstripe3|drupal|php|sinatra}`
+`thug install {rails3|silverstripe3|drupal|php|sinatra}`
 
 
 
@@ -56,7 +56,7 @@ Usage
 
 *If you just want to use the deploy / cron / backup framework*
 
-`bonethug init`
+`thug init`
 
 
 
@@ -65,7 +65,7 @@ Usage
 *This updates the .bonethug/deploy.rb, .bonethug/backup.rb,
 config/example/cnf.yml, config/example/schedule.rb config files*
 
-`bonethug update`
+`thug update`
 
 
 
@@ -74,7 +74,7 @@ config/example/cnf.yml, config/example/schedule.rb config files*
 *Configure the watch in the config/cnf.yml.  Uses vanilla coffeescript and sass
 compilers by default, but can use sprockets if passed the sprockets argument*
 
-`bonethug watch [sprockets]`
+`thug watch [sprockets]`
 
 
 
@@ -83,11 +83,13 @@ compilers by default, but can use sprockets if passed the sprockets argument*
 *Uses astrails-safe to make a backup using the .bonethug/backup.rb file.  Uses
 the info contained in cnf.yml*
 
-`bonethug local-backup {development|staging|production}`
+`thug local-backup {development|staging|production}`
 
 
 
 ### Remote Commands
+
+*UPDATE:* Bonethug now supports interactive prompts so this may no longer be necessary
 
 Most of these are piped through mina.  Mina uses SSH to send a bash script to
 the remote server where it is executed.  For these commands to work you need to
@@ -103,14 +105,17 @@ Host *
     UserKnownHostsFile=/dev/null
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**Setup a remote server**
 
+*This wraps mina to call all the commandsThis installs all the required software on a remote server*
+`thug setup_env {development|staging|production}`
 
 **Setup and Deploy to Remote Server**
 
 *This wraps mina and deploys using the information contained in cnf.yml*
 
-`bonethug setup {development|staging|production}`  
-`bonethug deploy {develoment|staging|production}`
+`thug setup {development|staging|production}`  
+`thug deploy {develoment|staging|production}`
 
 
 
@@ -122,7 +127,7 @@ It calls astrails-safe on the remote server and using the remote
 If you are using FTP, make sure the directory exists before triggering a
 backup.*
 
-`bonethug remote-backup {develoment|staging|production}`
+`thug remote-backup {develoment|staging|production}`
 
 
 
@@ -137,9 +142,9 @@ as it keeps the password out of the log files.*
 BE CAREFUL USING SYNC-TO - if there are no files in the source location it will
 wipe the files from your deploy copy.
 
-`bonethug sync-from {develoment|staging|production}`
+`thug sync-from {develoment|staging|production}`
 
-`bonethug sync-to {develoment|staging|production}`
+`thug sync-to {develoment|staging|production}`
 
   
 
@@ -147,6 +152,8 @@ wipe the files from your deploy copy.
 Contributing
 ------------
 
-1.  Fork it 2. Create your feature branch (`git checkout -b my-new-feature`) 3.
-    Commit your changes (`git commit -am 'Add some feature'`) 4. Push to the
-    branch (`git push origin my-new-feature`) 5. Create new Pull Request
+1.  Fork it 
+2.  Create your feature branch (`git checkout -b my-new-feature`) 
+3.  Commit your changes (`git commit -am 'Add some feature'`) 
+4.  Push to the branch (`git push origin my-new-feature`) 
+5.  Create new Pull Request
