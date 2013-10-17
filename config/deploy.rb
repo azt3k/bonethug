@@ -14,6 +14,7 @@
 
 require 'rubygems'
 require 'bonethug/conf'
+require 'bonethug/installer'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
