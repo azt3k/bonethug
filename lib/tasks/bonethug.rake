@@ -45,7 +45,7 @@ namespace :thug do
     update_version_file
 
     # invoke the build script
-    `git commit -am "commit to build for v #{Bonethug::VERSION}" && rake build`
+    system 'git commit -am "commit to build for v #{Bonethug::VERSION}" && rake build'
 
   end
 
@@ -59,7 +59,7 @@ namespace :thug do
     Rake::Task["thug:build"].invoke
 
     # do the bidniz
-    `rake release --trace`
+    system 'rake release --trace'
 
   end
 
