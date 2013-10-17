@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../bonethug")
 
-namespace :bonethug do
+namespace :thug do
 
   def update_version_file(content = nil)
 
@@ -56,12 +56,12 @@ namespace :bonethug do
     path = File.expand_path File.dirname(__FILE__) + '/../../pkg/bonethug-' + Bonethug::VERSION + '.gem'
 
     # check if there's a build with the current version
-    Rake::Task["bonethug:build"].invoke
+    Rake::Task["thug:build"].invoke
 
     # push the current version
     # we redefine the path because the version constant may have changed 
     # -> the reason being that the parent build script uses that constant to name the gem package
-    Rake::Task["release"].invoke
+    exec "rake release --trace"
 
   end
 

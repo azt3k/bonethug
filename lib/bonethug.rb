@@ -12,7 +12,7 @@ module Bonethug
     version = version.join('.') 
 
     remove_const 'VERSION'
-    const_set 'VERSION', value
+    const_set 'VERSION', version
 
   end
 
