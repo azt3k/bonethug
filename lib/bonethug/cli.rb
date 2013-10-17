@@ -39,7 +39,7 @@ module Bonethug
 
         # validate
         unless env
-          puts 'Usage: ' + bin_name + ' setup_env [env]'
+          puts 'Usage: ' + bin_name + ' setup_env environment'
           return
         end
 
@@ -48,7 +48,7 @@ module Bonethug
           script = gem_dir '/scripts/ubuntu_setup.sh'
           exec 'sudo bash ' + script
         else
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup_env --verbose"
+          exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb setup_env --verbose"
         end     
 
       when 'init', 'update'
