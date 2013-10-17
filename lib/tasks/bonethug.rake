@@ -45,7 +45,7 @@ namespace :thug do
     update_version_file
 
     # invoke the build script
-    system 'git commit -am "commit to build for v #{Bonethug::VERSION}" && rake build'
+    system 'git commit -am "commit to build for v ' + Bonethug::VERSION + '" && rake build'
 
   end
 

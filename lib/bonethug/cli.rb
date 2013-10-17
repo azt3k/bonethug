@@ -42,13 +42,18 @@ module Bonethug
           puts 'Usage: ' + bin_name + ' setup_env environment'
           return
         end
+        
+        if env == 'show'
+          Installer.get_setup_env_cmds.each { |cmd| puts cmd }
 
-        if env == 'local'
+        elsif env == 'local'
           gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
           script = gem_dir '/scripts/ubuntu_setup.sh'
           exec 'sudo bash ' + script
+
         else
           exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb setup_env --verbose"
+
         end     
 
       when 'init', 'update'
