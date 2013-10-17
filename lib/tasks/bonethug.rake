@@ -52,7 +52,7 @@ namespace :bonethug do
     # push the current version
     # we redefine the path because the version constant may have changed 
     # -> the reason being that the parent build script uses that constant to name the gem package
-    Rake::Task["release"].invoke
+    exec "rake release"
 
   end
 
