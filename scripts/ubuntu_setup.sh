@@ -77,8 +77,8 @@ sudo gem1.9.3 install mina bundler whenever astrails-safe
 # install passenger
 sudo gem1.9.3 install passenger
 sudo passenger-install-apache2-module
-touch /etc/apache2/mods-available/passenger.load
-touch /etc/apache2/mods-available/passenger.conf
+sudo touch /etc/apache2/mods-available/passenger.load
+sudo touch /etc/apache2/mods-available/passenger.conf
 
 # -----------------------------------------------------
 # Node.js related
