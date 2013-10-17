@@ -48,7 +48,12 @@ module Bonethug
         script = gem_dir + '/scripts/ubuntu_setup.sh'        
 
         if env == 'show'
-          Installer.parse_sh(File.read(script)).each { |cmd| puts cmd }
+
+          puts "Pre"
+          puts File.read script
+
+          puts "Parsed"
+          puts Installer.parse_sh File.read(script)
 
         elsif env == 'local'
           exec 'sudo bash ' + script
