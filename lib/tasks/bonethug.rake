@@ -58,6 +58,9 @@ namespace :thug do
     # check if there's a build with the current version
     Rake::Task["thug:build"].invoke
 
+    # do commit
+    `git commit -am "commit to build"`    
+
     # push the current version
     # we redefine the path because the version constant may have changed 
     # -> the reason being that the parent build script uses that constant to name the gem package
