@@ -130,14 +130,25 @@ module Bonethug
       self
     end
 
+    def self.get_setup_script
+        @@bonthug_gem_dir + '/scripts/ubuntu_setup.sh'
+    end
+
+    def self.get_setup_script_content
+        File.read self.get_setup_script
+    end     
+
     def self.get_setup_env_cmds
-        File.read(@@bonthug_gem_dir + '/scripts/ubuntu_setup.sh')
-            .split("\n")
-            .each { |line| 
-              return false if line =~ /^[\s\t]+$/
-              return false if line =~ /^[\s\t]*#/
-              true
-            }
+       self.parse_sh self.get_setup_script_content
+    end    
+
+    def self.parse_sh(content)
+        content .split("\n")
+                .each { |line| 
+                  return false if line =~ /^[\s\t]+$/
+                  return false if line =~ /^[\s\t]*#/
+                  true
+                }
     end
 
     protected

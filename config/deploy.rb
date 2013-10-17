@@ -128,7 +128,7 @@ task :update_packages => :environment do
   queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
 end
 
-desc "Sets up an environemt"
+desc "Sets up an environment"
 task :setup_env => :environment do
   Bonethug::Installer.get_setup_env_cmds.each do |cmd| 
     queue! %[#{cmd}]

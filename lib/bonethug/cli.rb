@@ -42,13 +42,15 @@ module Bonethug
           puts 'Usage: ' + bin_name + ' setup_env environment'
           return
         end
-        
+
+        # find the file
+        gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
+        script = gem_dir + '/scripts/ubuntu_setup.sh'        
+
         if env == 'show'
-          Installer.get_setup_env_cmds.each { |cmd| puts cmd }
+          Installer.parse_sh(File.read(script)).each { |cmd| puts cmd }
 
         elsif env == 'local'
-          gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
-          script = gem_dir '/scripts/ubuntu_setup.sh'
           exec 'sudo bash ' + script
 
         else
