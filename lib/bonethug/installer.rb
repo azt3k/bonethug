@@ -133,7 +133,11 @@ module Bonethug
     def self.get_setup_env_cmds
         File.read(@@bonthug_gem_dir + '/scripts/ubuntu_setup.sh')
             .split("\n")
-            .each { |line| line =~ /^[\s\t]+(#.*)?$/ ? false : true }
+            .each { |line| 
+              return false if line =~ /^[\s\t]+$/
+              return false if line =~ /^[\s\t]*#/
+              true
+            }
     end
 
     protected
