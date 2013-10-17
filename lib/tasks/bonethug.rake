@@ -47,9 +47,7 @@ namespace :bonethug do
     path = File.expand_path File.dirname(__FILE__) + '/../../pkg/bonethug-' + Bonethug::VERSION + '.gem'
 
     # check if there's a build with the current version
-    unless File.exists? path
-      Rake::Task["bonethug:build"].invoke
-    end
+    Rake::Task["bonethug:build"].invoke
 
     # push the current version
     # we redefine the path because the version constant may have changed 
