@@ -144,10 +144,14 @@ module Bonethug
 
     def self.parse_sh(content)
         content .split("\n")
-                .each { |line| 
-                  return false if line =~ /^[\s\t]+$/
-                  return false if line =~ /^[\s\t]*#/
-                  true
+                .each { |line|
+                  if line =~ /^[\s\t]+$/
+                    false 
+                  elsif line =~ /^[\s\t]*#/
+                    false
+                  else
+                    true
+                  end
                 }
     end
 
