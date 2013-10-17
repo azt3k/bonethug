@@ -143,7 +143,7 @@ module Bonethug
     end    
 
     def self.parse_sh(content)
-        content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/) }
+        content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/ || line.strip.length == 0) }
     end
 
     protected
