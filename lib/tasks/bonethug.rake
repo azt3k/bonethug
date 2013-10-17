@@ -2,38 +2,47 @@ require File.expand_path(File.dirname(__FILE__) + "/../bonethug")
 
 namespace :bonethug do
 
-  desc "Runs rake build + some other stuff"
-  task :build do
+  def update_version_file(content = nil)
 
-    # handle paths
-    ver_path = File.expand_path File.dirname(__FILE__) + '/../bonethug/version.rb'
-    pkg_path = File.expand_path File.dirname(__FILE__) + '/../../pkg/bonethug-' + Bonethug::VERSION + '.gem'    
+    unless content
 
-    # handle version
-    if File.exists? pkg_path
-
-      version = Bonethug::VERSION.split('.')
-      version[version.length-1] = (version.last.to_i + 1).to_s
-      version = version.join('.')
-
-      Bonethug::update_version version
-
-      puts "Building version " + Bonethug::VERSION + '...'
+      # generate content for version file
+      content = '
+        module Bonethug
+          VERSION = "' + Bonethug::VERSION + '"
+          BUILD_DATE = "' + Time.now.to_s + '"
+        end
+      '
 
     end
 
-    # generate content for version file
-    content = '
-      module Bonethug
-        VERSION = "' + Bonethug::VERSION + '"
-        BUILD_DATE = "' + Time.now.to_s + '"
-      end
-    '
+    # handle paths
+    ver_path = File.expand_path File.dirname(__FILE__) + '/../bonethug/version.rb'
 
     # write data
     File.open(ver_path,'w') do |file| 
       file.puts content
     end
+
+  end
+
+  desc "Runs rake build + some other stuff"
+  task :vup do
+
+    puts "was " + Bonethug::VERSION
+
+    Bonethug::increment_version
+    update_version_file
+
+    puts "now " + Bonethug::VERSION
+
+  end  
+
+  desc "Runs rake build + some other stuff"
+  task :build do
+
+    # update version file
+    update_version_file
 
     # invoke the build script
     Rake::Task["build"].invoke
@@ -52,7 +61,7 @@ namespace :bonethug do
     # push the current version
     # we redefine the path because the version constant may have changed 
     # -> the reason being that the parent build script uses that constant to name the gem package
-    exec "rake release"
+    Rake::Task["release"].invoke
 
   end
 

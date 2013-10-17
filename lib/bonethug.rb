@@ -5,9 +5,15 @@ require "bonethug/cli"
 
 module Bonethug
 
-  def self.update_version(value)
+  def self.increment_version
+
+    version = VERSION.split('.')
+    version[version.length-1] = (version.last.to_i + 1).to_s
+    version = version.join('.') 
+
     remove_const 'VERSION'
     const_set 'VERSION', value
+
   end
 
 end
