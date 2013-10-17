@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../bonethug")
 
 namespace :bonethug do
 
-  desc "build the gem + increment build num if pkg exists for v" + Bonethug::VERSION
+  desc "Runs rake build + some other stuff"
   task :build do
 
     # handle paths
@@ -40,8 +40,8 @@ namespace :bonethug do
 
   end
 
-  desc "pushes v" + Bonethug::VERSION + " (runs bonethug:build if no pkg exists for v" + Bonethug::VERSION + " )"
-  task :push do
+  desc "Runs rake release + bonethug:build"
+  task :release do
 
     # handle path
     path = File.expand_path File.dirname(__FILE__) + '/../../pkg/bonethug-' + Bonethug::VERSION + '.gem'
@@ -54,22 +54,8 @@ namespace :bonethug do
     # push the current version
     # we redefine the path because the version constant may have changed 
     # -> the reason being that the parent build script uses that constant to name the gem package
-    exec 'gem push ' + 'pkg/bonethug-' + Bonethug::VERSION + '.gem'
+    Rake::Task["release"].invoke
 
-  end
-
-  desc "runs bonethug:build then bonethug:push"
-  task :build_and_push do
-
-    # invoke the build script
-    Rake::Task["bonethug:build"].invoke
-    Rake::Task["bonethug:push"].invoke
-
-  end
-
-  desc "alias for build + push the gem"
-  task :bp do
-    Rake::Task["bonethug:build_and_push"].invoke
   end
 
 end
