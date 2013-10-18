@@ -154,6 +154,7 @@ module Bonethug
       conf.get('dbs').each do |name,envs|
 
         db = envs.get env
+        puts db.to_hash
         system Bonethug::Installer.init_mysql_db_script(db, path)
 
       end 
