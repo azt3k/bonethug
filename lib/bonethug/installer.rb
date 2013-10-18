@@ -135,10 +135,10 @@ module Bonethug
 
     def self.init_mysql_db_script(db, path, admin_user = 'root')
 
+      # CREATE USER IF NOT EXISTS " + db.get('user') + "@" + db.get('name') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
       script_content = "
-        CREATE USER IF NOT EXISTS " + db.get('user') + "@" + db.get('name') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
         CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
-        GRANT ALL PRIVILEGES ON " + db.get('name') + " TO " + db.get('user') + "@" + db.get('host') + ";
+        GRANT ALL PRIVILEGES ON " + db.get('name') + " TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
         FLUSH PRIVILEGES;
       "
       cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p < .bonethug/sql.txt'
