@@ -58,7 +58,7 @@ module Bonethug
         end
 
         if task == 'init-local-db'
-          Installer.execute_init_mysql_db_script env admin_user
+          Installer.execute_init_mysql_db_script env, admin_user
         else      
           exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
         end    
