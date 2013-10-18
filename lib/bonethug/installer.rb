@@ -136,8 +136,8 @@ module Bonethug
     def self.init_mysql_db_script(db, path, admin_user = 'root')
 
       script_content = "
-        CREATE USER " + db.get('user') + "@" + db.get('name') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
-        CREATE DATABASE " + db.get('name') + ";
+        CREATE USER IF NOT EXISTS " + db.get('user') + "@" + db.get('name') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
+        CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
         GRANT ALL PRIVILEGES ON " + db.get('name') + " TO " + db.get('user') + "@" + db.get('host') + ";
         FLUSH PRIVILEGES;
       "
