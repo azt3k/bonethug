@@ -115,7 +115,7 @@ the info contained in cnf.yml*
 *Uses the local mysql client to create a user and a database according to the
 settings in your config/cnf.yml file*
 
-`thug init-local-db {development|staging|production}`
+`thug init-local-db [admin_user=root] {development|staging|production}`
 
 
 
@@ -154,7 +154,7 @@ all the commands*
 *Uses the mysql client in the remote environment to create a user and a database
 according to the settings in your config/cnf.yml file*
 
-`thug init-db {development|staging|production}`
+`thug init-db [admin_user=root] {development|staging|production}`
 
 
 

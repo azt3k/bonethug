@@ -145,7 +145,7 @@ module Bonethug
 
     end
 
-    def self.execute_init_mysql_db_script(env, path = '.')
+    def self.execute_init_mysql_db_script(env, admin_user = 'root', path = '.')
 
       exec_path = File.expand_path(path)
       conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
@@ -155,7 +155,7 @@ module Bonethug
 
         db = envs.get env
         puts "creating: " + db.get('name')
-        system Bonethug::Installer.init_mysql_db_script(db, path)
+        system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
 
       end 
 
