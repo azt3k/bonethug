@@ -141,7 +141,7 @@ module Bonethug
         GRANT ALL PRIVILEGES ON " + db.get('name') + " TO '" + db.get('user') + "'@'" + db.get('host') + "';
         FLUSH PRIVILEGES;
       "
-      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt" && mysql < .bonethug/sql.txt'
+      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql < .bonethug/sql.txt'
 
     end
 
@@ -154,7 +154,7 @@ module Bonethug
       conf.get('dbs').each do |name,envs|
 
         db = envs.get env
-        puts db.to_hash
+        puts "creating: " + db.get('name')
         system Bonethug::Installer.init_mysql_db_script(db, path)
 
       end 
