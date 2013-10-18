@@ -138,7 +138,7 @@ module Bonethug
       # CREATE USER IF NOT EXISTS " + db.get('user') + "@" + db.get('name') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
       script_content = "
         CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
-        GRANT ALL PRIVILEGES ON " + db.get('name') + " TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";
+        GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";     
         FLUSH PRIVILEGES;
       "
       cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p < .bonethug/sql.txt'
