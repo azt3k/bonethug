@@ -133,7 +133,7 @@ module Bonethug
     # Prepares init db scripts
     # --------------------------    
 
-    def self.init_mysql_db_script(db, path)
+    def self.init_mysql_db_script(db, path, admin_user = 'root')
 
       script_content = "
         CREATE USER " + db.get('user') + "@" + db.get('name') + " IDENTIFIED BY " + db.get('pass').to_s + ";
@@ -141,7 +141,7 @@ module Bonethug
         GRANT ALL PRIVILEGES ON " + db.get('name') + " TO " + db.get('user') + "@" + db.get('host') + ";
         FLUSH PRIVILEGES;
       "
-      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql -u -p < .bonethug/sql.txt'
+      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p < .bonethug/sql.txt'
 
     end
 

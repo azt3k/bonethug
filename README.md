@@ -112,8 +112,8 @@ the info contained in cnf.yml*
 
 **Initialise local DB**
 
-*Creates a user and a database on your local mysql db server and applies the
-appropriate permissions*
+*Uses the local mysql client to create a user and a database according to the
+settings in your config/cnf.yml file*
 
 `thug init-local-db {development|staging|production}`
 
@@ -151,8 +151,8 @@ all the commands*
 
 **Initialise remote DB**
 
-*Creates a user and a database on a local mysql db server on the remote machine
-defined in config/cnf.yml then applies the appropriate permissions.*
+*Uses the mysql client in the remote environment to create a user and a database
+according to the settings in your config/cnf.yml file*
 
 `thug init-db {development|staging|production}`
 
