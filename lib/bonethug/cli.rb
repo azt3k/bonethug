@@ -45,7 +45,7 @@ module Bonethug
         # run the installer
         Installer.install type, location
 
-      when 'init-db', when 'init-local-db'
+      when 'init-db', 'init-local-db'
 
         # handle args
         env = ARGV.last
