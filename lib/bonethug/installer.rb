@@ -136,7 +136,7 @@ module Bonethug
     def self.init_mysql_db_script(db, path)
 
       script_content = "
-        CREATE USER '" + db.get('user') +"'@'" + db.get('name') + "' IDENTIFIED BY '" + db.get('pass') + "';
+        CREATE USER '" + db.get('user') +"'@'" + db.get('name') + "' IDENTIFIED BY '" + db.get('pass').to_s + "';
         CREATE DATABASE '" + db.get('name') + "';
         GRANT ALL PRIVILEGES ON " + db.get('name') + " TO '" + db.get('user') + "'@'" + db.get('host') + "';
         FLUSH PRIVILEGES;
