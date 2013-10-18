@@ -3,7 +3,22 @@ Bonethug
 
 
 
-It's got project bones and a thug to do the things you don't want to.
+(Project) Bones in the basement and a thug to do the things you don't want to
+dirty your hands with.
+
+
+
+Bonethug could loosely be considered a "web project meta framework".  It uses a
+single configuration file (although it merges in the database.yml file for rails
+projects) for all project types and includes adapters to interface with project
+specific configs.  This keeps you configuration in one place and has the benefit
+of being able to drive the automation of a number of other repeatitious taks
+like deployment, task scheduling, backups and asset / db synchronisation.
+
+
+
+The goal of the project is to be able to handle the complete project life cycle
+using only bonethug, git and package managers - no ssh, ftp, mysqldump etc.
 
 
 
@@ -147,7 +162,8 @@ defined in config/cnf.yml then applies the appropriate permissions.*
 
 *This wraps mina and deploys using the information contained in cnf.yml*
 
-`thug setup {development|staging|production}`  
+`thug setup {development|staging|production}`
+
 `thug deploy {develoment|staging|production}`
 
 
@@ -199,10 +215,12 @@ bundle install --path vendor
 php composer.phar install
 bower install
 
-# edit the config/cnf.yml file!!
+# --> edit the config/cnf.yml file!!
 
 # watch for changes to sass and coffeescript
 thug watch
+
+# --> actually write some code!!
 
 # commit work
 git remote add origin git@git.domain.com:namespace/project-name.git
@@ -218,6 +236,71 @@ thug deploy staging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+
+### Deploying an existing project
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# clone the repo and install the gems
+git clone git@git.domain.com:namespace/project-name.git .
+bundle install --path vendor
+
+# only do this if its a fresh deploy target
+thug auth staging
+thug setup-env staging
+thug init-db staging
+thug setup staging
+
+# deploy
+thug deploy staging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+What isn't implemented yet?
+---------------------------
+
+
+
+### Setup an existing project and mirror a remote environment (WIP)
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# clone the repo and install the gems
+git clone git@git.domain.com:namespace/project-name.git .
+bundle install --path vendor
+
+# setup local db
+thug init-local-db staging
+
+# add ssh key
+thug auth staging
+
+# do file sync
+thug sync-from staging
+
+# do db sync
+thug sync-local-db staging development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+### Push local assets etc to a remote (WIP)
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# add ssh key
+thug auth staging
+
+# do file sync
+thug sync-to staging
+
+# do db sync
+thug sync-remote-db development staging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
