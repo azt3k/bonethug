@@ -130,6 +130,40 @@ module Bonethug
       self
     end
 
+    # Prepares init db scripts
+    # --------------------------    
+
+    def self.init_mysql_db_script(db, path)
+
+      script_content = "
+        CREATE USER '" + db.get('user') +"'@'" + db.get('name') + "' IDENTIFIED BY '" + db.get('pass') + "';
+        CREATE DATABASE '" + db.get('name') + "';
+        GRANT ALL PRIVILEGES ON " + db.get('name') + " TO '" + db.get('user') + "'@'" + db.get('host') + "';
+        FLUSH PRIVILEGES;
+      "
+      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt" && mysql < .bonethug/sql.txt'
+
+    end
+
+    def self.execute_init_mysql_db_script(env, path = '.')
+
+      exec_path = File.expand_path(path)
+      conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+      conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
+
+      dbs.each do |name,envs|
+
+        db = envs.get env
+        system Bonethug::Installer.init_mysql_db_script(db, path)
+
+      end 
+
+    end    
+
+
+    # Reads system setup scripts
+    # --------------------------
+    
     def self.get_setup_script
         @@bonthug_gem_dir + '/scripts/ubuntu_setup.sh'
     end
@@ -145,6 +179,10 @@ module Bonethug
     def self.parse_sh(content)
         content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/ || line.strip.length == 0) }
     end
+
+    # ---------
+    # Protected
+    # ---------
 
     protected
 

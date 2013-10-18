@@ -17,6 +17,19 @@ module Bonethug
         puts 'bonethug v' + VERSION + ' - build date: ' + BUILD_DATE
         exit
 
+      when 'auth'
+
+        # handle args
+        env = ARGV[1]
+
+        # validate
+        unless env
+          puts 'Usage: ' + bin_name + ' auth [environment]'
+          return
+        end
+
+        exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb auth --verbose"      
+
       when 'install'
 
         # handle args
@@ -32,14 +45,32 @@ module Bonethug
         # run the installer
         Installer.install type, location
 
-      when 'setup_env'
+      when 'init-db', when 'init-local-db'
 
         # handle args
-        env = ARGV[1]
+        env = ARGV.last
+
 
         # validate
         unless env
-          puts 'Usage: ' + bin_name + ' setup_env environment'
+          puts 'Usage: ' + bin_name + ' ' + task + ' [environment]'
+          return
+        end
+
+        if task == 'init-local-db'
+          Installer.execute_init_mysql_db_script env
+        else      
+          exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
+        end    
+
+      when 'setup-env'
+
+        # handle args
+        env = ARGV.last
+
+        # validate
+        unless env
+          puts 'Usage: ' + bin_name + ' setup-env [environment]'
           return
         end
 
@@ -48,11 +79,15 @@ module Bonethug
         script = gem_dir + '/scripts/ubuntu_setup.sh'        
 
         if env == 'show'
-
+          
+          puts "---------------"
           puts "Pre"
+          puts "---------------\n"
           puts File.read script
 
+          puts "\n---------------"
           puts "Parsed"
+          puts "---------------"
           puts Installer.parse_sh File.read(script)
 
         elsif env == 'local'
@@ -61,7 +96,7 @@ module Bonethug
         else
           exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb setup_env --verbose"
 
-        end     
+        end
 
       when 'init', 'update'
 

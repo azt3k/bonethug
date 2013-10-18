@@ -135,6 +135,25 @@ task :setup_env => :environment do
   end
 end
 
+desc "add your ssh key to the remote"
+task :auth => :environment do
+  pub_key = File.read File.expand_path('~/.ssh/id_rsa.pub')
+  queue! %[echo "#{pub_key}" >> ~/.ssh/authourized_keys]
+end
+
+desc "init a db based on the settings in your cnf file"
+task :init_db => :environment do
+
+  conf.get('dbs').each do |name,envs|
+
+    db = envs.get env
+    cmd = Bonethug::Installer.init_mysql_db_script db, deploy_to + 'current'
+    queue! %[#{cmd}]
+
+  end
+
+end
+
 desc "Initialises the db"
 task :init_db => :environment do
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/

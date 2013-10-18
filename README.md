@@ -3,7 +3,7 @@ Bonethug
 
 
 
-Project Skeleton Manager
+It's got project bones and a thug to do the things you don't want to.
 
 
 
@@ -25,7 +25,7 @@ Or install it yourself as:
 
 
 Update
-------------
+------
 
 execute:
 
@@ -48,7 +48,7 @@ Usage
 
 **Set up a project Skeleton**
 
-`thug install {rails3|silverstripe3|drupal|php|sinatra}`
+`thug install {rails3|rails4|silverstripe3|drupal|php|sinatra}`
 
 
 
@@ -87,9 +87,27 @@ the info contained in cnf.yml*
 
 
 
+**Setup local server**
+
+*You sets up the local machine (if you are on ubuntu)*
+
+`thug setup-env local`
+
+
+
+**Initialise local DB**
+
+*Creates a user and a database on your local mysql db server and applies the
+appropriate permissions*
+
+`thug init-local-db {development|staging|production}`
+
+
+
 ### Remote Commands
 
-*UPDATE:* Bonethug now supports interactive prompts so this may no longer be necessary
+*UPDATE:* Bonethug now supports interactive prompts so this may no longer be
+necessary
 
 Most of these are piped through mina.  Mina uses SSH to send a bash script to
 the remote server where it is executed.  For these commands to work you need to
@@ -105,10 +123,25 @@ Host *
     UserKnownHostsFile=/dev/null
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+
 **Setup a remote server**
 
-*This wraps mina to call all the commandsThis installs all the required software on a remote server*
-`thug setup_env {development|staging|production}`
+*This installs all the required software on a remote server using mina to call
+all the commands*
+
+`thug setup-env {development|staging|production}`
+
+
+
+**Initialise remote DB**
+
+*Creates a user and a database on a local mysql db server on the remote machine
+defined in config/cnf.yml then applies the appropriate permissions.*
+
+`thug init-db {development|staging|production}`
+
+
 
 **Setup and Deploy to Remote Server**
 
@@ -146,14 +179,57 @@ wipe the files from your deploy copy.
 
 `thug sync-to {develoment|staging|production}`
 
-  
+
+
+Example Workflow
+----------------
+
+
+
+### New SilverStripe3 project
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# install bonethug in the global scope (or use: bundle exec thug)
+gem install bonethug
+
+# set up project bones in the current folder
+thug install silverstripe3
+bundle install --path vendor
+php composer.phar install
+bower install
+
+# edit the config/cnf.yml file!!
+
+# watch for changes to sass and coffeescript
+thug watch
+
+# commit work
+git remote add origin git@git.domain.com:namespace/project-name.git
+git add -A && git commit -am "initial commit"
+git push -u origin master
+
+# setup the deployment env and do a deploy
+thug auth staging
+thug setup-env staging
+thug init-db staging
+thug setup staging
+thug deploy staging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 
 
 Contributing
 ------------
 
-1.  Fork it 
-2.  Create your feature branch (`git checkout -b my-new-feature`) 
-3.  Commit your changes (`git commit -am 'Add some feature'`) 
-4.  Push to the branch (`git push origin my-new-feature`) 
+1.  Fork it
+
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+
+4.  Push to the branch (`git push origin my-new-feature`)
+
 5.  Create new Pull Request
