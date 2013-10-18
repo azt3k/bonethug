@@ -151,7 +151,7 @@ module Bonethug
       conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
       conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
 
-      dbs.each do |name,envs|
+      conf.get('dbs').each do |name,envs|
 
         db = envs.get env
         system Bonethug::Installer.init_mysql_db_script(db, path)

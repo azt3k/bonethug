@@ -50,7 +50,6 @@ module Bonethug
         # handle args
         env = ARGV.last
 
-
         # validate
         unless env
           puts 'Usage: ' + bin_name + ' ' + task + ' [environment]'
