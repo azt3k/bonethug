@@ -141,7 +141,7 @@ module Bonethug
         GRANT ALL PRIVILEGES ON " + db.get('name') + " TO '" + db.get('user') + "'@'" + db.get('host') + "';
         FLUSH PRIVILEGES;
       "
-      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql < .bonethug/sql.txt'
+      cmd = 'cd ' + path + ' && echo "' + script_content + '" > .bonethug/sql.txt && mysql -u -p < .bonethug/sql.txt'
 
     end
 
