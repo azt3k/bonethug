@@ -57,14 +57,14 @@ module Bonethug
       erb = []
       if erbs = conf.get('watch.erb')
         erbs.each do |index, watch|
-          erb.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :erb)
+          erb.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter'), type: :erb)
         end
       end
 
       slim = []
       if erbs = conf.get('watch.slim')
         slims.each do |index, watch|
-          slim.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :slim)
+          slim.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter'), type: :slim)
         end
       end  
 
