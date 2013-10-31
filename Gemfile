@@ -23,7 +23,7 @@ gem 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
 gem 'listen', github: 'guard/listen'
 
 # asset pipeline - guard sprockets
-gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
+gem 'guard-sprockets'
 gem 'uglifier'
 gem 'sass-rails'
 gem 'coffee-rails'

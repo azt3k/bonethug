@@ -156,7 +156,19 @@ end
 
 desc "Initialises the db"
 task :init_db => :environment do
+
+  #rails
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/
+  
+  # drpual
+  if deploy.get('project_type') =~ /drupal[0-9]?/
+    conf.get('dbs').each do |name,envs|
+      db = envs.get env
+      db_url = "mysql://#{db.get('user')}:#{db.get('pass')}@#{db.get('host')}/#{db.get('name')}"
+      queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/public && ../vendor/bin/drush site-install standard --account-name=admin --account-pass=admin --db-url=#{db_url}"]
+    end
+  end
+
 end
 
 desc "Restores application state to the most recent backup"

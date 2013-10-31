@@ -152,7 +152,7 @@ Requirements::process_combined_files(); // forces ss to generate the file regard
 // ---
 
 $cssRequirements = array(
-    'themes/project/css/styles.css',
+    'themes/project/css/main.css',
     'themes/project/css/typography.css'   
 );
 Requirements::combine_files('application.css', $cssRequirements);

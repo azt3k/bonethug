@@ -35,7 +35,7 @@ Overview
 
 -   Backups handled with astrails-safe. see [https://github.com/astrails/safe]
 
--   Ruby dependency management handled with bundler. see
+-   Ruby dependency management handled with bundler. see [http://bundler.io]
 
 -   Built on the Silverstripe framework, CMS and Installer - 3.1.x dev branch.
 

@@ -57,7 +57,7 @@ sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 # " > /etc/apache2/conf.d/php-fpm.conf
 # sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 
-sed -i -e "s/listen = \/var\/run\/php5-fpm.sock\/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
+sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
 
 # Apache
