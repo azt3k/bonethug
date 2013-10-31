@@ -97,7 +97,7 @@ module Bonethug
               #{filter}
             end
           "
-        when 'sass_coffee', 'coffee_sass'
+        else
           if watch[:type] == :coffee
             guardfile_content += "
               guard :coffeescript, :minify => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
@@ -107,6 +107,18 @@ module Bonethug
           elsif watch[:type] == :sass
             guardfile_content += "
               guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+                #{filter}
+              end
+            "
+          elsif watch[:type] == :erb
+            guardfile_content += "
+              guard :erb, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+                #{filter}
+              end
+            "
+          elsif watch[:type] == :slim
+            guardfile_content += "
+              guard :slim, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
                 #{filter}
               end
             "
