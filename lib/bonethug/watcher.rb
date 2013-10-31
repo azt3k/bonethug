@@ -54,6 +54,7 @@ module Bonethug
         end
       end
 
+      # erb doesn't support array based input just yet
       erb = []
       if erbs = conf.get('watch.erb')
         erbs.each do |index, watch|
@@ -61,6 +62,7 @@ module Bonethug
         end
       end
 
+      # slim doesn't support aray based inputs just yet
       slim = []
       if erbs = conf.get('watch.slim')
         slims.each do |index, watch|
