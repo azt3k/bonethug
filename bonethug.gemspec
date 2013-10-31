@@ -47,6 +47,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sass'
   spec.add_dependency 'guard-sass'
   spec.add_dependency 'guard-coffeescript'
+  spec.add_dependency 'guard-erb'
+  spec.add_dependency 'guard-slim'
+  spec.add_dependency 'guard-livereload'
 
   # asset pipeline guard sprockets
   spec.add_dependency 'guard-sprockets'

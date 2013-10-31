@@ -23,16 +23,19 @@ gem 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
 gem 'listen', github: 'guard/listen'
 
 # asset pipeline - guard sprockets
-gem 'guard-sprockets'
+gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
 gem 'uglifier'
 gem 'sass-rails'
 gem 'coffee-rails'
 
-# asset pipeline - guard coffeescript / sass
+# asset pipeline - guard not sprockets
 gem 'coffee-script'
 gem 'sass'
 gem 'guard-sass'
 gem 'guard-coffeescript'
+gem 'guard-erb'
+gem 'guard-slim'
+gem 'guard-livereload'
 
 gem 'wdm', '>= 0.1.0' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
 

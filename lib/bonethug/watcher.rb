@@ -19,7 +19,7 @@ module Bonethug
     include FileUtils
     include Digest
 
-    def self.watch(type = 'coffee_sass', target = '.', watch_only = nil)
+    def self.watch(type = nil, target = '.', watch_only = nil)
 
       # create full path
       target = File.expand_path target
@@ -54,8 +54,22 @@ module Bonethug
         end
       end
 
+      erb = []
+      if erbs = conf.get('watch.erb')
+        erbs.each do |index, watch|
+          erb.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :erb)
+        end
+      end
+
+      slim = []
+      if erbs = conf.get('watch.slim')
+        slims.each do |index, watch|
+          slim.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :slim)
+        end
+      end  
+
       # combine the watches
-      watches = coffee + sass
+      watches = coffee + sass + erb + slim
 
       # Generate Guardfile
       puts 'Generating Guardfile...'
