@@ -112,13 +112,13 @@ module Bonethug
             "
           elsif watch[:type] == :erb
             guardfile_content += "
-              guard :erb, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :erb, :debug_info => true, :output => '#{watch[:dest]}', :input => '#{watch[:src].to_s}' do
                 #{filter}
               end
             "
           elsif watch[:type] == :slim
             guardfile_content += "
-              guard :slim, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :slim, :debug_info => true, :output => '#{watch[:dest]}', :input => '#{watch[:src].to_s}' do
                 #{filter}
               end
             "
