@@ -128,7 +128,7 @@ module Bonethug
           case task
           when 'rake'
             cmd_task = 'rake'
-          when 'drush'
+          when 'drush', 'drush-local'
             cmd_task = 'vendor/drush/drush/drush -r public'
           when 'sake'
             cmd_task = 'public/framework/sake'
@@ -136,9 +136,9 @@ module Bonethug
           args = ARGV[1..(ARGV.length-2)]
         end
 
-        if environment == 'local'
+        if task == 'drush-local'
 
-          exec "#{cmd_task} #{args.join(' ')}"
+          exec "export APPLICATION_ENV=#{environment} && {cmd_task} #{args.join(' ')}"
 
         else
 
