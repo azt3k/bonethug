@@ -138,7 +138,7 @@ module Bonethug
 
         if environment == 'local'
 
-          exec "export to=#{environment} && #{cmd_task} #{args.join(' ')}"
+          exec "#{cmd_task} #{args.join(' ')}"
 
         else
 
