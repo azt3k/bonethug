@@ -114,7 +114,7 @@ module Bonethug
 
       when  'run', 
             'rake', 
-            'drush', 
+            'drush', 'drush-local', 
             'sake'
 
         # get env
