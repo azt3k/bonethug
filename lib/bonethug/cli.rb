@@ -129,18 +129,26 @@ module Bonethug
           when 'rake'
             cmd_task = 'rake'
           when 'drush'
-            cmd_task = 'vendor/drush/drush'
+            cmd_task = 'vendor/drush/drush/drush -r public'
           when 'sake'
             cmd_task = 'public/framework/sake'
           end
           args = ARGV[1..(ARGV.length-2)]
         end
 
-        # build command
-        run = "\"run[#{cmd_task} #{args.join(' ')}]\""
+        if environment == 'local'
 
-        # do it!
-        exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb #{run} --verbose"         
+          exec "export to=#{environment} && #{cmd_task} #{args.join(' ')}"
+
+        else
+
+          # build command
+          run = "\"run[#{cmd_task} #{args.join(' ')}]\""
+
+          # do it!
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb #{run} --verbose"
+
+        end  
 
       when  'deploy', 
             'setup', 
