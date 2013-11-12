@@ -132,7 +132,7 @@ module Bonethug
           when 'rake'
             cmd_task = 'rake'
           when 'drush', 'drush-local'
-            cmd_task = './vendor/drush/drush/drush -r ' + File.expand_path('./public')
+            cmd_task = File.expand_path('./vendor/drush/drush/drush') + ' -r ' + File.expand_path('./public')
           when 'sake'
             cmd_task = 'public/framework/sake'
           end
@@ -143,7 +143,7 @@ module Bonethug
 
           env_cmd = RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i ? 'set' : 'export'
           cmd = env_cmd + " APPLICATION_ENV=#{environment} && #{cmd_task} #{args.join(' ')}"
-          puts cmd
+          puts
           exec cmd
 
         else
