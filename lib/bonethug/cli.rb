@@ -140,9 +140,9 @@ module Bonethug
         end
 
         if task == 'drush-local'
-          
+
           env_cmd = RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i ? 'set' : 'export'
-          exec env_cmd + " APPLICATION_ENV=#{environment} && {cmd_task} #{args.join(' ')}"
+          exec env_cmd + " APPLICATION_ENV=#{environment} && #{cmd_task} #{args.join(' ')}"
 
         else
 
