@@ -278,8 +278,9 @@ task :deploy => :environment do
     "
 
     # install the vhost
+    is_13_10 = /13\.10/ =~ `lsb_release -a`
     queue! %[rm /etc/apache2/sites-available/#{vhost}]
-    queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}]
+    queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}(is_13_10 ? '.conf' : '')]
 
     to :launch do
 
