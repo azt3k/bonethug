@@ -21,7 +21,7 @@ module Bonethug
     include FileUtils
     include Digest
 
-    @@bonthug_gem_dir = File.expand_path(File.dirname(__FILE__)) + '/../..'
+    @@bonthug_gem_dir = File.expand_path(File.dirname(__FILE__) + '/../..')
     @@skel_dir = @@bonthug_gem_dir + '/skel'
     @@conf = Conf.new.add(@@skel_dir + '/skel.yml')
     @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['backup.rb','deploy.rb']}
@@ -288,16 +288,18 @@ module Bonethug
         project_type = project_conf.get('deploy.common.project_type')
         if project_type
           bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
-          bonethug_files.each do |index, file|
+          if bonethug_files
+            bonethug_files.each do |index, file|
 
-            # push some output
-            puts 'Handling ' + index.to_s + ':' + file.to_s
+              # push some output
+              puts 'Handling ' + index.to_s + ':' + file.to_s
 
-            # do the copy
-            src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
-            dst_file = target + '/' + file
-            FileUtils.cp src_file, dst_file
-            
+              # do the copy
+              src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
+              dst_file = target + '/' + file
+              FileUtils.cp src_file, dst_file
+              
+            end
           end
         else
           puts "Couldn't find project type in " + target_cnf
