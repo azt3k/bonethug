@@ -168,6 +168,14 @@ according to the settings in your config/cnf.yml file*
 
 
 
+**Unlock a Remote Server**
+
+*This unlocks a failed deployment*
+
+`thug force-unlock {develoment|staging|production}`
+
+
+
 **Trigger a Snapshot Backup from the Remote Server**
 
 *This wraps mina and runs the backup task in the local .bonethug/deploy.rb file.

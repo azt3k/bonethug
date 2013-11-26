@@ -316,6 +316,7 @@ module Bonethug
           'mina'          => 'nadarei/mina',
           'astrails-safe' => 'astrails/safe',
           'whenever'      => 'javan/whenever',
+          'guard-erb'     => 'azt3k/guard-erb',
           'bonethug'      => nil
         }
 
