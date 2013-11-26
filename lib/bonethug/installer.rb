@@ -248,6 +248,9 @@ module Bonethug
     def self.bonethugise(dir='.', mode=:init)
 
       target = File.expand_path(dir)
+    
+      # run bundle update first      
+      system('bundle update') if mode == :update
 
       # check for the existence of required dirs and create if required
       [target + '/.bonethug', target + '/config', target + '/config/example'].each do |path|
