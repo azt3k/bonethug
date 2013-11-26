@@ -278,9 +278,8 @@ task :deploy => :environment do
     "
 
     # install the vhost
-    is_13_10 = /13\.10/ =~ `lsb_release -a`
     queue! %[rm /etc/apache2/sites-available/#{vhost}]
-    queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}#{(is_13_10 ? '.conf' : '')}]
+    queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}.conf]
 
     to :launch do
 
@@ -336,7 +335,7 @@ task :deploy => :environment do
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]      
 
       # handle apache and cron
-      queue! %[a2ensite "#{vhost}"]
+      queue! %[a2ensite #{vhost}.conf]
       queue! %[/etc/init.d/apache2 reload]
       invoke :'whenever:update'
 
