@@ -42,10 +42,10 @@ vendor  = conf.get('vendor','Array') || []
 vhost = deploy.get('project_slug') + '_' + env
 
 # composer?
-use_composer = ['silverstripe','silverstripe3','drupal','php'].include? deploy.get('project_type')
+use_composer = ['silverstripe','silverstripe3','drupal','drupal6','drupal7','drupal8','php'].include? deploy.get('project_type')
 
 # composer?
-use_bower = ['silverstripe','silverstripe3','drupal','php'].include? deploy.get('project_type')
+use_bower = ['silverstripe','silverstripe3','drupal','drupal6','drupal7','drupal8','php'].include? deploy.get('project_type')
 
 # directories we need to track
 resources += ['backups']
