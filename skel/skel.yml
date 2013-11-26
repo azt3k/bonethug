@@ -3,6 +3,15 @@ project_types:
   drupal:
     bonthug_files:
       - flush_drupal_cache.php
+  drupal6:
+    bonthug_files:
+      - flush_drupal_cache.php
+  drupal7:
+    bonthug_files:
+      - flush_drupal_cache.php
+  drupal8:
+    bonthug_files:
+      - flush_drupal_cache.php                   
   php:
   rails3:
   rails4:
