@@ -271,7 +271,6 @@ task :deploy => :environment do
     AllowOverride All
     Order allow,deny
     Allow from all
-    #Require all granted #apache2.4
     
   </Directory>
 
