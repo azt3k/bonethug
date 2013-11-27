@@ -92,5 +92,5 @@ npm install bower -g
 # Restart stuff
 # -----------------------------------------------------
 
-sudo service apache2 restart
+sudo /etc/init.d/apache2 restart
 sudo /etc/init.d/php5-fpm restart

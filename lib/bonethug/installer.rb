@@ -250,7 +250,7 @@ module Bonethug
       target = File.expand_path(dir)
     
       # run bundle update first      
-      system('bundle update') if mode == :update
+      system('bundle update bonethug') if mode == :update
 
       # check for the existence of required dirs and create if required
       [target + '/.bonethug', target + '/config', target + '/config/example'].each do |path|

@@ -278,6 +278,7 @@ task :deploy => :environment do
     "
 
     # install the vhost
+    queue! %[touch /etc/apache2/sites-available/#{vhost}.conf]
     queue! %[rm /etc/apache2/sites-available/#{vhost}.conf]
     queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}.conf]
 
