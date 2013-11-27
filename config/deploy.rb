@@ -271,6 +271,7 @@ task :deploy => :environment do
     AllowOverride All
     Order allow,deny
     Allow from all
+    #{vh_cnf.get('version').to_float > 2.4 ? 'Require all granted' : ''}
     
   </Directory>
 

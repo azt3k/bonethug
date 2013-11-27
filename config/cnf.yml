@@ -1,6 +1,6 @@
 deploy:
   common:
-    project_type: rails3 | rails4 | silverstripe3 | drupal | php | sinatra
+    project_type: rails3 | rails4 | silverstripe3 | drupal6 | drupal7 | drupal8 | php | sinatra
     base_dir: /var/www
     repository: git@gitlab.....
     project_slug: tradespot
@@ -99,6 +99,7 @@ mail:
       port: 587
 apache:
   development:
+    version: 2.4
     server_name: development.domain.local
     server_aliases:
       - www.development.domain.local
@@ -106,6 +107,7 @@ apache:
       RAILS_ENV: development
       APPLICATION_ENV: development  
   staging:
+    version: 2.2  
     server_name: staging.domain.com
     server_aliases:
       - www.staging.domain.com
@@ -113,6 +115,7 @@ apache:
       RAILS_ENV: staging
       APPLICATION_ENV: staging
   production:
+    version: 2.4
     server_name: production.domain.com
     server_aliases:
       - www.production.domain.com
