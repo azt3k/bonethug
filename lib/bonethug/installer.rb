@@ -360,7 +360,7 @@ module Bonethug
       end
 
       # run bundler
-      exec 'bundle install --path vendor' + (mode == :update ? ' && bundle update bonethug' : '')
+      exec 'bundle install --path vendor'
 
       # self
 

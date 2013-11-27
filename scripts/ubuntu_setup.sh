@@ -60,6 +60,10 @@ sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
 
+#apache2.4
+sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
+a2enconf php-fpm.conf
+
 # Apache
 # ------
 
@@ -68,6 +72,10 @@ sudo a2enmod actions fastcgi alias rewrite headers
 
 # phpmyadmin
 sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
+
+# phpmyadmin apache 2.4
+cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
+a2enconf phpmyadmin.conf
 
 # -----------------------------------------------------
 # Install Gems
@@ -92,5 +100,5 @@ npm install bower -g
 # Restart stuff
 # -----------------------------------------------------
 
-sudo /etc/init.d/apache2 restart
-sudo /etc/init.d/php5-fpm restart
+sudo service apache2 restart
+sudo service php5-fpm restart
