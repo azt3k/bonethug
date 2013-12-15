@@ -19,7 +19,7 @@ sudo apt-get update && sudo apt-get upgrade
 
 # dev headers
 sudo apt-get install libcurl4-openssl-dev libssl-dev apache2-threaded-dev libapr1-dev libaprutil1-dev libapr1-dev libaprutil1-dev
-sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev
+sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev libxml2-dev libxslt1-dev
 
 # regular packages
 sudo apt-get install apache2-mpm-worker
@@ -28,6 +28,7 @@ sudo apt-get install mysql-server mysql-client sqlite3
 sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
+sudo apt-get install libxml2 g++
 sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 
 
