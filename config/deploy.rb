@@ -307,7 +307,7 @@ task :deploy => :environment do
       chowns = conf.get('chown.'+env)
       if chowns
         chowns.each do |index, chown|
-          queue! %[cd #{deploy_to}/current/#{chown.get('path')} && chown -R #{chown.get('user')} .]
+          queue! %[chown -R #{chown.get('user')} #{deploy_to}/current/#{chown.get('path')}]
         end
       end
       
@@ -315,7 +315,7 @@ task :deploy => :environment do
       chgrps = conf.get('chgrp.'+env)
       if chgrps
         chgrps.each do |index, chgrp|
-          queue! %[cd #{deploy_to}/current/#{chgrp.get('path')} && chgrp -R #{chgrp.get('group')} .]
+          queue! %[chgrp -R #{chgrp.get('group')} #{deploy_to}/current/#{chgrp.get('path')}]
         end
       end      
       
@@ -323,7 +323,7 @@ task :deploy => :environment do
       chmods = conf.get('chmod.'+env)
       if chmods
         chmods.each do |index, chmod|
-          queue! %[cd #{deploy_to}/current/#{chmod.get('path')} && chmod -R #{chmod.get('mode')} .]
+          queue! %[chmod -R #{chmod.get('mode')} #{deploy_to}/current/#{chmod.get('path')}]
         end
       end
 

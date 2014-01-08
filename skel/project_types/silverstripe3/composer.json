@@ -1,7 +1,7 @@
 {
   "name" : "bonethug/ss3-skel",
   "require" : {
-    "symfony/yaml"                      : "2.3.*@dev",     
+    "symfony/yaml"                      : "2.5.*@dev",     
     "silverstripe/framework"            : "3.1.*@dev",
     "silverstripe/cms"                  : "3.1.*@dev",
     "silverstripe/html5"                : "dev-master",
