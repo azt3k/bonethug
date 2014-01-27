@@ -336,12 +336,16 @@ task :deploy => :environment do
       # trigger a restart on rack based systems   
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]      
 
-      # handle apache and cron
+      # handle apache
       queue! %[a2ensite #{vhost}.conf]
       queue! %[/etc/init.d/apache2 reload]
-      invoke :'whenever:update'
 
-      # run chache flushes / manifest rebuilds
+      # handle cron
+      invoke :'whenever:update'
+      queue "echo \"\nPlease review the crontab below!!\n\n\""
+      queue 'crontab -l'      
+
+      # run cache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
       queue! %[cd #{deploy_to}/current/lib && php flush_drupal_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
 
