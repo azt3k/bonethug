@@ -15,6 +15,7 @@ rdoc
 spec/reports
 test/tmp
 test/version_tmp
+.ruby-version
 tmp
 *.sublime-project
 *.sublime-workspace
