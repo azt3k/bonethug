@@ -124,6 +124,9 @@ end
 desc "Updates bundled dependencies"
 task :update_packages => :environment do
   invoke :'bundle:update'
+  queue! %[cd #{deploy_to}/current && bundle update] if use_composer
+  queue! %[npm update bower -g] if use_bower
+  queue! %[php #{deploy_to}/shared/composer.phar self-update] if use_composer
   queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
   queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
 end
@@ -159,7 +162,7 @@ task :init_db => :environment do
 
   #rails
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/
-  
+
   # drpual
   if deploy.get('project_type') =~ /drupal[0-9]?/
     conf.get('dbs').each do |name,envs|
