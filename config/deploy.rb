@@ -124,9 +124,6 @@ end
 desc "Updates bundled dependencies"
 task :update_packages => :environment do
   invoke :'bundle:update'
-  queue! %[cd #{deploy_to}/current && bundle update]
-  queue! %[npm update bower -g] if use_bower
-  queue! %[php #{deploy_to}/shared/composer.phar self-update] if use_composer
   queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
   queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
 end
@@ -343,7 +340,7 @@ task :deploy => :environment do
       if vh_cnf.get 'basic_auth'
 
         # handle auto creation of .htaccess
-        htacces = "
+        htaccess = "
           ## BONETHUG ##
           AuthName \"test\"
           AuthType Basic
@@ -354,18 +351,26 @@ task :deploy => :environment do
 
         # htaccess
         htpass = ""
-        vh_cnf.get('basic_auth').each do |cred|
+        vh_cnf.get('basic_auth').each do |index, cred|
           htpass += cred.get('user').to_s + ":" + cred.get('pass').to_s.crypt('bonethugisreallydope') + "\n"
         end
 
         # write the to the .haccess file
         queue! %[touch #{deploy_to}/current/public/.htaccess]
         clean = File.read("#{deploy_to}/current/public/.htaccess").gsub(/\n?## BONETHUG ##.+## END_BONETHUG ##\n?/m, '');
-        File.open("#{deploy_to}/current/public/.htaccess",'w') { |file| clean + htaccess }
+        escaped = (clean.to_s + htaccess).gsub(/"/, '\"')
+        queue! %[echo "#{escaped}" > #{deploy_to}/current/public/.htaccess]
 
         # write to the .htpasswd file
         queue! %[touch #{deploy_to}/current/.htpasswd]
-        queue! %[echo "#{htaccess}" > #{deploy_to}/current/.htpasswd]
+        queue! %[echo "#{htpass}" > #{deploy_to}/current/.htpasswd]
+      else
+
+        # write the to the .haccess file
+        queue! %[touch #{deploy_to}/current/public/.htaccess]
+        clean = File.read("#{deploy_to}/current/public/.htaccess").gsub(/\n?## BONETHUG ##.+## END_BONETHUG ##\n?/m, '');
+        escaped = (clean.to_s).gsub(/"/, '\"')
+        queue! %[echo "#{escaped}" > #{deploy_to}/current/public/.htaccess]
 
       end
 
