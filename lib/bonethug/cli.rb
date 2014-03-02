@@ -30,7 +30,7 @@ module Bonethug
           return
         end
 
-        exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb auth --verbose"      
+        exec "export to=#{env} && bundle exec mina -f .bonethug/deploy.rb auth --verbose"
 
       when 'install'
 
@@ -43,7 +43,7 @@ module Bonethug
           puts 'Usage: ' + bin_name + ' install [type] [location]'
           return
         end
-        
+
         # run the installer
         Installer.install type, location
 
@@ -61,9 +61,9 @@ module Bonethug
 
         if task == 'init-local-db'
           Installer.execute_init_mysql_db_script env, admin_user
-        else      
+        else
           exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
-        end    
+        end
 
       when 'setup-env'
 
@@ -78,10 +78,10 @@ module Bonethug
 
         # find the file
         gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
-        script = gem_dir + '/scripts/ubuntu_setup.sh'        
+        script = gem_dir + '/scripts/ubuntu_setup.sh'
 
         if env == 'show'
-          
+
           puts "---------------"
           puts "Pre"
           puts "---------------\n"
@@ -114,10 +114,10 @@ module Bonethug
         # run the initaliser
         Installer.bonethugise(location, task.to_sym)
 
-      when  'run', 
-            'rake', 
-            'drush', 
-            'drush-local', 
+      when  'run',
+            'rake',
+            'drush',
+            'drush-local',
             'sake'
 
         # get env
@@ -154,18 +154,18 @@ module Bonethug
           # do it!
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb #{run} --verbose"
 
-        end  
+        end
 
-      when  'deploy', 
-            'setup', 
-            'remote-backup', 
-            'local-backup', 
-            'sync-backup-to', 
-            'sync-backup-from', 
-            'sync-local-to', 
-            'sync-local-from', 
-            'init-db', 
-            'force-unlock', 
+      when  'deploy',
+            'setup',
+            'remote-backup',
+            'local-backup',
+            'sync-backup-to',
+            'sync-backup-from',
+            'sync-local-to',
+            'sync-local-from',
+            'init-db',
+            'force-unlock',
             'cleanup'
 
         # handle args
@@ -173,7 +173,7 @@ module Bonethug
 
         # validate
         unless environment
-          puts 'Usage: thug #{task} [environment]' 
+          puts 'Usage: thug #{task} [environment]'
           return
         end
 

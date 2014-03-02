@@ -92,7 +92,7 @@ module Bonethug
 
       # try to update the configuration files
       puts 'Updating configs...'
-      self.bonethugise(target, :init)      
+      self.bonethugise(target, :init)
 
     end
 
@@ -101,10 +101,10 @@ module Bonethug
       manifest_path = target + '/.bonethug/manifest'
 
       if File.exists? manifest_path
-        
+
         puts 'Reading manifest...'
         manifest = File.read(manifest_path).split("\n")
-        
+
         puts 'Cleaning up ' + manifest.count.to_s + ' files'
         not_removed = []
         manifest.each do |file|
@@ -131,7 +131,7 @@ module Bonethug
     end
 
     # Prepares init db scripts
-    # --------------------------    
+    # --------------------------
 
     def self.init_mysql_db_script(db, path, admin_user = 'root')
 

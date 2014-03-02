@@ -30,13 +30,13 @@ dbs:
       user: project_staging
       pass: passw0rd
       host: localhost
-      port: 3306    
+      port: 3306
     production:
       name: project_production
       user: project_production
       pass: passw0rd
       host: localhost
-      port: 3306    
+      port: 3306
 backup:
   local:
     keep:2
@@ -58,7 +58,7 @@ backup:
   rsync:
     host: backup-host.com
     user: remote_backup
-    pass: passw0rd  
+    pass: passw0rd
 mail:
   smtp:
     development:
@@ -72,7 +72,7 @@ mail:
       pass: passw0rd
       secure: tls
       charset_encoding: utf-8
-      port: 587    
+      port: 587
     staging:
       default_from:
         name: staging
@@ -84,7 +84,7 @@ mail:
       pass: passw0rd
       secure: tls
       charset_encoding: utf-8
-      port: 587    
+      port: 587
     production:
       default_from:
         name: production
@@ -105,15 +105,22 @@ apache:
       - www.development.domain.local
     env_vars:
       RAILS_ENV: development
-      APPLICATION_ENV: development  
+      APPLICATION_ENV: development
   staging:
-    version: 2.2  
+    version: 2.2
     server_name: staging.domain.com
     server_aliases:
       - www.staging.domain.com
     env_vars:
       RAILS_ENV: staging
       APPLICATION_ENV: staging
+    basic_auth:
+      -
+        user: username1
+        pass: passw0rd1
+      -
+        user: username2
+        pass: passw0rd2
   production:
     version: 2.4
     server_name: production.domain.com
@@ -128,7 +135,7 @@ chown:
   staging:
     -
       path: public/uploads
-      user: www-data  
+      user: www-data
   production:
     -
       path: public/uploads
@@ -138,7 +145,7 @@ chmod:
   staging:
     -
       path: public/uploads
-      mode: 775  
+      mode: 775
   production:
     -
       path: public/uploads
@@ -148,7 +155,7 @@ chgrp:
   staging:
     -
       path: public/uploads
-      group: www-data  
+      group: www-data
   production:
     -
       path: public/uploads
@@ -168,7 +175,7 @@ watch:
     -
       src: public/themes/project/scss
       dest: public/themes/project/css
-      filter: !ruby/regexp '/typography\.scss$/'   
+      filter: !ruby/regexp '/typography\.scss$/'
   coffee:
     -
       src: public/project/coffee

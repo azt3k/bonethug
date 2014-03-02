@@ -36,7 +36,7 @@ raise 'could not find deployment environment' unless conf.get('deploy.environmen
 deploy    = conf.node_merge('deploy.common','deploy.environments.'+env)
 resources = conf.get('resources','Array') || []
 log_dirs  = conf.get('log_dirs','Array') || []
-vendor  = conf.get('vendor','Array') || []
+vendor    = conf.get('vendor','Array') || []
 
 # vhost name
 vhost = deploy.get('project_slug') + '_' + env
@@ -44,7 +44,7 @@ vhost = deploy.get('project_slug') + '_' + env
 # composer?
 use_composer = ['silverstripe','silverstripe3','drupal','drupal6','drupal7','drupal8','php'].include? deploy.get('project_type')
 
-# composer?
+# bower?
 use_bower = ['silverstripe','silverstripe3','drupal','drupal6','drupal7','drupal8','php'].include? deploy.get('project_type')
 
 # directories we need to track
@@ -72,7 +72,7 @@ set :user,          deploy.get('user')
 set :port,          deploy.get('port')
 set :rails_env,     env
 set :shared_paths,  shared
- 
+
 
 # Tasks
 # ---------------------------------------------------------------
@@ -94,7 +94,7 @@ task :setup => :environment do
   resources.each do |path|
     queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
     queue! %[chmod -R 0775 "#{deploy_to}/shared/#{path}"]
-  end  
+  end
 
   # set appropriate permissions on the logs
   log_dirs.each do |path|
@@ -109,11 +109,11 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/tmp"]
   queue! %[touch "#{deploy_to}/shared/tmp/restart.txt"]
   queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]
- 
+
   # init composer
   if use_composer
     queue! %[mkdir -p "#{deploy_to}/shared/vendor"]
-    queue! %[cd #{deploy_to}/shared && curl -s http://getcomposer.org/installer | php] 
+    queue! %[cd #{deploy_to}/shared && curl -s http://getcomposer.org/installer | php]
   end
 
   # create the backup folder
@@ -130,7 +130,7 @@ end
 
 desc "Sets up an environment"
 task :setup_env => :environment do
-  Bonethug::Installer.get_setup_env_cmds.each do |cmd| 
+  Bonethug::Installer.get_setup_env_cmds.each do |cmd|
     queue! %[#{cmd}]
   end
 end
@@ -178,18 +178,18 @@ end
 
 desc "Syncs files to a location"
 task :sync_from => :environment do
-  if rsync = conf.get('backup.rsync') 
+  if rsync = conf.get('backup.rsync')
     path = deploy.get('project_slug') + "_" + env + "_sync"
     ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
     queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
     (resources + log_dirs).each do |item|
-      
+
       queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks ./#{item} #{rsync.get('host')}:#{path}/]
 
     end
   else
     raise 'no rsync conf'
-  end  
+  end
 end
 
 desc "Restores files from a location"
@@ -201,7 +201,7 @@ task :sync_to => :environment do
     (resources + log_dirs).each do |item|
 
       queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks #{rsync.get('host')}:#{path}/#{item} ./]
-   
+
     end
   else
     raise 'no rsync conf'
@@ -272,7 +272,7 @@ task :deploy => :environment do
     Order allow,deny
     Allow from all
     #{vh_cnf.get('version').to_f > 2.4 ? 'Require all granted' : ''}
-    
+
   </Directory>
 
 </VirtualHost>
@@ -296,7 +296,7 @@ task :deploy => :environment do
       # ensure that the correct directory permissions are set - public is a bit heavy handed
       queue! %[cd #{deploy_to}/current/public && chown -R www-data:www-data . && chmod -R 775 .]
       queue! %[cd #{deploy_to}/shared/tmp && chown -R www-data:www-data . && chmod -R 775 .]
-      
+
       # set appropriate permissions on the resource dirs - if they just need read / write - should prob be 0666
       resources.each do |path|
         queue! %[chown -R www-data:www-data "#{deploy_to}/shared/#{path}"]
@@ -310,15 +310,15 @@ task :deploy => :environment do
           queue! %[chown -R #{chown.get('user')} #{deploy_to}/current/#{chown.get('path')}]
         end
       end
-      
+
       # apply defined permissions
       chgrps = conf.get('chgrp.'+env)
       if chgrps
         chgrps.each do |index, chgrp|
           queue! %[chgrp -R #{chgrp.get('group')} #{deploy_to}/current/#{chgrp.get('path')}]
         end
-      end      
-      
+      end
+
       # apply defined permissions
       chmods = conf.get('chmod.'+env)
       if chmods
@@ -331,10 +331,40 @@ task :deploy => :environment do
       queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
 
       # update bower
-      queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower      
+      queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower
 
-      # trigger a restart on rack based systems   
-      queue! %[touch #{deploy_to}/current/tmp/restart.txt]      
+      # trigger a restart on rack based systems
+      queue! %[touch #{deploy_to}/current/tmp/restart.txt]
+
+      # handle basic auth
+      if vh_cnf.get 'basic_auth'
+
+        # handle auto creation of .htaccess
+        htacces = "
+          ## BONETHUG ##
+          AuthName \"test\"
+          AuthType Basic
+          AuthUserFile #{deploy_to}/current/.htpasswd
+          require valid-user
+          ## END_BONETHUG ##
+        "
+
+        # htaccess
+        htpass = ""
+        vh_cnf.get('basic_auth').each do |cred|
+          htpass += cred.get('user').to_s + ":" + cred.get('pass').to_s.crypt('bonethugisreallydope') + "\n"
+        end
+
+        # write the to the .haccess file
+        queue! %[touch #{deploy_to}/current/public/.htaccess]
+        clean = File.read("#{deploy_to}/current/public/.htaccess").gsub(/\n?## BONETHUG ##.+## END_BONETHUG ##\n?/m, '');
+        File.open("#{deploy_to}/current/public/.htaccess",'w') { |file| clean + htaccess }
+
+        # write to the .htpasswd file
+        queue! %[touch #{deploy_to}/current/.htpasswd]
+        queue! %[echo "#{htaccess}" > #{deploy_to}/current/.htpasswd]
+
+      end
 
       # handle apache
       queue! %[a2ensite #{vhost}.conf]
@@ -343,7 +373,7 @@ task :deploy => :environment do
       # handle cron
       invoke :'whenever:update'
       queue "echo \"\nPlease review the crontab below!!\n\n\""
-      queue 'crontab -l'      
+      queue 'crontab -l'
 
       # run cache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
@@ -354,7 +384,7 @@ task :deploy => :environment do
 
       # cleanup!
       invoke :'deploy:cleanup'
-      
+
     end
   end
 end
