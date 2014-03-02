@@ -124,7 +124,7 @@ end
 desc "Updates bundled dependencies"
 task :update_packages => :environment do
   invoke :'bundle:update'
-  queue! %[cd #{deploy_to}/current && bundle update] if use_composer
+  queue! %[cd #{deploy_to}/current && bundle update]
   queue! %[npm update bower -g] if use_bower
   queue! %[php #{deploy_to}/shared/composer.phar self-update] if use_composer
   queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
