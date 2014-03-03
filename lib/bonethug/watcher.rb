@@ -102,7 +102,7 @@ module Bonethug
         else
           if watch[:type] == :coffee
             guardfile_content += "
-              guard :coffeescript, :minify => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :coffeescript, :all_on_start => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
                 #{filter}
               end
             "
