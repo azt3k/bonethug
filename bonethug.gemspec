@@ -61,7 +61,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'guard-sprockets'
   spec.add_dependency 'uglifier'
   spec.add_dependency 'sass-rails'
-  spec.add_dependency 'coffee-rails'  
+  spec.add_dependency 'coffee-rails'
 
   # spec.add_dependency 'rb-fsevent'
   # spec.add_dependency 'compass'
@@ -73,7 +73,7 @@ Gem::Specification.new do |spec|
 
   # if RUBY_PLATFORM.downcase.include?('linux')
   #   spec.add_dependency 'therubyracer'
-  #   spec.add_dependency 'rb-inotify'    
+  #   spec.add_dependency 'rb-inotify'
   # end
 
   # if RUBY_PLATFORM.downcase.include?('darwin')

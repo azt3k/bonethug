@@ -301,7 +301,7 @@ module Bonethug
               src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
               dst_file = target + '/' + file
               FileUtils.cp src_file, dst_file
-              
+
             end
           end
         else
@@ -322,6 +322,7 @@ module Bonethug
           'astrails-safe' => 'astrails/safe',
           'whenever'      => 'javan/whenever',
           'guard-erb'     => 'azt3k/guard-erb',
+          'coffee-script' => 'josh/ruby-coffee-script',
           'bonethug'      => nil
         }
 

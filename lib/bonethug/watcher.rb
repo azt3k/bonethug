@@ -68,7 +68,7 @@ module Bonethug
         slims.each do |index, watch|
           slim.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :slim)
         end
-      end  
+      end
 
       # combine the watches
       watches = coffee + sass + erb + slim
@@ -89,9 +89,9 @@ module Bonethug
         else
           raise "invalid filter type: " + watch[:filter].class.name
         end
-        
+
         filter = watch[:filter] ? "watch #{watch_val}" : ""
-        
+
         case type
         when 'sprockets'
           guardfile_content += "
@@ -132,8 +132,8 @@ module Bonethug
       # save the guardfile
       guardfile = target + '/.bonethug/Guardfile'
       FileUtils.rm_rf guardfile
-      File.open(guardfile,'w') do |file| 
-        file.puts guardfile_content 
+      File.open(guardfile,'w') do |file|
+        file.puts guardfile_content
       end
 
       puts 'Starting Watch Daemon...'

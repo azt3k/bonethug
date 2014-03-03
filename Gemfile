@@ -29,16 +29,16 @@ else
 end
 
 # asset pipeline - guard sprockets
-gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
+gem 'guard-sprockets', github: 'dormi/guard-sprockets'
 gem 'uglifier'
 gem 'sass-rails'
 gem 'coffee-rails'
 
 # asset pipeline - guard not sprockets
-gem 'coffee-script'
+gem 'coffee-script', github: 'josh/ruby-coffee-script'
 gem 'sass'
 gem 'guard-sass'
-gem 'guard-coffeescript'
+gem 'guard-coffeescript', '>=1.4.0'
 gem 'guard-erb'
 gem 'guard-slim'
 gem 'guard-livereload'
