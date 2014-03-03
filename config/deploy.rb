@@ -378,8 +378,9 @@ task :deploy => :environment do
 
       # handle cron
       invoke :'whenever:update'
-      queue "echo \"\nPlease review the crontab below!!\n\n\""
+      queue "echo \"\nPlease review the crontab below!!\n\""
       queue 'crontab -l'
+      queue "echo \"\n\n\""
 
       # run cache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
