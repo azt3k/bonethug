@@ -357,9 +357,9 @@ task :deploy => :environment do
 
         # write the to the .haccess file
         queue! %[touch #{deploy_to}/current/public/.htaccess]
-        queue! %[sed -i -e "s/\\n?## BONETHUG ##.+## END_BONETHUG ##\\n?//g" #{deploy_to}/current/public/.htaccess]
-        escaped = (htaccess).gsub(/"/, '\"')
-        queue! %[echo "#{escaped}" >> #{deploy_to}/current/public/.htaccess]
+        clean = File.read("#{deploy_to}/current/public/.htaccess").gsub(/\n?## BONETHUG ##.+## END_BONETHUG ##\n?/m, '');
+        escaped = (clean.to_s + htaccess).gsub(/"/, '\"')
+        queue! %[echo "#{escaped}" > #{deploy_to}/current/public/.htaccess]
 
         # write to the .htpasswd file
         queue! %[touch #{deploy_to}/current/.htpasswd]
@@ -368,7 +368,9 @@ task :deploy => :environment do
 
         # write the to the .haccess file
         queue! %[touch #{deploy_to}/current/public/.htaccess]
-        queue! %[sed -i -e "s/\\n?## BONETHUG ##.+## END_BONETHUG ##\\n?//g" #{deploy_to}/current/public/.htaccess]
+        clean = File.read("#{deploy_to}/current/public/.htaccess").gsub(/\n?## BONETHUG ##.+## END_BONETHUG ##\n?/m, '');
+        escaped = (clean.to_s).gsub(/"/, '\"')
+        queue! %[echo "#{escaped}" > #{deploy_to}/current/public/.htaccess]
 
       end
 
@@ -383,7 +385,7 @@ task :deploy => :environment do
 
       # run cache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
-      queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/lib && php flush_drupal_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
+      queue! %[cd #{deploy_to}/current/lib && php flush_drupal_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
 
       # run any project scripts
       # purge combined files for ss
