@@ -1,1 +1,2 @@
-- guard 2 seems to not work - using 1.8.3 in the mean time
+- guard 2 seems to not work in windows - using 1.8.3 in the mean time
+- guard-coffeescript 1.4.0 doesn't work
