@@ -16,6 +16,7 @@ spec/reports
 test/tmp
 test/version_tmp
 .ruby-version
+.fuse*
 tmp
 *.sublime-project
 *.sublime-workspace

@@ -39,8 +39,14 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whenever'
 
   # guard
-  spec.add_dependency 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
-  spec.add_dependency 'listen'
+  if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
+    spec.add_dependency 'wdm', '>= 0.1.0'
+    spec.add_dependency 'guard', '>= 1.8.3', '< 2.0'
+    spec.add_dependency 'listen', '~> 1.3'
+  else
+    spec.add_dependency 'guard', '>=2.5.1'
+    spec.add_dependency 'listen', '>=2.6.2'
+  end
 
   # asset pipeline - guard coffeescript / sass
   spec.add_dependency 'coffee-script'
@@ -64,8 +70,6 @@ Gem::Specification.new do |spec|
   # spec.add_dependency 'guard-livereload'
   # spec.add_dependency 'juicer'
   # spec.add_dependency 'guard-uglify'
-
-  spec.add_dependency 'wdm', '>= 0.1.0' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
 
   # if RUBY_PLATFORM.downcase.include?('linux')
   #   spec.add_dependency 'therubyracer'

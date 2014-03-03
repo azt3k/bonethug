@@ -19,8 +19,14 @@ gem 'astrails-safe',    github: 'astrails/safe'
 gem 'whenever',         github: 'javan/whenever'
 
 # guard
-gem 'guard', '>= 1.8.3', '< 2.0' # '>=2.0.5'
-gem 'listen', github: 'guard/listen'
+if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
+  gem 'wdm', '>= 0.1.0'
+  gem 'guard', '>= 1.8.3', '< 2.0'
+  gem 'listen', '~> 1.3'
+else
+  gem 'guard', '>=2.5.1'
+  gem 'listen', '>=2.6.2'
+end
 
 # asset pipeline - guard sprockets
 gem 'guard-sprockets',  github: 'dormi/guard-sprockets' 
@@ -36,8 +42,6 @@ gem 'guard-coffeescript'
 gem 'guard-erb'
 gem 'guard-slim'
 gem 'guard-livereload'
-
-gem 'wdm', '>= 0.1.0' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
 
 # if RUBY_PLATFORM.downcase.include?('linux')
 #   gem 'therubyracer'
