@@ -9,7 +9,7 @@ require 'bonethug/conf'
 # ---------------------------------------------------------------
 
 # exec env
-exec_path   = File.expand_path(File.dirname(__FILE__))
+exec_path   = File.expand_path(File.dirname(__FILE__) + '/..')
 env         = ENV['to']
 
 # load config
@@ -19,9 +19,6 @@ conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.
 # extract some data
 cnf  = conf.to_hash
 envs = conf.get('deploy.environments').to_hash
-
-# puts cnf
-# exit
 
 # args
 env_local  = ARGV[1]
