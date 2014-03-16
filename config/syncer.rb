@@ -44,7 +44,7 @@ end
 
 # build config
 dbs           = conf.get 'dbs'
-remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
+remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_remote
 local_deploy  = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
 resources     = conf.get('resources','Array') || []
 log_dirs      = conf.get('log_dirs','Array') || []
@@ -66,16 +66,17 @@ puts "Cloning Databases... "
 # output
 dbs.each do |index, db|
 
-  puts db.inspect
-
   db_remote = db.get env_remote
   db_local  = db.get env_local
 
-  if type == "sync-local-to"
-    system "#{remote_ssh} \"mysqldump -u #{db_remote.get 'user'} -p #{db_remote.get 'pass'} #{db_remote.get 'name'} --verbose | bzip2 -c\" | bunzip2 -c | mysql -u #{db_local.get 'user'} -p #{db_local.get 'pass'} #{db_local.get 'name'}"
-  elsif type == "sync-local-from"
-    system "mysqldump -u #{db_local.get 'user'} -p #{db_local.get 'pass'} #{db_local.get 'name'} --verbose | bzip2 -c | #{remote_ssh} \"bunzip2 -c | mysql -u #{db_remote.get 'user'} -p #{db_remote.get 'pass'} #{db_remote.get 'name'}\""
+  if type == "sync-local-from"
+    cmd = "#{remote_ssh} \"mysqldump -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'} --verbose | bzip2 -c\" | bunzip2 -c | mysql -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'}"
+  elsif type == "sync-local-to"
+    cmd = "mysqldump -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'} --verbose | bzip2 -c | #{remote_ssh} \"bunzip2 -c | mysql -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'}\""
   end
+
+  puts cmd
+  system cmd
 
 end
 
@@ -84,12 +85,17 @@ puts "Syncing Files... "
 
 # sync the files
 (resources + log_dirs).each do |item|
+
   case type
   when "sync-local-from"
-    system "rsync -r -a -v -e \"#{ssh_pass} ssh -l #{rsync.get('user')}\" --delete --copy-dirlinks #{rsync.get('host')}:#{path}/current/#{item} ./"
+    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{remote_deploy.get('domain')}:#{remote_path}/current/#{item} #{exec_path}/#{item}"
   when "sync-local-to"
-    system "rsync -r -a -v -e \"#{ssh_pass} ssh -l #{rsync.get('user')}\" --delete --copy-dirlinks ./#{item} #{rsync.get('host')}:#{path}/current/"
+    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{exec_path}/#{item} #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}"
   end
+
+  puts cmd
+  system cmd
+
 end
 
 puts "Done."
