@@ -373,7 +373,7 @@ module Bonethug
 
     def self.init(dir = '.')
       self.bonethugise(dir,:init)
-    end  
+    end
 
   end
 

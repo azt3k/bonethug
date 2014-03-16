@@ -158,15 +158,30 @@ module Bonethug
 
         end
 
+      when  'sync-local-to',
+            'sync-local-from'
+
+        # args
+        env_local  = ARGV[1]
+        env_remote = ARGV[0]
+
+        # validate
+        unless env_local and env_remote
+          puts 'Usage: thug #{task} [local_environment] [remote_environment]'
+          return
+        end
+
+        # run the script
+        exec "ruby .bonethug/syncer.rb #{task} #{env_local} #{env_remote}"
+
+      end
+
       when  'deploy',
             'setup',
             'remote-backup',
             'local-backup',
             'sync-backup-to',
             'sync-backup-from',
-            'sync-local-to',
-            'sync-local-from',
-            'init-db',
             'force-unlock',
             'cleanup'
 
@@ -188,16 +203,14 @@ module Bonethug
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb setup --verbose"
 
         # remote mina scripts
-        when 'init-db'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
         when 'force-unlock'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:force_unlock --verbose"
         when 'cleanup'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:cleanup --verbose"      
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb deploy:cleanup --verbose"
 
         # Snapshot Backup
         when 'remote-backup'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb backup --verbose"                   
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb backup --verbose"
         when 'local-backup'
           exec "export to=#{environment} && bundle exec astrails-safe .bonethug/backup.rb"
 
@@ -207,22 +220,18 @@ module Bonethug
         when 'sync-backup-from'
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_from --verbose"
 
-        when 'sync-local-to'
-          exec "ruby .bonethug/syncer.rb sync_local_to #{environment}"
-        when 'sync-local-from'
-          exec "ruby .bonethug/syncer.rb sync_local_from #{environment}"                 
-        end 
+        end
 
       when 'watch'
 
         # handle args
         type = ARGV[1] || 'coffee_sass'
         location = ARGV[2] || '.'
-        watch_only = ARGV[3] || nil   
-        
+        watch_only = ARGV[3] || nil
+
         # run the installer
-        Watcher.watch type, location, watch_only   
-      
+        Watcher.watch type, location, watch_only
+
       when 'clean'
 
         location = ARGV[1] || '.'
