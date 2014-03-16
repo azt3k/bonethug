@@ -8,10 +8,20 @@ require 'bonethug/conf'
 # Config
 # ---------------------------------------------------------------
 
-# load the conf
-conf = Bonethug::Conf.new
+# exec env
+exec_path   = File.expand_path(File.dirname(__FILE__))
+env         = ENV['to']
+
+# load config
+conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
+
+# extract some data
 cnf  = conf.to_hash
 envs = conf.get('deploy.environments').to_hash
+
+# puts cnf
+# exit
 
 # args
 env_local  = ARGV[1]
@@ -22,26 +32,26 @@ type       = ARGV[0]
 
 unless env_local and env_remote
   puts 'Usage: syncer.rb ' + type + ' [local_environment] [remote_environment]'
-  exit
+  return
 end
 
 unless envs.has_key? env_local
-  puts 'could not find local environment "' + env_local + '"'
-  exit
+  puts 'could not find local environment'
+  return
 end
 
 unless envs.has_key? env_remote
-  puts 'could not find remote environment "' + env_remote + '"'
-  exit
+  puts 'could not find remote environment'
+  return
 end
 
 # build config
-remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_remote
+dbs           = conf.get 'dbs'
+remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
 local_deploy  = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
 resources     = conf.get('resources','Array') || []
 log_dirs      = conf.get('log_dirs','Array') || []
-remote_vhost  = deploy.get('project_slug') + '_' + env_remote
-dbs           = conf.get 'dbs'
+remote_vhost  = remote_deploy.get('project_slug') + '_' + env_remote
 
 # directories we need to track
 resources += ['backups']
@@ -57,7 +67,9 @@ remote_ssh  = "ssh -p #{remote_deploy.get 'port'} #{remote_deploy.get 'user'}@#{
 puts "Cloning Databases... "
 
 # output
-dbs.each do |index,db|
+dbs.each do |index, db|
+
+  puts db.inspect
 
   db_remote = db.get env_remote
   db_local  = db.get env_local
