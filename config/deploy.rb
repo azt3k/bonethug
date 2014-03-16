@@ -30,7 +30,10 @@ cnf = conf.to_hash
 
 # pull config from environment vars
 env = ENV['to']
-raise 'could not find deployment environment' unless conf.get('deploy.environments').has_key? env
+unless conf.get('deploy.environments').has_key? env
+  puts'could not find deployment environment'
+  exit
+end
 
 # build config
 deploy    = conf.node_merge('deploy.common','deploy.environments.'+env)
@@ -178,11 +181,27 @@ end
 
 desc "Syncs application state between two remote environments"
 task :sync_remote_from => :environment do
+
+  remote_env = ENV['remote_env']
+
+  unless conf.get('deploy.environments').has_key? remote_env
+    puts 'could not find remote deployment environment'
+    exit
+  end
+
   queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-from #{env} #{remote_env}]
 end
 
 desc "Syncs application state between two remote environments"
 task :sync_remote_to => :environment do
+
+  remote_env = ENV['remote_env']
+
+  unless conf.get('deploy.environments').has_key? remote_env
+    puts 'could not find remote deployment environment'
+    exit
+  end
+
   queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-to #{env} #{remote_env}]
 end
 
