@@ -36,7 +36,7 @@ unless envs.has_key? env_remote
 end
 
 # build config
-remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
+remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_remote
 local_deploy  = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
 resources     = conf.get('resources','Array') || []
 log_dirs      = conf.get('log_dirs','Array') || []
