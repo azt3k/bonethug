@@ -22,17 +22,17 @@ type       = ARGV[0]
 
 unless env_local and env_remote
   puts 'Usage: syncer.rb ' + type + ' [local_environment] [remote_environment]'
-  return
+  exit
 end
 
 unless envs.has_key? env_local
-  puts 'could not find local environment'
-  return
+  puts 'could not find local environment "' + env_local + '"'
+  exit
 end
 
 unless envs.has_key? env_remote
-  puts 'could not find remote environment'
-  return
+  puts 'could not find remote environment "' + env_remote + '"'
+  exit
 end
 
 # build config

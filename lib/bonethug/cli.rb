@@ -163,7 +163,7 @@ module Bonethug
 
         # args
         env_local  = ARGV[1]
-        env_remote = ARGV[0]
+        env_remote = ARGV[2]
 
         # validate
         unless env_local and env_remote
