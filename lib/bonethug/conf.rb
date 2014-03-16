@@ -49,7 +49,7 @@ module Bonethug
       # generate output
       out = {}
       @paths.each do |path,options|
-        
+
         # load the file if we haven't already
         load_path path unless @loaded_paths.include? path
 
@@ -86,7 +86,7 @@ module Bonethug
 
     def path_ok?(path)
       path && path.class.name == 'String' and File.exist?(path) and File.file?(path)
-    end  
+    end
 
     def check_path!(path)
       raise 'config file "' + path.to_s + '" does not exist' unless path_ok? path
@@ -105,7 +105,7 @@ module Bonethug
         @paths.delete path unless path_ok? path
       end
       self
-    end  
+    end
 
     def load_paths
       @paths.each do |path,options|
@@ -124,7 +124,7 @@ module Bonethug
       @loaded_paths.push path
       @config_hashes[path] = YAML.load_file path
       self
-    end 
+    end
 
     def use_defaults
       @paths = @@default_paths if @paths.empty?
@@ -143,7 +143,7 @@ module Bonethug
           return {} unless node_val
           if node_val.class.name == 'Array'
             return array2hash node_val
-          elsif node_val.class.name == 'Hash' 
+          elsif node_val.class.name == 'Hash'
             return node_val.clone
           else
             return node_val.to_hash
@@ -155,7 +155,7 @@ module Bonethug
 
     def has_key?(key)
       compiled_hash.has_key? key
-    end  
+    end
 
     def get_compiled_hash_node_handle(node = nil)
       if node
@@ -169,7 +169,7 @@ module Bonethug
       else
         return self.compiled_hash
       end
-    end  
+    end
 
     def handle_node_value(node)
       return node if node.class.name == 'Conf'
@@ -196,7 +196,7 @@ module Bonethug
 
     def to_a
       to_hash.to_a
-    end  
+    end
 
     def node_merge!(node1,node2)
       cnf1 = get_compiled_hash_node_handle node1
@@ -211,18 +211,18 @@ module Bonethug
       return handle_node_value cnf1 if cnf1 && !cnf2
       return handle_node_value cnf1 if cnf2 && !cnf1
       return handle_node_value cnf1.merge(cnf2) if cnf1 && cnf2
-    end  
+    end
 
     def merge(node)
-      return self unless node
-      return handle_node_value compiled_hash.merge(node.to_hash)
-    end  
+      return handle_node_value compiled_hash.merge(node.to_hash) if node
+      return self
+    end
 
     def each
       compiled_hash.each do |k,v|
         yield k,handle_node_value(v)
       end
-    end  
+    end
 
     # Getters and Setters
     # -------------------
@@ -230,7 +230,7 @@ module Bonethug
     def paths=(new_paths)
       raise "paths must be a hash" unless new_hash.class.name == 'Hash'
       @paths = new_paths
-    end  
+    end
 
     def paths
       @paths
@@ -238,7 +238,7 @@ module Bonethug
 
     def config_hashes
       @config_hashes
-    end  
+    end
 
     def compiled_hash
       compile_configuration if @compiled_hash.empty?
@@ -254,7 +254,7 @@ module Bonethug
       raise "compiled hash  must be a hash" unless new_hash.class.name == 'Hash'
       @compiled_hash = new_hash
       self
-    end  
+    end
 
     # Method Aliases
     # --------------
@@ -273,7 +273,7 @@ module Bonethug
 
     def remove(path_to_remove)
       remove_path path_to_remove
-    end   
+    end
 
   end
 
