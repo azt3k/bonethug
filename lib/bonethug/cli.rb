@@ -159,7 +159,9 @@ module Bonethug
         end
 
       when  'sync-local-to',
-            'sync-local-from'
+            'sync-local-from',
+            'sync-remote-to',
+            'sync-remote-from'
 
         # args
         env_local  = ARGV[1]
@@ -171,8 +173,15 @@ module Bonethug
           return
         end
 
-        # run the script
-        exec "ruby .bonethug/syncer.rb #{task} #{env_local} #{env_remote}"
+        # Do Sync
+        case task
+        when 'sync-local-to', 'sync-local-from'
+          exec "ruby .bonethug/syncer.rb #{task} #{env_local} #{env_remote}"
+        when 'sync-remote-to'
+          exec "export to=#{env_local} && export remote_env=#{env_remote} && bundle exec mina -f .bonethug/deploy.rb sync_remote_to --verbose"
+        when 'sync-remote-from'
+          exec "export to=#{env_local} && export remote_env=#{env_remote} && bundle exec mina -f .bonethug/deploy.rb sync_remote_from --verbose"
+        end
 
       when  'deploy',
             'setup',
@@ -214,9 +223,9 @@ module Bonethug
 
         # Synchronised backup
         when 'sync-backup-to'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_to --verbose"
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_backup_to --verbose"
         when 'sync-backup-from'
-          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_from --verbose"
+          exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb sync_backup_from --verbose"
 
         end
 

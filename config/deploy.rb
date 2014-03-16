@@ -176,8 +176,18 @@ task :backup => :environment do
   queue! %[cd #{deploy_to}/current && export to=#{env} && bundle exec astrails-safe .bonethug/backup.rb]
 end
 
-desc "Syncs files to a location"
-task :sync_from => :environment do
+desc "Syncs application state between two remote environments"
+task :sync_remote_from => :environment do
+  queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-from #{env} #{remote_env}]
+end
+
+desc "Syncs application state between two remote environments"
+task :sync_remote_to => :environment do
+  queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-to #{env} #{remote_env}]
+end
+
+desc "Syncs backup with a location"
+task :sync_backup_from => :environment do
   if rsync = conf.get('backup.rsync')
     path = deploy.get('project_slug') + "_" + env + "_sync"
     ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
@@ -192,8 +202,8 @@ task :sync_from => :environment do
   end
 end
 
-desc "Restores files from a location"
-task :sync_to => :environment do
+desc "Restores files from a backup to a location"
+task :sync_backup_to => :environment do
   if rsync = conf.get('backup.rsync')
     path = deploy.get('project_slug') + "_" + env + "_sync"
     ssh_pass = rsync.get('pass') ? "sshpass -p #{rsync.get('pass')}" : ""
