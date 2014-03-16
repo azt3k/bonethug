@@ -47,7 +47,7 @@ module Bonethug
         # run the installer
         Installer.install type, location
 
-      when 'init-db', 'init-local-db'
+      when 'init-db', 'init-local-db', 'setup-db'
 
         # handle args
         env = ARGV.last
@@ -61,6 +61,8 @@ module Bonethug
 
         if task == 'init-local-db'
           Installer.execute_init_mysql_db_script env, admin_user
+        elsif task == 'setup-db'
+          exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb setup_db --verbose"
         else
           exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
         end

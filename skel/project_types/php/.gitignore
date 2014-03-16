@@ -11,3 +11,7 @@
 # components tracked by composer
 /public/assets/*
 /vendor
+
+# project files
+*.sublime-workspace
+*.sublime-project

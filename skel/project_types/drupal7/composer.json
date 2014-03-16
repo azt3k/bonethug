@@ -1,21 +1,21 @@
 {
-    "name": "bonethug/drupal7-skel", 
+    "name": "bonethug/drupal7-skel",
     "repositories": [
         {
             "type": "vcs",
             "url": "git@github.com:azt3k/drupal.git"
         }
-    ], 
+    ],
     "require": {
         "symfony/yaml"              : "2.3.*@dev",
         "drush/drush"               : "dev-master",
-        "thecodingmachine/drupal"   : "7.*@dev"   
+        "thecodingmachine/drupal"   : "7.*@dev"
     },
     "extra": {
         "installer-paths": {
             "vendor": [],
             "public": [],
-            "public/vendor/{$name}": []      
+            "public/vendor/{$name}": []
         }
     }
 }

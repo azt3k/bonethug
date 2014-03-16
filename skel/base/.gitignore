@@ -6,3 +6,5 @@
 /db_dumps
 /tmp/*
 /vendor/ruby
+*.sublime-project
+*.sublime-workspace

@@ -12,6 +12,10 @@
 /public/vendor/*
 /vendor/ruby
 
+# project files
+*.sublime-workspace
+*.sublime-project
+
 # components tracked by composer
 /public/silverstripe-cache/*
 /public/bootstrap_forms

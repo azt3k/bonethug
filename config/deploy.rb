@@ -155,7 +155,7 @@ task :init_db => :environment do
 end
 
 desc "Initialises the db"
-task :init_db => :environment do
+task :setup_db => :environment do
 
   #rails
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/

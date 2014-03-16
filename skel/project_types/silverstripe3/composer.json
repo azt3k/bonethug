@@ -1,14 +1,14 @@
 {
   "name" : "bonethug/ss3-skel",
   "require" : {
-    "symfony/yaml"                      : "2.5.*@dev",     
+    "symfony/yaml"                      : "2.5.*@dev",
     "silverstripe/framework"            : "3.1.*@dev",
     "silverstripe/cms"                  : "3.1.*@dev",
     "silverstripe/html5"                : "dev-master",
     "phpmailer/phpmailer"               : "dev-master",
     "azt3k/abc-silverstripe"            : "dev-master",
     "azt3k/abc-silverstripe-mailer"     : "dev-master",
-    "nathancox/minify"                  : "dev-master" 
+    "nathancox/minify"                  : "dev-master"
   },
   "extra": {
     "installer-paths": {
@@ -16,7 +16,7 @@
       ],
       "public/{$name}": [
         "silverstripe/framework",
-        "silverstripe/cms",     
+        "silverstripe/cms",
         "silverstripe/html5",
         "azt3k/abc-silverstripe",
         "azt3k/abc-silverstripe-mailer",
