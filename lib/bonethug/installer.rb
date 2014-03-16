@@ -24,7 +24,7 @@ module Bonethug
     @@bonthug_gem_dir = File.expand_path(File.dirname(__FILE__) + '/../..')
     @@skel_dir = @@bonthug_gem_dir + '/skel'
     @@conf = Conf.new.add(@@skel_dir + '/skel.yml')
-    @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['backup.rb','deploy.rb']}
+    @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['syncer.rb','backup.rb','deploy.rb']}
 
     def self.install(type, target = '.')
 
@@ -38,7 +38,7 @@ module Bonethug
 
       # load the configuration
       unless @@conf.get('project_types').has_key? type.to_s
-        puts "Unsupported type: " + type.to_s 
+        puts "Unsupported type: " + type.to_s
         exit
       end
       conf = @@conf.node_merge 'base', 'project_types.' + type
@@ -59,7 +59,7 @@ module Bonethug
 
       # build the file set
       puts 'Building ' + type + ' skeleton...'
-      FileUtils.cp_r @@skel_dir + '/base/.', tmp_dir      
+      FileUtils.cp_r @@skel_dir + '/base/.', tmp_dir
       FileUtils.cp_r @@skel_dir + '/project_types/' + type + '/.', tmp_dir
 
       # build the manifest
@@ -68,8 +68,8 @@ module Bonethug
 
       # modify the manifest root
       manifest_path = tmp_dir + '/.bonethug/manifest'
-      File.open(manifest_path,'w') do |file| 
-        file.puts File.read(manifest_path).gsub(/\.bonethug-tmp/,'') 
+      File.open(manifest_path,'w') do |file|
+        file.puts File.read(manifest_path).gsub(/\.bonethug-tmp/,'')
       end
 
       # clean up the target dir
@@ -86,7 +86,7 @@ module Bonethug
 
       # clean up any exisitng install tmp files
       puts 'Cleaning up temporary files...'
-      FileUtils.rm_rf tmp_dir  
+      FileUtils.rm_rf tmp_dir
 
       puts "Installation Complete"
 
@@ -122,7 +122,7 @@ module Bonethug
           puts 'Removal of the following' + failed.count.to_s + ' files failed'
           puts failed.join("\n")
 
-        end 
+        end
 
       else
         puts 'Nothing to do'
@@ -158,25 +158,25 @@ module Bonethug
         puts "creating: " + db.get('name')
         system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
 
-      end 
+      end
 
-    end    
+    end
 
 
     # Reads system setup scripts
     # --------------------------
-    
+
     def self.get_setup_script
         @@bonthug_gem_dir + '/scripts/ubuntu_setup.sh'
     end
 
     def self.get_setup_script_content
         File.read self.get_setup_script
-    end     
+    end
 
     def self.get_setup_env_cmds
        self.parse_sh self.get_setup_script_content
-    end    
+    end
 
     def self.parse_sh(content)
         content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/ || line.strip.length == 0) }
@@ -213,7 +213,7 @@ module Bonethug
     def self.save_project_meta_data(base_dir)
 
       meta_data = {'config_digests' => {}}
-      @@project_config_files[:editable].each do |file| 
+      @@project_config_files[:editable].each do |file|
         meta_data['config_digests']['example/' + file] = self.contents_md5(base_dir + '/config/example/' + file)
       end
       File.open(base_dir + '/.bonethug/data','w') { |file| file.puts meta_data.to_yaml }
@@ -236,20 +236,20 @@ module Bonethug
     # copy cnf.yml + schedule.rb to config/example if possible
     # copy backup.rb and deploy.rb to .bonethug if possible
     # add bonethug to gemfile if required
-    # run bundle install      
+    # run bundle install
 
     # mode == :update
     # copy cnf.yml + schedule.rb to config if possible
-    # force copy cnf.yml + schedule.rb to config/example 
+    # force copy cnf.yml + schedule.rb to config/example
     # force copy backup.rb and deploy.rb to .bonethug
     # add bonethug to gemfile if required
-    # run bundle install 
+    # run bundle install
 
     def self.bonethugise(dir='.', mode=:init)
 
       target = File.expand_path(dir)
-    
-      # run bundle update first      
+
+      # run bundle update first
       system('bundle update bonethug') if mode == :update
 
       # check for the existence of required dirs and create if required
@@ -275,7 +275,7 @@ module Bonethug
             FileUtils.cp src_file, target_file unless File.exist?(target_file)
           elsif mode == :update
             FileUtils.cp src_file, example_file if type == :editable
-            FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)          
+            FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)
           else
             puts "Invalid bonethugise mode"
             exit
