@@ -11,7 +11,7 @@ require 'bonethug/conf'
 # load the conf
 conf = Bonethug::Conf.new
 cnf  = conf.to_hash
-envs = conf.get 'deploy.environments'
+envs = conf.get('deploy.environments').to_hash
 
 # args
 env_local  = ARGV[1]
@@ -19,13 +19,21 @@ env_remote = ARGV[2]
 type       = ARGV[0]
 
 # validate
+
 unless env_local and env_remote
   puts 'Usage: syncer.rb ' + type + ' [local_environment] [remote_environment]'
   return
 end
 
-# pull config from environment vars
-raise 'could not find deployment environment' unless envs.has_key? env_local and envs.has_key? env_remote
+unless envs.has_key? env_local
+  puts 'could not find local environment'
+  return
+end
+
+unless envs.has_key? env_remote
+  puts 'could not find remote environment'
+  return
+end
 
 # build config
 remote_deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env_local
