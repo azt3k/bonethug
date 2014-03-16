@@ -174,8 +174,6 @@ module Bonethug
         # run the script
         exec "ruby .bonethug/syncer.rb #{task} #{env_local} #{env_remote}"
 
-      end
-
       when  'deploy',
             'setup',
             'remote-backup',
