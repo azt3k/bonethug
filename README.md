@@ -188,7 +188,7 @@ backup.*
 
 
 
-**Trigger a Sync to or from the Remote Sync Location**
+**Trigger a Sync to or from the Remote Sync Backup Location**
 
 *This wraps mina and runs rsync on the remote server.  It uses the info defined
 in the local copy of config/cnf.yml under backup.rsync.  If you have already set
@@ -199,10 +199,31 @@ as it keeps the password out of the log files.*
 BE CAREFUL USING SYNC-TO - if there are no files in the source location it will
 wipe the files from your deploy copy.
 
-`thug sync-from {develoment|staging|production}`
+`thug sync-backup-from {develoment|staging|production}`
 
-`thug sync-to {develoment|staging|production}`
+`thug sync-backup-to {develoment|staging|production}`
 
+
+
+**Trigger an application state sync from one environment to another**
+
+
+*Sync local application state from another application environment*
+
+`thug sync-local-from {local-environment} {environment-to-pull-data-from}`
+
+*Sync another application's state in another environment to the local application state*
+
+`thug sync-local-to {local-environment} {environment-to-push-data-to}`
+
+
+*Sync remote application state with the application state environment - this wraps mina to trigger the sync actions above on a remote server*
+
+`thug sync-remote-from {environment-to-pull-data-from} {environment-to-push-data-to}`
+
+*Sync another application's state in another environment to the local application state*
+
+`thug sync-backup-to {environment-to-push-data-to} {environment-to-pull-data-from}`
 
 
 Example Workflow
