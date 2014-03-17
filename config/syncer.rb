@@ -88,9 +88,9 @@ puts "Syncing Files... "
 
   case type
   when "sync-local-from"
-    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{remote_deploy.get('domain')}:#{remote_path}/current/#{item} #{exec_path}/#{item}"
+    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/ #{exec_path}/#{item}/"
   when "sync-local-to"
-    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{exec_path}/#{item} #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}"
+    cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{exec_path}/#{item}/ #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/"
   end
 
   puts cmd
