@@ -24,8 +24,14 @@ require 'mina/whenever'
 # Config
 # ---------------------------------------------------------------
 
-# load the conf
-conf = Bonethug::Conf.new
+# exec env
+exec_path   = File.expand_path(File.dirname(__FILE__) + '/..')
+
+# load config
+conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
+
+# generate a hash
 cnf = conf.to_hash
 
 # pull config from environment vars
@@ -146,15 +152,16 @@ end
 
 desc "init a db based on the settings in your cnf file"
 task :init_db => :environment do
-
-  conf.get('dbs').each do |name,envs|
-
-    db = envs.get env
-    cmd = Bonethug::Installer.init_mysql_db_script db, deploy_to + 'current', ENV['admin_user']
-    queue! %[#{cmd}]
-
+  dbs = conf.get 'dbs'
+  if dbs
+    dbs.each do |name,envs|
+      if envs
+        db = envs.get env
+        cmd = Bonethug::Installer.init_mysql_db_script db, deploy_to + '/current', ENV['admin_user']
+        queue! %[#{cmd}]
+      end
+    end
   end
-
 end
 
 desc "Initialises the db"
@@ -163,12 +170,17 @@ task :setup_db => :environment do
   #rails
   queue! %[cd #{deploy_to}/current && bundle exec rake db:reset RAILS_ENV="#{env}"] if deploy.get('project_type') =~ /rails[0-9]?/
 
-  # drpual
+  # drupal
   if deploy.get('project_type') =~ /drupal[0-9]?/
-    conf.get('dbs').each do |name,envs|
-      db = envs.get env
-      db_url = "mysql://#{db.get('user')}:#{db.get('pass')}@#{db.get('host')}/#{db.get('name')}"
-      queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/public && ../vendor/bin/drush site-install standard --account-name=admin --account-pass=admin --db-url=#{db_url}"]
+    dbs = conf.get 'dbs'
+    if dbs
+      dbs.each do |name,envs|
+        if envs
+          db = envs.get env
+          db_url = "mysql://#{db.get('user')}:#{db.get('pass')}@#{db.get('host')}/#{db.get('name')}"
+          queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/public && ../vendor/bin/drush site-install standard --account-name=admin --account-pass=admin --db-url=#{db_url}"]
+        end
+      end
     end
   end
 

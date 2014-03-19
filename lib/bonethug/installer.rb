@@ -137,7 +137,7 @@ module Bonethug
 
       script_content = "
         CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
-        GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY " + db.get('pass') : "") + ";     
+        GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY '" + db.get('pass') + "'" : "") + ";     
         FLUSH PRIVILEGES;
       "
       cmd = 'cd ' + path + ' && ' +
