@@ -176,8 +176,8 @@ module Bonethug
 
         # ensure there is both a pull and push operation
         if valid_operation
-          has_pull = operation1 =~ /pull/ or operation2 =~ /pull/
-          has_push = operation1 =~ /push/ or operation2 =~ /push/
+          has_pull = operation1 == 'pull-from-local' or operation2 == 'pull-from-local' or operation1 == 'pull-from-remote' or operation2 == 'pull-from-remote'
+          has_push = operation1 == 'push-to-local'   or operation2 == 'push-to-local'   or operation1 == 'push-to-remote'   or operation2 == 'push-to-remote'
           valid_operation = has_push and has_push
         end
 
