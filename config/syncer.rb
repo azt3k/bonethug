@@ -21,26 +21,41 @@ cnf  = conf.to_hash
 envs = conf.get('deploy.environments').to_hash
 
 # args
-env_local  = ARGV[1]
-env_remote = ARGV[2]
-type       = ARGV[0]
+pull      = ARGV[0]
+pull_env  = ARGV[1]
+push      = ARGV[2]
+push_env  = ARGV[3]
+
 
 # validate
-
-unless env_local and env_remote
-  puts 'Usage: syncer.rb ' + type + ' [local_environment] [remote_environment]'
-  return
+unless pull and pull_env and push and push_env
+  puts 'Usage: syncer.rb [pull target] [pull environment] [push target] [push environment]'
+  exit
 end
 
-unless envs.has_key? env_local
-  puts 'could not find local environment'
-  return
+unless envs.has_key? pull_env
+  puts 'could not find pull environment'
+  exit
 end
 
-unless envs.has_key? env_remote
-  puts 'could not find remote environment'
-  return
+unless envs.has_key? push_env
+  puts 'could not find push environment'
+  exit
 end
+
+if pull == 'local' and push == 'local'
+  puts 'local to local sync is not supported at this time'
+  exit
+end
+
+if pull == 'remote' and push == 'remote'
+  puts 'remote to remote sync is not supported via this interface'
+  exit
+end
+
+# identify the local and the remote
+env_local  = pull == 'local' ? pull_env : push_env
+env_remote = pull == 'local' ? push_env : pull_env
 
 # build config
 dbs           = conf.get 'dbs'
@@ -69,9 +84,9 @@ dbs.each do |index, db|
   db_remote = db.get env_remote
   db_local  = db.get env_local
 
-  if type == "sync-local-from"
+  if push == 'local' and pull == 'remote'
     cmd = "#{remote_ssh} \"mysqldump -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'} --verbose | bzip2 -c\" | bunzip2 -c | mysql -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'}"
-  elsif type == "sync-local-to"
+  elsif pull == 'local' and push == 'remote'
     cmd = "mysqldump -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'} --verbose | bzip2 -c | #{remote_ssh} \"bunzip2 -c | mysql -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'}\""
   end
 
@@ -86,10 +101,9 @@ puts "Syncing Files... "
 # sync the files
 (resources + log_dirs).each do |item|
 
-  case type
-  when "sync-local-from"
+  if push == 'local' and pull == 'remote'
     cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/ #{exec_path}/#{item}/"
-  when "sync-local-to"
+  elsif pull == 'local' and push == 'remote'
     cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{exec_path}/#{item}/ #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/"
   end
 

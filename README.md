@@ -210,20 +210,17 @@ wipe the files from your deploy copy.
 
 *Sync local application state from another application environment*
 
-`thug sync-local-from {local-environment} {environment-to-pull-data-from}`
+`thug sync-state push-to-local {local-environment} pull-from-remote {environment-to-pull-data-from}`
 
 *Sync another application's state in another environment to the local application state*
 
-`thug sync-local-to {local-environment} {environment-to-push-data-to}`
+`thug sync-state pull-from-local {local-environment} push-to-remote {environment-to-push-data-to}`
 
 
 *Sync remote application state with the application state environment - this wraps mina to trigger the sync actions above on a remote server*
 
-`thug sync-remote-from {environment-to-pull-data-from} {environment-to-push-data-to}`
+`thug sync-state pull-from-remote {environment-to-pull-data-from} push-to-remote {environment-to-push-data-to}`
 
-*Sync another application's state in another environment to the local application state*
-
-`thug sync-backup-to {environment-to-push-data-to} {environment-to-pull-data-from}`
 
 
 Example Workflow
@@ -246,6 +243,9 @@ bower install
 
 # --> edit the config/cnf.yml file!!
 
+# setup local db
+thug init-db local
+
 # watch for changes to sass and coffeescript
 thug watch
 
@@ -262,6 +262,12 @@ thug setup-env staging
 thug init-db staging
 thug setup staging
 thug deploy staging
+
+# push the db and assets up to staging
+thug sync-state pull-from-local development push-to-remote staging
+
+# pull the db and assets up down to local
+thug sync-state pull-from-remote staging push-to-local development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -291,45 +297,12 @@ What isn't implemented yet?
 ---------------------------
 
 
-
-### Setup an existing project and mirror a remote environment (WIP)
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# clone the repo and install the gems
-git clone git@git.domain.com:namespace/project-name.git .
-bundle install --path vendor
-
-# setup local db
-thug init-local-db staging
-
-# add ssh key
-thug auth staging
-
-# do file sync
-thug sync-from staging
-
-# do db sync
-thug sync-local-db staging development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-### Push local assets etc to a remote (WIP)
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# add ssh key
-thug auth staging
-
-# do file sync
-thug sync-to staging
-
-# do db sync
-thug sync-remote-db development staging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- sync of just db between envs
+- sync of just files between envs
+- remove a deployment from a target
+- support for more project types
+- support for other OSes
+- support for nginx
 
 
 

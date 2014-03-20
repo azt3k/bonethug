@@ -158,30 +158,75 @@ module Bonethug
 
         end
 
-      when  'sync-local-to',
-            'sync-local-from',
-            'sync-remote-to',
-            'sync-remote-from'
+      when  'sync-state'
+
+        # operation whitelist
+        operations = ['pull-from-local', 'push-to-local', 'pull-from-remote', 'push-to-remote']
 
         # args
-        env_local  = ARGV[1]
-        env_remote = ARGV[2]
+        operation1 = ARGV[1]
+        env1       = ARGV[2]
+        operation2 = ARGV[3]
+        env2       = ARGV[4]
+
+        # validate operation whitelist
+        valid_operation = operations.include? operation1 and operations.include? operation2
+
+        # ensure there is both a pull and push operation
+        if valid_operation
+          has_pull = operation1 =~ /pull/ or operation2 =~ /pull/
+          has_push = operation1 =~ /push/ or operation2 =~ /push/
+          valid_operation = has_push and has_push
+        end
 
         # validate
-        unless env_local and env_remote
-          puts 'Usage: thug #{task} [local_environment] [remote_environment]'
-          return
+        unless operation1 and operation2 and env1 and env2 and valid_operation
+          puts 'Usage: thug sync-state [pull-from-{local|remote}] [environment] [push-to-{local|remote}] [environment]'
+          exit
+        end
+
+        # process env data
+        pull_env = operation1 =~ /pull/ ? env1 : env2
+        push_env = operation1 =~ /push/ ? env1 : env2
+
+        # process operation1
+        case operation1
+        when 'pull-from-local'
+          pull_operation = 'local'
+        when 'pull-from-remote'
+          pull_operation = 'remote'
+        when 'push-to-local'
+          push_operation = 'local'
+        when 'push-to-remote'
+          push_operation = 'remote'
+        end
+
+        # process operation2
+        case operation2
+        when 'pull-from-local'
+          pull_operation = 'local'
+        when 'pull-from-remote'
+          pull_operation = 'remote'
+        when 'push-to-local'
+          push_operation = 'local'
+        when 'push-to-remote'
+          push_operation = 'remote'
+        end
+
+        # stop here if its a local to local because we wont know the file system location of the non-calling local
+        if pull_operation == 'local' and push_operation == 'local'
+          puts 'local to local sync is not supported at this time'
+          exit
         end
 
         # Do Sync
-        case task
-        when 'sync-local-to', 'sync-local-from'
-          exec "ruby .bonethug/syncer.rb #{task} #{env_local} #{env_remote}"
-        when 'sync-remote-to'
-          exec "export to=#{env_local} && export remote_env=#{env_remote} && bundle exec mina -f .bonethug/deploy.rb sync_remote_to --verbose"
-        when 'sync-remote-from'
-          exec "export to=#{env_local} && export remote_env=#{env_remote} && bundle exec mina -f .bonethug/deploy.rb sync_remote_from --verbose"
+        if pull_operation == 'local' or push_operation == 'local'
+          exec "ruby .bonethug/syncer.rb #{pull_operation} #{pull_env} #{push_operation} #{push_env}"
+        else
+          # this will call ruby .bonethug/syncer.rb local #{pull_env} remote #{push_env}
+          exec "export to=#{pull_env} && export remote_env=#{push_env} && bundle exec mina -f .bonethug/deploy.rb sync_state --verbose"
         end
+
 
       when  'deploy',
             'setup',

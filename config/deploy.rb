@@ -192,7 +192,7 @@ task :backup => :environment do
 end
 
 desc "Syncs application state between two remote environments"
-task :sync_remote_from => :environment do
+task :sync_state => :environment do
 
   remote_env = ENV['remote_env']
 
@@ -201,20 +201,7 @@ task :sync_remote_from => :environment do
     exit
   end
 
-  queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-from #{env} #{remote_env}]
-end
-
-desc "Syncs application state between two remote environments"
-task :sync_remote_to => :environment do
-
-  remote_env = ENV['remote_env']
-
-  unless conf.get('deploy.environments').has_key? remote_env
-    puts 'could not find remote deployment environment'
-    exit
-  end
-
-  queue! %[cd #{deploy_to}/current && bundle exec thug sync-local-to #{env} #{remote_env}]
+  queue! %[cd #{deploy_to}/current && bundle exec thug sync-state local #{env} remote #{remote_env}]
 end
 
 desc "Syncs backup with a location"
