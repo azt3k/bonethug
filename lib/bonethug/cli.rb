@@ -176,15 +176,10 @@ module Bonethug
 
         # ensure there is both a pull and push operation
         if valid_operation
-          has_pull = operation1 == 'pull-from-local' or operation2 == 'pull-from-local' or operation1 == 'pull-from-remote' or operation2 == 'pull-from-remote'
-          has_push = operation1 == 'push-to-local'   or operation2 == 'push-to-local'   or operation1 == 'push-to-remote'   or operation2 == 'push-to-remote'
+          has_pull = (operation1 == 'pull-from-local' or operation2 == 'pull-from-local' or operation1 == 'pull-from-remote' or operation2 == 'pull-from-remote')
+          has_push = (operation1 == 'push-to-local'   or operation2 == 'push-to-local'   or operation1 == 'push-to-remote'   or operation2 == 'push-to-remote')
           valid_operation = has_push and has_push
         end
-
-        puts "operation1 : #{operation1} | operation2 : #{operation2}"
-        puts 'whitelist' if valid_operation
-        puts 'has_pull' if has_pull
-        puts 'has_push' if has_push
 
         # validate
         unless operation1 and operation2 and env1 and env2 and valid_operation
@@ -193,8 +188,8 @@ module Bonethug
         end
 
         # process env data
-        pull_env = operation1 =~ /pull/ ? env1 : env2
-        push_env = operation1 =~ /push/ ? env1 : env2
+        pull_env = (operation1 == 'pull-from-remote' or operation1 =='pull-from-local') ? env1 : env2
+        push_env = (operation1 == 'push-to-remote'   or operation1 =='push-to-local')   ? env1 : env2
 
         # process operation1
         case operation1
