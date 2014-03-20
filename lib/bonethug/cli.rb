@@ -169,15 +169,16 @@ module Bonethug
         operation2 = ARGV[3]
         env2       = ARGV[4]
 
-        puts ARGV.inspect
-
         # validate operation whitelist
         valid_operation = operations.include?(operation1) and operations.include?(operation2)
+        puts 'whitelist' if valid_operation
 
         # ensure there is both a pull and push operation
         if valid_operation
           has_pull = operation1 =~ /pull/ or operation2 =~ /pull/
+          puts 'has_pull' if has_pull
           has_push = operation1 =~ /push/ or operation2 =~ /push/
+          puts 'has_push' if has_push
           valid_operation = has_push and has_push
         end
 
