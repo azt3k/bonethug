@@ -170,7 +170,7 @@ module Bonethug
         env2       = ARGV[4]
 
         # validate operation whitelist
-        valid_operation = operations.include? operation1 and operations.include? operation2
+        valid_operation = operations.include?(operation1) and operations.include?(operation2)
 
         # ensure there is both a pull and push operation
         if valid_operation
