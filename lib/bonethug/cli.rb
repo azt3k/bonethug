@@ -169,6 +169,8 @@ module Bonethug
         operation2 = ARGV[3]
         env2       = ARGV[4]
 
+        puts ARGV.inspect
+
         # validate operation whitelist
         valid_operation = operations.include?(operation1) and operations.include?(operation2)
 
