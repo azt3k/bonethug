@@ -201,7 +201,9 @@ task :sync_state => :environment do
     exit
   end
 
-  queue! %[cd #{deploy_to}/current && ruby .bonethug/syncer.rb local #{env} remote #{remote_env}]
+  #queue! %[cd #{deploy_to}/current && ruby .bonethug/syncer.rb local #{env} remote #{remote_env}]
+  queue! %[cd #{deploy_to}/current && bundle exec thug sync-state pull-from-local #{env} push-to-remote #{remote_env}]
+
 end
 
 desc "Syncs backup with a location"
