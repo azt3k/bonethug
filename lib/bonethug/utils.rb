@@ -18,7 +18,7 @@ module Bonethug
 
     path = File.expand_path target
     `chown www-data #{path}`
-    
+
   end
 
 end

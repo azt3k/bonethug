@@ -121,24 +121,6 @@ settings in your config/cnf.yml file*
 
 ### Remote Commands
 
-*UPDATE:* Bonethug now supports interactive prompts so this may no longer be
-necessary
-
-Most of these are piped through mina.  Mina uses SSH to send a bash script to
-the remote server where it is executed.  For these commands to work you need to
-have the desired host already added to your known hosts file: ~/.ssh/known_hosts
-which means you can either connect to the host first, manually add it or switch
-off the checking by adding the following to ~/.ssh/config.
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Host *
-    StrictHostKeyChecking no
-    UserKnownHostsFile=/dev/null
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 
 **Setup a remote server**
 
