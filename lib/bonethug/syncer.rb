@@ -9,7 +9,7 @@ module Bonethug
     def self.sync(pull, pull_env, push, push_env)
 
       # exec env
-      exec_path   = File.expand_path(File.dirname(__FILE__) + '/..')
+      exec_path   = File.expand_path('.')
       env         = ENV['to']
 
       # load config
