@@ -3,3 +3,4 @@
 - thug auth {staging|production} - this would inject your ssh pub key into the authorized_keys file
 - need to allow support for other environment types
 - have some sort of composer.json merge
+- thug update needs stil needs to be run twice because the current version gets loaded into memory - need to run some sort of two phase update
