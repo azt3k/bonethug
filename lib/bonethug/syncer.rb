@@ -1,12 +1,6 @@
-#!/usr/bin/env ruby
 
-# Requires
-# ---------------------------------------------------------------
 require 'rubygems'
 require 'bonethug/conf'
-
-# Config
-# ---------------------------------------------------------------
 
 module Bonethug
 
@@ -25,13 +19,6 @@ module Bonethug
       # extract some data
       cnf  = conf.to_hash
       envs = conf.get('deploy.environments').to_hash
-
-      # args
-      pull      = ARGV[0]
-      pull_env  = ARGV[1]
-      push      = ARGV[2]
-      push_env  = ARGV[3]
-
 
       # validate
       unless pull and pull_env and push and push_env

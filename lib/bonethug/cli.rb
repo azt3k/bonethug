@@ -289,7 +289,7 @@ module Bonethug
       when 'clean'
 
         location = ARGV[1] || '.'
-        Installer.clean location   
+        Installer.clean location
 
       else
 

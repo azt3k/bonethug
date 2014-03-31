@@ -1,6 +1,7 @@
 require "bonethug/version"
 require "bonethug/installer"
 require "bonethug/watcher"
+require "bonethug/syncer"
 require "bonethug/cli"
 
 module Bonethug
