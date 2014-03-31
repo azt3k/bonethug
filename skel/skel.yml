@@ -1,17 +1,29 @@
 base:
 project_types:
   drupal:
-    bonthug_files:
-      - flush_drupal_cache.php
+    bonethug_files:
+      - lib/drupal_flush_cache.php
+      - lib/drupal_bootstrap.php
+      - lib/boris.php
+      - drupal-console
   drupal6:
-    bonthug_files:
-      - flush_drupal_cache.php
+    bonethug_files:
+      - lib/drupal_flush_cache.php
+      - lib/drupal_bootstrap.php
+      - lib/boris.php
+      - drupal-console
   drupal7:
-    bonthug_files:
-      - flush_drupal_cache.php
+    bonethug_files:
+      - lib/drupal_flush_cache.php
+      - lib/drupal_bootstrap.php
+      - lib/boris.php
+      - drupal-console
   drupal8:
-    bonthug_files:
-      - flush_drupal_cache.php
+    bonethug_files:
+      - lib/drupal_flush_cache.php
+      - lib/drupal_bootstrap.php
+      - lib/boris.php
+      - drupal-console
   php:
   rails3:
   rails4:
@@ -20,6 +32,7 @@ project_types:
       - lib/ss_loadconf.php
       - lib/ss_bootstrap.php
       - lib/boris.php
+      - ss-console
       - public/_ss_environment.php
   sinatra:
 exlcuded_paths:

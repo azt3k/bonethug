@@ -414,7 +414,7 @@ task :deploy => :environment do
 
       # run cache flushes / manifest rebuilds
       queue! %[export APPLICATION_ENV=#{env} && php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
-      queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/lib && php flush_drupal_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
+      queue! %[export APPLICATION_ENV=#{env} && cd #{deploy_to}/current/lib && php drupal_flush_cache.php] if ['drupal','drupal6','drupal7','drupal8'].include? deploy.get('project_type')
 
       # run any project scripts
       # purge combined files for ss

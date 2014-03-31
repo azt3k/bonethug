@@ -1,5 +1,5 @@
 - Create front end skeleton
 - Need to have project specific cnf.yml files
-- Local sync for assets
 - thug auth {staging|production} - this would inject your ssh pub key into the authorized_keys file
 - need to allow support for other environment types
+- have some sort of composer.json merge

@@ -61,14 +61,14 @@ chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 /**
  * Include SilverStripe's core code
  */
-require_once("core/Core.php");
+require_once("../public/framework/core/Core.php");
 
 global $databaseConfig;
 
 // We don't have a session in cli-script, but this prevents errors
 $_SESSION = null;
 
-require_once("model/DB.php");
+require_once("../public/framework/model/DB.php");
 
 
 // Connect to database

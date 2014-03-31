@@ -1,21 +1,360 @@
 {
-    "name": "bonethug/drupal7-skel", 
+    "name": "bonethug/drupal7-skel",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "git@github.com:azt3k/drupal.git"
+            "type": "package",
+            "package": {
+                "name": "drupal/drupal",
+                "type": "non-destructive-archive-installer",
+                "version": "7.26",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/drupal-7.26.zip",
+                    "type": "zip"
+                },
+                "require": {
+                    "azt3k/non-destructive-archive-installer" : "*"
+                },
+                "extra": {
+                    "omit-first-directory": "true"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/drupal-ckeditor",
+                "type": "drupal-module",
+                "version": "7.1.13",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/ckeditor-7.x-1.13.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/ckeditor",
+                "type": "drupal-module",
+                "version": "4.2.2",
+                "dist": {
+                    "url": "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.2.2/ckeditor_4.2.2_full.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/entity",
+                "type": "drupal-module",
+                "version": "7.1.4",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/entity-7.x-1.4.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/jquery-update",
+                "type": "drupal-module",
+                "version": "7.2.0.1",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/jquery_update-7.x-2.x-dev.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/imce",
+                "type": "drupal-module",
+                "version": "7.1.8",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/imce-7.x-1.8.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/date",
+                "type": "drupal-module",
+                "version": "7.2.7",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/date-7.x-2.7.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/entityreference",
+                "type": "drupal-module",
+                "version": "7.1.1",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/entityreference-7.x-1.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/entityreference-autocomplete",
+                "type": "drupal-module",
+                "version": "7.1.4",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/entityreference_autocomplete-7.x-1.4.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/ctools",
+                "type": "drupal-module",
+                "version": "7.1.4",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/ctools-7.x-1.4.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/inline-entity-form",
+                "type": "drupal-module",
+                "version": "7.1.3",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/inline_entity_form-7.x-1.3.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/cer",
+                "type": "drupal-module",
+                "version": "7.2.0.2",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/cer-7.x-2.x-dev.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/smtp",
+                "type": "drupal-module",
+                "version": "7.1.0",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/smtp-7.x-1.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/metatag",
+                "type": "drupal-module",
+                "version": "7.1.0.9",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/metatag-7.x-1.0-beta9.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/xmlsitemap",
+                "type": "drupal-module",
+                "version": "7.2.0",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/xmlsitemap-7.x-2.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/datepicker",
+                "type": "drupal-module",
+                "version": "7.1.0",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/datepicker-7.x-1.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/token",
+                "type": "drupal-module",
+                "version": "7.1.5",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/token-7.x-1.5.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/ckeditor-link",
+                "type": "drupal-module",
+                "version": "7.2.3",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/ckeditor_link-7.x-2.3.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/pathauto",
+                "type": "drupal-module",
+                "version": "7.1.2",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/pathauto-7.x-1.2.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/inline-entity-form",
+                "type": "drupal-module",
+                "version": "7.1.5",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/inline_entity_form-7.x-1.5.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/media",
+                "type": "drupal-module",
+                "version": "7.1.4",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/media-7.x-1.4.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type" : "package",
+            "package": {
+                "name": "drupal/menufield",
+                "type": "drupal-module",
+                "version": "7.1",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/menufield-7.x-1.x-dev.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type" : "package",
+            "package": {
+                "name": "drupal/minify",
+                "type": "drupal-module",
+                "version": "7.1.0",
+                "dist": {
+                    "url": "http://ftp.drupal.org/files/projects/minify-7.x-1.0.zip",
+                    "type": "zip"
+                }
+            }
         }
-    ], 
+    ],
     "require": {
-        "symfony/yaml"              : "2.3.*@dev",
-        "drush/drush"               : "dev-master",
-        "thecodingmachine/drupal"   : "7.*@dev"   
+        "php"                                       : ">=5.3.0",
+        "composer/installers"                       : ">=1.0.9",
+        "azt3k/non-destructive-archive-installer"   : "dev-master",
+        "symfony/yaml"                              : "dev-master",
+        "drush/drush"                               : "6.2.0",
+        "drupal/drupal"                             : "7.26",
+        "drupal/entity"                             : "7.1.4",
+        "drupal/drupal-ckeditor"                    : "7.1.13",
+        "drupal/jquery-update"                      : "7.2.0.1",
+        "drupal/imce"                               : "7.1.8",
+        "drupal/date"                               : "7.2.7",
+        "drupal/entityreference"                    : "7.1.1",
+        "drupal/entityreference-autocomplete"       : "7.1.4",
+        "drupal/ctools"                             : "7.1.4",
+        "drupal/cer"                                : "7.2.0.2",
+        "drupal/smtp"                               : "7.1.0",
+        "drupal/metatag"                            : "7.1.0.9",
+        "drupal/xmlsitemap"                         : "7.2.0",
+        "drupal/datepicker"                         : "7.1.0",
+        "drupal/token"                              : "7.1.5",
+        "drupal/ckeditor-link"                      : "7.2.3",
+        "drupal/inline-entity-form"                 : "7.1.5",
+        "drupal/media"                              : "7.1.4",
+        "drupal/menufield"                          : "7.1",
+        "drupal/minify"                             : "7.1.0",
+        "drupal/pathauto"                           : "7.1.2",
+        "ckeditor/ckeditor"                         : "4.2.2",
+        "raveren/kint"                              : "dev-master",
+        "d11wtq/boris"                              : "dev-master"
     },
     "extra": {
         "installer-paths": {
-            "vendor": [],
-            "public": [],
-            "public/vendor/{$name}": []      
+            "public/sites/all/modules/{$name}": [
+                "drupal/cer",
+                "drupal/drupal-ckeditor",
+                "drupal/entity",
+                "drupal/jquery-update",
+                "drupal/imce",
+                "drupal/date",
+                "drupal/entityreference",
+                "drupal/entityreference-autocomplete",
+                "drupal/ctools",
+                "drupal/inline-entity-form",
+                "drupal/smtp",
+                "drupal/metatag",
+                "drupal/datepicker",
+                "drupal/xmlsitemap",
+                "drupal/token",
+                "drupal/ckeditor-link",
+                "drupal/media",
+                "drupal/menufield",
+                "drupal/pathauto",
+                "drupal/minify"
+            ],
+            "public/sites/all/libraries/{$name}" : [
+                "ckeditor/ckeditor"
+            ],
+            "public": [
+                "drupal/drupal"
+            ]
         }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "cp -rp vendor/drupal/drupal/. public/",
+            "rm -rf public/.gitignore"
+        ],
+        "post-install-cmd": [
+            "cp -rp vendor/drupal/drupal/. public/",
+            "rm -rf public/.gitignore"
+        ]
     }
 }

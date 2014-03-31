@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export APPLICATION_ENV=$1 && php lib/boris.php

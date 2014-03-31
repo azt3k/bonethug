@@ -1,7 +1,7 @@
 <?php
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
-require 'ss_bootstrap.php';
+require 'drupal_bootstrap.php';
 
-$boris = new \Boris\Boris('ss> ');
+$boris = new \Boris\Boris('drupal> ');
 $boris->start();
