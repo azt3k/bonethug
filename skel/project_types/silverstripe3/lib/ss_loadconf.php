@@ -19,17 +19,17 @@ class SS_LoadConf {
 	protected static $ss_environment_type = null;
 
 	public static function get_application_env() {
-		self::set_constants();		
+		self::set_constants();
 		return self::$application_env;
 	}
 
-	public static function env() {	
+	public static function env() {
 		return self::get_application_env();
-	}	
+	}
 
 	public static function get_ss_environment_type() {
 		// ensure constants are set;
-		self::set_constants();		
+		self::set_constants();
 		return self::$ss_environment_type;
 	}
 
@@ -39,7 +39,7 @@ class SS_LoadConf {
 		} else {
 			return $env;
 		}
-	}	
+	}
 
 	public static function set_constants() {
 
@@ -54,7 +54,7 @@ class SS_LoadConf {
 			if (!defined('SS_SEND_ALL_EMAILS_TO'))	define('SS_SEND_ALL_EMAILS_TO', getenv('SS_SEND_ALL_EMAILS_TO'));
 
 			// Set SS env vars
-			if (!getenv('SS_ENVIRONMENT_TYPE')) {		
+			if (!getenv('SS_ENVIRONMENT_TYPE')) {
 				putenv('SS_ENVIRONMENT_TYPE='.self::$ss_env[APPLICATION_ENV]);
 				define('SS_ENVIRONMENT_TYPE', getenv('SS_ENVIRONMENT_TYPE'));
 			}
@@ -66,7 +66,7 @@ class SS_LoadConf {
 		}
 
 	}
-	
+
 	public static function cnf() {
 
 		// ensure constants are set;
@@ -80,7 +80,7 @@ class SS_LoadConf {
 		$cnf = Yaml::parse($base_dir . '/config/cnf.yml');
 
 		// expected urls
-		$url = 'http://' . $cnf['apache'][APPLICATION_ENV]['server_name'];		
+		$url = 'http://' . $cnf['apache'][APPLICATION_ENV]['server_name'];
 
 		// load db settings
 		$db = (object) $cnf['dbs']['default'][APPLICATION_ENV];
@@ -100,6 +100,6 @@ class SS_LoadConf {
 	}
 
 	public static function conf() { return self::cnf(); }
-	public static function config() { return self::cnf(); }	
+	public static function config() { return self::cnf(); }
 
 }

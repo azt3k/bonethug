@@ -10,7 +10,6 @@ module Bonethug
 
       # exec env
       exec_path   = File.expand_path('.')
-      env         = ENV['to']
 
       # load config
       conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
