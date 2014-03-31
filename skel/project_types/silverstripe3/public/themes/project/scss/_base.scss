@@ -1,0 +1,58 @@
+// Common
+// -----------------
+
+.container-fluid {
+    width: 100%;
+    margin: auto;
+}
+
+@media (min-width: 768px) {
+    .container-fluid {
+        width: 760px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-fluid {
+        width: 990px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container-fluid {
+        width: 1200px;
+    }
+}
+
+// Forms
+// ----------------
+
+form {
+
+    .modal & {
+        margin-bottom: 0;
+    }
+
+    .form-actions {
+        border: 0;
+        padding: 0;
+        margin-bottom: 0;
+        background: none;
+    }
+
+    .form-control {
+        border: 0;
+        padding: 0;
+        @include prefixed-prop(box-shadow, none);
+        height: auto;
+
+        textarea, input {
+            width: 100%;
+        }
+
+        input {
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+}

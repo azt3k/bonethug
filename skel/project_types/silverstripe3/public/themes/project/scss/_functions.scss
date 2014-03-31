@@ -3,7 +3,7 @@
 }
 
 @function font-path($file) {
-  @return $font-path + '/' + $file;;
+  @return $font-path + '/' + $file;
 }
 
 @function image-url($file) {
@@ -12,4 +12,8 @@
 
 @function font-url($file) {
   @return url(font-path($file));
+}
+
+@function twbs-font-path($font) {
+	@return $bootstrap_font_path + '/' + $font;
 }

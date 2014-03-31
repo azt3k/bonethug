@@ -1,10 +1,18 @@
 @mixin define-font($font-name, $font) {
-  @font-face {  
-    font-family: $font-name;
-    src: url(font_path('#{$font}.eot'));
-    src: url(font_path('#{$font}.eot')) format('embedded-opentype'),
-      url(font_path('#{$font}.woff')) format('woff'),
-      url(font_path('#{$font}.ttf')) format('truetype'),
-      url(font_path('#{$font}.svg')) format('svg');
-  }
+    @font-face {
+        font-family: $font-name;
+        src: url(font_path('#{$font}.eot'));
+        src: url(font_path('#{$font}.eot')) format('embedded-opentype'),
+             url(font_path('#{$font}.woff')) format('woff'),
+             url(font_path('#{$font}.ttf')) format('truetype'),
+             url(font_path('#{$font}.svg')) format('svg');
+    }
+}
+
+@mixin prefixed-prop($prop-name, $prop-val) {
+    -webkit-#{$prop-name}: $prop-val;
+       -moz-#{$prop-name}: $prop-val;
+        -ms-#{$prop-name}: $prop-val;
+         -o-#{$prop-name}: $prop-val;
+            #{$prop-name}: $prop-val;
 }

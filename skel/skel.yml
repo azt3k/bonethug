@@ -11,14 +11,16 @@ project_types:
       - flush_drupal_cache.php
   drupal8:
     bonthug_files:
-      - flush_drupal_cache.php                   
+      - flush_drupal_cache.php
   php:
   rails3:
   rails4:
   silverstripe3:
     bonethug_files:
       - lib/ss_loadconf.php
-      - public/_ss_environment.php      
+      - lib/ss_bootstrap.php
+      - lib/boris.php
+      - public/_ss_environment.php
   sinatra:
 exlcuded_paths:
   - Gemfile
