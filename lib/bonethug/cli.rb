@@ -223,7 +223,7 @@ module Bonethug
 
         # Do Sync
         if pull_operation == 'local' or push_operation == 'local'
-          exec "ruby .bonethug/syncer.rb #{pull_operation} #{pull_env} #{push_operation} #{push_env}"
+          Syncer.sync pull_operation, pull_env, push_operation, push_env
         else
           # this will call ruby .bonethug/syncer.rb local #{pull_env} remote #{push_env}
           exec "export to=#{pull_env} && export remote_env=#{push_env} && bundle exec mina -f .bonethug/deploy.rb sync_state --verbose"

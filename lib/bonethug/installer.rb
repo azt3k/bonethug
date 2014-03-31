@@ -24,7 +24,7 @@ module Bonethug
     @@bonthug_gem_dir = File.expand_path(File.dirname(__FILE__) + '/../..')
     @@skel_dir = @@bonthug_gem_dir + '/skel'
     @@conf = Conf.new.add(@@skel_dir + '/skel.yml')
-    @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['syncer.rb','backup.rb','deploy.rb']}
+    @@project_config_files = {editable: ['cnf.yml','schedule.rb'], generated: ['backup.rb','deploy.rb']}
 
     def self.install(type, target = '.')
 
@@ -335,7 +335,7 @@ module Bonethug
 
           if gem_reg =~ gemfile_contents
             puts 'Found '+gem_name+' in gem file.'
-            if github 
+            if github
               puts 'Requires github version, checking...'
               unless git_reg =~ gemfile_contents
                 puts 'Couldn\'t find '+gem_name+' (github) in gem file adding...'
