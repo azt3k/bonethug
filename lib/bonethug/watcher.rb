@@ -122,7 +122,7 @@ module Bonethug
             "
           elsif watch[:type] == :uglify
             guardfile_content += "
-              guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard 'uglify', :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
                 #{filter}
               end
             "

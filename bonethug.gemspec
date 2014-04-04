@@ -70,7 +70,6 @@ Gem::Specification.new do |spec|
   # spec.add_dependency 'guard-process'
   # spec.add_dependency 'guard-livereload'
   # spec.add_dependency 'juicer'
-  # spec.add_dependency 'guard-uglify'
 
   # if RUBY_PLATFORM.downcase.include?('linux')
   #   spec.add_dependency 'therubyracer'
