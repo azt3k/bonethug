@@ -183,8 +183,8 @@ watch:
       filter: !ruby/regexp '/^.+\.coffee$/'
   concat_js:
     -
-      src:  public/project/javascript
-      dest: public/project/javascript/all
+      src:  public/project/vendor
+      dest: public/project/javascript
       filter: "*"
   uglify:
     -
