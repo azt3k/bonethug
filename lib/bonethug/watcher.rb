@@ -95,7 +95,7 @@ module Bonethug
       end
 
       # combine the watches
-      watches = coffee + sass + uglify + erb + slim
+      watches = coffee + sass + concat_js + concat_css + uglify + erb + slim
 
       # Generate Guardfile
       puts 'Generating Guardfile...'
