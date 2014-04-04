@@ -323,6 +323,7 @@ module Bonethug
           'whenever'      => 'javan/whenever',
           'guard-erb'     => 'azt3k/guard-erb',
           'coffee-script' => 'josh/ruby-coffee-script',
+          'guard-uglify'  => 'customink/guard-uglify',
           'bonethug'      => nil
         }
 

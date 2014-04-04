@@ -35,8 +35,8 @@ gem 'coffee-rails'
 
 # asset pipeline - guard not sprockets
 gem 'coffee-script', github: 'josh/ruby-coffee-script'
+gem 'uglifier', github: 'customink/guard-uglify'
 gem 'sass'
-gem 'uglifier'
 gem 'guard-sass'
 gem 'guard-coffeescript', '1.3.4'
 gem 'guard-erb'
