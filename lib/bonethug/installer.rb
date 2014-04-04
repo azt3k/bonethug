@@ -318,13 +318,14 @@ module Bonethug
 
         # identify what we are looking for
         required_gems = {
-          'mina'          => 'nadarei/mina',
-          'astrails-safe' => 'astrails/safe',
-          'whenever'      => 'javan/whenever',
-          'guard-erb'     => 'azt3k/guard-erb',
-          'coffee-script' => 'josh/ruby-coffee-script',
-          'guard-uglify'  => 'customink/guard-uglify',
-          'bonethug'      => nil
+          'mina'              => 'nadarei/mina',
+          'astrails-safe'     => 'astrails/safe',
+          'whenever'          => 'javan/whenever',
+          'guard-erb'         => 'azt3k/guard-erb',
+          'coffee-script'     => 'josh/ruby-coffee-script',
+          'guard-uglify'      => 'customink/guard-uglify',
+          'guard-concat'      => 'mikz/guard-concat',
+          'bonethug'          => nil
         }
 
         # look at each requirement and identify if we need things
