@@ -1,4 +1,4 @@
-# Todo
+  # Todo
 # ----------------
 # - sass minification isn't working
 # - actually add the filter to filter by type
@@ -54,6 +54,14 @@ module Bonethug
         end
       end
 
+      # uglify doesn't support array based input just yet
+      uglify = []
+      if uglifies = conf.get('watch.uglify')
+        uglifies.each do |index, watch|
+          uglify.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :uglify)
+        end
+      end
+
       # erb doesn't support array based input just yet
       erb = []
       if erbs = conf.get('watch.erb')
@@ -71,7 +79,7 @@ module Bonethug
       end
 
       # combine the watches
-      watches = coffee + sass + erb + slim
+      watches = coffee + sass + uglify + erb + slim
 
       # Generate Guardfile
       puts 'Generating Guardfile...'
@@ -107,6 +115,12 @@ module Bonethug
               end
             "
           elsif watch[:type] == :sass
+            guardfile_content += "
+              guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+                #{filter}
+              end
+            "
+          elsif watch[:type] == :uglify
             guardfile_content += "
               guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
                 #{filter}

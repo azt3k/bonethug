@@ -30,17 +30,18 @@ end
 
 # asset pipeline - guard sprockets
 gem 'guard-sprockets', github: 'dormi/guard-sprockets'
-gem 'uglifier'
 gem 'sass-rails'
 gem 'coffee-rails'
 
 # asset pipeline - guard not sprockets
 gem 'coffee-script', github: 'josh/ruby-coffee-script'
 gem 'sass'
+gem 'uglifier'
 gem 'guard-sass'
 gem 'guard-coffeescript', '1.3.4'
 gem 'guard-erb'
 gem 'guard-slim'
+gem 'guard-uglify'
 gem 'guard-livereload'
 
 # if RUBY_PLATFORM.downcase.include?('linux')
