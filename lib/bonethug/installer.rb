@@ -257,6 +257,9 @@ module Bonethug
         FileUtils.mkdir path unless File.directory? path
       end
 
+      # insert version file
+      File.open(target + '/.bonethug/version','w') { |file| file.puts VERSION }
+
       # Handle config files
       @@project_config_files.each do |type, dirs|
         dirs.each do |config|
