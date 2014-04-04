@@ -56,6 +56,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'guard-coffeescript', '1.3.4'
   spec.add_dependency 'guard-erb'
   spec.add_dependency 'guard-slim'
+  spec.add_dependency 'guard-concat'
   spec.add_dependency 'guard-uglify'
   spec.add_dependency 'guard-livereload'
 

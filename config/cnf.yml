@@ -169,17 +169,27 @@ vendor:
 watch:
   sass:
     -
-      src: public/themes/project/scss
+      src:  public/themes/project/scss
       dest: public/themes/project/css
       filter: !ruby/regexp '/main\.scss$/'
     -
-      src: public/themes/project/scss
+      src:  public/themes/project/scss
       dest: public/themes/project/css
       filter: !ruby/regexp '/typography\.scss$/'
   coffee:
     -
-      src: public/project/coffee
+      src:  public/project/coffee
       dest: public/project/javascript
       filter: !ruby/regexp '/^.+\.coffee$/'
+  concat_js:
+    -
+      src:  public/project/javascript
+      dest: public/project/javascript/all
+      filter: "*"
+  uglify:
+    -
+      src:  public/project/javascript
+      dest: public/project/javascript
+      filter: !ruby/regexp '/^.+(?<!min)\.js$/'
 log_dirs:
   - log

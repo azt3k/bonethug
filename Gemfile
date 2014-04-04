@@ -35,13 +35,14 @@ gem 'coffee-rails'
 
 # asset pipeline - guard not sprockets
 gem 'coffee-script', github: 'josh/ruby-coffee-script'
-gem 'uglifier', github: 'customink/guard-uglify'
+gem 'uglifier'
 gem 'sass'
 gem 'guard-sass'
 gem 'guard-coffeescript', '1.3.4'
 gem 'guard-erb'
 gem 'guard-slim'
-gem 'guard-uglify'
+gem 'guard-uglify', github: 'customink/guard-uglify'
+gem 'guard-concat', github: 'mikz/guard-concat'
 gem 'guard-livereload'
 
 # if RUBY_PLATFORM.downcase.include?('linux')

@@ -54,6 +54,22 @@ module Bonethug
         end
       end
 
+      # concat doesn't support array based input just yet
+      concat_js = []
+      if js_concats = conf.get('watch.concat_js')
+        js_concats.each do |index, watch|
+          concat_js.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :concat_js)
+        end
+      end
+
+      # concat doesn't support array based input just yet
+      concat_css = []
+      if css_concats = conf.get('watch.concat_css')
+        css_concats.each do |index, watch|
+          concat_css.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :concat_css)
+        end
+      end
+
       # uglify doesn't support array based input just yet
       uglify = []
       if uglifies = conf.get('watch.uglify')
@@ -119,6 +135,14 @@ module Bonethug
               guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
                 #{filter}
               end
+            "
+          elsif watch[:type] == :concat_css
+            guardfile_content += "
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => #{watch[:src].to_s}, :type => 'css', :files => #{watch[:filter]}
+            "
+          elsif watch[:type] == :concat_js
+            guardfile_content += "
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => #{watch[:src].to_s}, :type => 'js', :files => #{watch[:filter]}
             "
           elsif watch[:type] == :uglify
             guardfile_content += "
