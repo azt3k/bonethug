@@ -58,7 +58,7 @@ module Bonethug
       concat_js = []
       if js_concats = conf.get('watch.concat_js')
         js_concats.each do |index, watch|
-          concat_js.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :concat_js)
+          concat_js.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), type: :concat_js)
         end
       end
 
@@ -66,7 +66,7 @@ module Bonethug
       concat_css = []
       if css_concats = conf.get('watch.concat_css')
         css_concats.each do |index, watch|
-          concat_css.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :concat_css)
+          concat_css.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), type: :concat_css)
         end
       end
 
@@ -110,11 +110,17 @@ module Bonethug
           watch_val = "'#{watch[:filter]}'"
         when 'Regexp'
           watch_val = watch[:filter].inspect
+        when 'Array'
+          watch_val = "%w(#{watch[:filter].join(' ')})"
         else
           raise "invalid filter type: " + watch[:filter].class.name
         end
 
-        filter = watch[:filter] ? "watch #{watch_val}" : ""
+        if watch[:filter].class.name == 'Array'
+          filter = watch_val
+        else
+          filter = watch[:filter] ? "watch #{watch_val}" : ""
+        end
 
         case type
         when 'sprockets'
@@ -138,11 +144,11 @@ module Bonethug
             "
           elsif watch[:type] == :concat_css
             guardfile_content += "
-              guard :concat, :output => '#{watch[:dest]}', :input_dir => #{watch[:src].to_s}, :type => 'css', :files => #{watch[:filter]}
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'css', :files => #{filter}
             "
           elsif watch[:type] == :concat_js
             guardfile_content += "
-              guard :concat, :output => '#{watch[:dest]}', :input_dir => #{watch[:src].to_s}, :type => 'js', :files => #{watch[:filter]}
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'js', :files => #{filter}
             "
           elsif watch[:type] == :uglify
             guardfile_content += "
