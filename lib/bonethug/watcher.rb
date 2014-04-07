@@ -43,14 +43,14 @@ module Bonethug
       sass = []
       if sasses = conf.get('watch.sass')
         sasses.each do |index, watch|
-          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :sass)
+          sass.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :sass)
         end
       end
 
       coffee = []
       if coffees = conf.get('watch.coffee')
         coffees.each do |index, watch|
-          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :coffee)
+          coffee.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :coffee)
         end
       end
 
@@ -58,7 +58,7 @@ module Bonethug
       concat_js = []
       if js_concats = conf.get('watch.concat_js')
         js_concats.each do |index, watch|
-          concat_js.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), type: :concat_js)
+          concat_js.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), all_on_start: watch.get('onstart').to_bool, type: :concat_js)
         end
       end
 
@@ -66,7 +66,7 @@ module Bonethug
       concat_css = []
       if css_concats = conf.get('watch.concat_css')
         css_concats.each do |index, watch|
-          concat_css.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), type: :concat_css)
+          concat_css.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter','Array'), all_on_start: watch.get('onstart').to_bool, type: :concat_css)
         end
       end
 
@@ -74,7 +74,7 @@ module Bonethug
       uglify = []
       if uglifies = conf.get('watch.uglify')
         uglifies.each do |index, watch|
-          uglify.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :uglify)
+          uglify.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :uglify)
         end
       end
 
@@ -82,7 +82,7 @@ module Bonethug
       erb = []
       if erbs = conf.get('watch.erb')
         erbs.each do |index, watch|
-          erb.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :erb)
+          erb.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :erb)
         end
       end
 
@@ -90,7 +90,7 @@ module Bonethug
       slim = []
       if slims = conf.get('watch.slim')
         slims.each do |index, watch|
-          slim.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), type: :slim)
+          slim.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :slim)
         end
       end
 

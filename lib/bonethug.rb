@@ -1,3 +1,4 @@
+require "init"
 require "bonethug/version"
 require "bonethug/installer"
 require "bonethug/watcher"
