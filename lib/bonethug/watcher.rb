@@ -125,46 +125,46 @@ module Bonethug
         case type
         when 'sprockets'
           guardfile_content += "
-            guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s} do
+            guard 'sprockets', :minify => true, :destination => '#{watch[:dest]}', :asset_paths => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
               #{filter}
             end
           "
         else
           if watch[:type] == :coffee
             guardfile_content += "
-              guard :coffeescript, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :coffeescript, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
                 #{filter}
               end
             "
           elsif watch[:type] == :sass
             guardfile_content += "
-              guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :sass, :style => :compressed, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
                 #{filter}
               end
             "
           elsif watch[:type] == :concat_css
             guardfile_content += "
-              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'css', :files => #{filter}
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'css', :files => #{filter}, :all_on_start => #{watch[:all_on_start].to_s}
             "
           elsif watch[:type] == :concat_js
             guardfile_content += "
-              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'js', :files => #{filter}
+              guard :concat, :output => '#{watch[:dest]}', :input_dir => '#{watch[:src]}', :type => 'js', :files => #{filter}, :all_on_start => #{watch[:all_on_start].to_s}
             "
           elsif watch[:type] == :uglify
             guardfile_content += "
-              guard 'uglify', :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard 'uglify', :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
                 #{filter}
               end
             "
           elsif watch[:type] == :erb
             guardfile_content += "
-              guard :erb, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :erb, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
                 #{filter}
               end
             "
           elsif watch[:type] == :slim
             guardfile_content += "
-              guard :slim, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s} do
+              guard :slim, :debug_info => true, :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
                 #{filter}
               end
             "
