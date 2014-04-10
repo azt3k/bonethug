@@ -81,7 +81,7 @@ set :user,          deploy.get('user')
 set :port,          deploy.get('port')
 set :rails_env,     env
 set :shared_paths,  shared
-
+set :bundle_path,   './vendor/thug_bundle' # need to set this or we end up with symlink loop
 
 # Tasks
 # ---------------------------------------------------------------
@@ -426,7 +426,7 @@ task :deploy => :environment do
       cmds = conf.get('post_cmds.'+env)
       if cmds
         cmds.each do |index, cmd|
-          queue! %[#{cmd}]
+          queue cmd
         end
       end
 
