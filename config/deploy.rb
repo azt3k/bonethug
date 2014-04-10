@@ -425,7 +425,7 @@ task :deploy => :environment do
       # run post deploy commands
       cmds = conf.get('post_cmds.'+env)
       if cmds
-        cmds.each do |cmd|
+        cmds.each do |index, cmd|
           queue! %[#{cmd}] unless !cmd or cmd==0 or !cmd.to_bool
         end
       end
