@@ -422,6 +422,11 @@ task :deploy => :environment do
       # cleanup!
       invoke :'deploy:cleanup'
 
+      # run post deploy commands
+      conf.get('post_cmds.'+env) do |cmd|
+        queue! %[#{cmd}]
+      end
+
     end
   end
 end

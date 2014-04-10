@@ -166,6 +166,16 @@ resources:
 vendor:
   - vendor
   - public/vendor
+post_cmds:
+  development:
+    - touch public/random_file
+    - rm public/random_file
+  staging:
+    - touch public/random_file
+    - rm public/random_file
+  production:
+    - touch public/random_file
+    - rm public/random_file
 watch:
   sass:
     -

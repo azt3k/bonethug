@@ -36,7 +36,7 @@ sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 # Configure stuff
 # -----------------------------------------------------
 
-# unix socket 
+# unix socket
 # echo "
 # <IfModule mod_fastcgi.c>
 #   AddHandler php5-fcgi .php
