@@ -85,21 +85,9 @@ set :shared_paths,  shared
 # Mina bundler fixes
 # ---------------------------------------------------------------
 
-set_default :bundle_bin, 'bundle'
-set_default :bundle_path, './vendor/thug_bundle'
-set_default :bundle_options, lambda { %{--without development:test --path "#{bundle_path}" --binstubs bin/ --deployment} }
-
-namespace :bundle do
-  desc "Install gem dependencies using Bundler."
-  task :install do
-    queue %{
-      echo "-----> Installing gem dependencies using Bundler"
-      #{echo_cmd %[mkdir -p "#{deploy_to}/#{shared_path}/bundle"]}
-      #{echo_cmd %[mkdir -p "#{File.dirname bundle_path}"]}
-      #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
-    }
-  end
-end
+set :bundle_bin, 'bundle'
+set :bundle_path, './vendor/thug_bundle'
+set :bundle_options, lambda { %{--without development:test --path "#{bundle_path}" --binstubs bin/ --deployment} }
 
 # Tasks
 # ---------------------------------------------------------------
@@ -263,7 +251,14 @@ task :deploy => :environment do
     # common deployment tasks
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
-    invoke :'bundle:install'
+
+    # invoke :'bundle:install'
+    queue %{
+      echo "-----> Installing gem dependencies using Bundler"
+      #{echo_cmd %[mkdir -p "#{deploy_to}/#{shared_path}/bundle"]}
+      #{echo_cmd %[mkdir -p "#{File.dirname bundle_path}"]}
+      #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
+    }
 
     # rails deploy tasks
     if deploy.get('project_type') =~ /rails[0-9]?/
