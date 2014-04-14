@@ -253,9 +253,9 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
 
     # invoke :'bundle:install'
+    # we are omitting the symlink step because vendor should already be symlinked
     queue %{
       echo "-----> Installing gem dependencies using Bundler"
-      #{echo_cmd %[mkdir -p "#{deploy_to}/#{shared_path}/bundle"]}
       #{echo_cmd %[mkdir -p "#{File.dirname bundle_path}"]}
       #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
     }
