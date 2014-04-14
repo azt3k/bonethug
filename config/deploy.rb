@@ -15,7 +15,7 @@
 require 'rubygems'
 require 'bonethug/conf'
 require 'bonethug/installer'
-require 'mina/bundler'
+# require 'mina/bundler' # does stupid stuff with symlinks
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
@@ -81,7 +81,25 @@ set :user,          deploy.get('user')
 set :port,          deploy.get('port')
 set :rails_env,     env
 set :shared_paths,  shared
-set :bundle_path,   './vendor/thug_bundle' # need to set this or we end up with symlink loop
+
+# Mina bundler fixes
+# ---------------------------------------------------------------
+
+set_default :bundle_bin, 'bundle'
+set_default :bundle_path, './vendor/thug_bundle'
+set_default :bundle_options, lambda { %{--without development:test --path "#{bundle_path}" --binstubs bin/ --deployment} }
+
+namespace :bundle do
+  desc "Install gem dependencies using Bundler."
+  task :install do
+    queue %{
+      echo "-----> Installing gem dependencies using Bundler"
+      #{echo_cmd %[mkdir -p "#{deploy_to}/#{shared_path}/bundle"]}
+      #{echo_cmd %[mkdir -p "#{File.dirname bundle_path}"]}
+      #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
+    }
+  end
+end
 
 # Tasks
 # ---------------------------------------------------------------
