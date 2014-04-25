@@ -25,8 +25,11 @@ project_types:
       - lib/boris.php
       - drupal-console
   php:
+    bonethug_files:
   rails3:
+    bonethug_files:
   rails4:
+    bonethug_files:
   silverstripe3:
     bonethug_files:
       - lib/ss_loadconf.php
@@ -35,6 +38,8 @@ project_types:
       - ss-console
       - public/_ss_environment.php
   sinatra:
+    bonethug_files:
 exlcuded_paths:
   - Gemfile
+  - bower.json
   - composer.json

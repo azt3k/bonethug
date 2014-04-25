@@ -11,6 +11,8 @@ sudo apt-get install software-properties-common python-software-properties
 # sudo add-apt-repository ppa:richarvey/nodejs
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
+sudo add-apt-repository ppa:ondrej/apache2
+sudo add-apt-repository ppa:ondrej/php5
 
 # update
 sudo apt-get update && sudo apt-get upgrade
