@@ -26,6 +26,7 @@ project_types:
       - drupal-console
   php:
     bonethug_files:
+      - lib/Thug/Conf/Load.php
   rails3:
     bonethug_files:
   rails4:

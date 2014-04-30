@@ -436,8 +436,9 @@ task :deploy => :environment do
       invoke :'deploy:cleanup'
 
       # run post deploy commands
-      cmds = conf.get('post_cmds.'+env)
+      cmds = conf.get 'post_cmds'
       if cmds
+        cmds = cmds.get env
         cmds.each do |index, cmd|
           queue cmd
         end
