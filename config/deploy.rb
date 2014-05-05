@@ -439,8 +439,10 @@ task :deploy => :environment do
       cmds = conf.get 'post_cmds'
       if cmds
         cmds = cmds.get env
-        cmds.each do |index, cmd|
-          queue cmd
+        if cmds
+          cmds.each do |index, cmd|
+            queue cmd
+          end
         end
       end
 
