@@ -31,7 +31,7 @@ sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
 sudo apt-get install libxml2 g++
-sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
+sudo apt-get install git ruby1.9.3 nodejs npm
 
 
 # -----------------------------------------------------
@@ -75,10 +75,6 @@ sudo a2enmod actions fastcgi alias rewrite headers
 
 # phpmyadmin
 sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
-
-# phpmyadmin apache 2.4
-cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
-a2enconf phpmyadmin.conf
 
 # -----------------------------------------------------
 # Install Gems

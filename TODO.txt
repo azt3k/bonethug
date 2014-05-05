@@ -6,3 +6,4 @@
 - thug update needs stil needs to be run twice because the current version gets loaded into memory - need to run some sort of two phase update
 - some things need to run prior to there being a deploy copy - eg. init-db
 - conf should return nil if it can't find a node
+- rbenv library support - rbenv gays out with 2.x needs readline headers manually specified

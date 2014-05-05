@@ -220,7 +220,7 @@ task :sync_backup_from => :environment do
     queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
     (resources + log_dirs).each do |item|
 
-      queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks ./#{item} #{rsync.get('host')}:#{path}/]
+      queue! %[cd #{deploy_to}/current && rsync -avz -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --progress ./#{item} #{rsync.get('host')}:#{path}/]
 
     end
   else
@@ -236,7 +236,7 @@ task :sync_backup_to => :environment do
     queue! %[#{ssh_pass} ssh #{rsync.get('user')}@#{rsync.get('host')} mkdir -p #{path}]
     (resources + log_dirs).each do |item|
 
-      queue! %[cd #{deploy_to}/current && rsync -r -a -v -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --copy-dirlinks #{rsync.get('host')}:#{path}/#{item} ./]
+      queue! %[cd #{deploy_to}/current && rsync -avz -e "#{ssh_pass} ssh -l #{rsync.get('user')}" --delete --progress #{rsync.get('host')}:#{path}/#{item} ./]
 
     end
   else

@@ -94,9 +94,9 @@ module Bonethug
       (resources + log_dirs).each do |item|
 
         if push == 'local' and pull == 'remote'
-          cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/ #{exec_path}/#{item}/"
+          cmd = "rsync -avz -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --progress #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/ #{exec_path}/#{item}/"
         elsif pull == 'local' and push == 'remote'
-          cmd = "rsync -zrav -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --copy-dirlinks #{exec_path}/#{item}/ #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/"
+          cmd = "rsync -avz -e \"ssh -p #{remote_deploy.get('port')} -l #{remote_deploy.get('user')}\" --delete --progress #{exec_path}/#{item}/ #{remote_deploy.get('domain')}:#{remote_path}/current/#{item}/"
         end
 
         puts cmd

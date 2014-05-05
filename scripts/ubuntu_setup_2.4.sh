@@ -73,9 +73,6 @@ a2enconf php-fpm.conf
 # modules
 sudo a2enmod actions fastcgi alias rewrite headers
 
-# phpmyadmin
-sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
-
 # phpmyadmin apache 2.4
 cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
 a2enconf phpmyadmin.conf

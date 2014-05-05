@@ -1,5 +1,16 @@
 {
-    "require": {
-        "symfony/yaml" : "2.5.*@dev"
+  "name" : "bonethug/php",
+  "repositories": [
+  ],
+  "require": {
+      "symfony/yaml" : "2.5.*@dev"
+  },
+  "extra": {
+    "installer-paths": {
+      "public/vendor/{$name}": [
+      ],
+      "public/{$name}": [
+      ]
     }
+  }
 }
