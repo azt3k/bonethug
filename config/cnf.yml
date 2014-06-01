@@ -97,8 +97,10 @@ mail:
       secure: tls
       charset_encoding: utf-8
       port: 587
-apache:
+vhost:
   development:
+    conf_path: /etc/apache2/sites-available
+    type: apache
     version: 2.4
     server_name: development.domain.local
     server_aliases:
@@ -107,6 +109,8 @@ apache:
       RAILS_ENV: development
       APPLICATION_ENV: development
   staging:
+    conf_path: /etc/apache2/sites-available  
+    type: apache
     version: 2.2
     server_name: staging.domain.com
     server_aliases:
@@ -122,6 +126,8 @@ apache:
         user: username2
         pass: passw0rd2
   production:
+    conf_path: /etc/apache2/sites-available  
+    type: apache
     version: 2.4
     server_name: production.domain.com
     server_aliases:

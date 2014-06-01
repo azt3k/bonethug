@@ -7,3 +7,6 @@
 - some things need to run prior to there being a deploy copy - eg. init-db
 - conf should return nil if it can't find a node
 - rbenv library support - rbenv gays out with 2.x needs readline headers manually specified
+- nagios?
+- need more modular configuration of server components for setup scripts
+- thug vhost-local and thug deploy could share more code

@@ -35,7 +35,7 @@ raise "No backup configuraton available" unless backup
 log_dirs.push('log') unless log_dirs.include? 'log'
 
 # back up script
-# --------------------------------  
+# --------------------------------
 
 # safe
 safe do
@@ -45,7 +45,7 @@ safe do
   local :path => "#{exec_path}/backups/:kind/:id"
 
   # use ftp to back stuff up
-  if backup.get('ftp')  
+  if backup.get('ftp')
     ftp do
       host      backup.get('ftp.host')
       user      backup.get('ftp.user')

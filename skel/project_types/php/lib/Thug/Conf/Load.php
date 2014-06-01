@@ -59,7 +59,7 @@ class Load {
 		self::set_constants();
 
 		// paths
-		$base_dir = realpath(__DIR__ . '/..');
+		$base_dir = realpath(__DIR__ . '/../../..');
 		$public_dir = realpath($base_dir . '/public');
 
 		// load conf

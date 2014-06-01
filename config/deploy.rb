@@ -15,6 +15,7 @@
 require 'rubygems'
 require 'bonethug/conf'
 require 'bonethug/installer'
+require 'bonethug/configurator'
 # require 'mina/bundler' # does stupid stuff with symlinks
 require 'mina/rails'
 require 'mina/git'
@@ -34,6 +35,12 @@ conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.
 # generate a hash
 cnf = conf.to_hash
 
+# check if we have a deploy config
+unless conf.get('deploy')
+  puts'could not find deployment config'
+  exit
+end
+
 # pull config from environment vars
 env = ENV['to']
 unless conf.get('deploy.environments').has_key? env
@@ -42,7 +49,7 @@ unless conf.get('deploy.environments').has_key? env
 end
 
 # build config
-deploy    = conf.node_merge('deploy.common','deploy.environments.'+env)
+deploy    = conf.node_merge 'deploy.common','deploy.environments.' + env
 resources = conf.get('resources','Array') || []
 log_dirs  = conf.get('log_dirs','Array') || []
 vendor    = conf.get('vendor','Array') || []
@@ -260,6 +267,10 @@ task :deploy => :environment do
       #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
     }
 
+    # !!!!!!
+    # COMPOSER INSTALL AND BOWER INSTALL NEEDS TO RUN HERE!!!!!!! - ASSET PRECOMPILE WILL FAIL IF DEPENDENCIES ARE NOT INCLUDED!!!!
+    # !!!!!!
+
     # rails deploy tasks
     if deploy.get('project_type') =~ /rails[0-9]?/
       invoke :'rails:db_migrate'
@@ -267,64 +278,27 @@ task :deploy => :environment do
     end
 
     # build the vhosts
-    vh_cnf = conf.get('apache.'+env)
+    vh_cnf = conf.get 'vhost'
+    vh_cnf = conf.get 'apache' unless vh_cnf
+    vh_cnf = conf.get env
+    conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
-    # server aliases
-    server_aliases = ''
-    aliases = vh_cnf.get('server_aliases')
-    if aliases
-      aliases.each do |index, server_alias|
-        server_aliases += 'ServerAlias '+server_alias + "\n"
-      end
+    vh = Configurator.vhost vh_cnf, deploy_to, true
+
+    case vh_cnf.get('type')
+
+    when "nginx"
+
+      # to be implemented
+      puts 'to be implemented'
+      exit
+
+    else # apache
+
+      # install the vhost
+      queue! %[echo "#{vh}" > #{conf_path}/#{vhost}.conf]
+
     end
-
-    # environment variables
-    env_vars = ''
-    vars = vh_cnf.get('env_vars')
-    if vars
-      vars.each do |k, v|
-        env_vars += 'SetEnv ' + k + ' ' + v + "\n"
-      end
-    end
-
-    # server admin
-    admin = vh_cnf.get('server_admin')
-    server_admin = admin ? 'ServerAdmin '+admin : ''
-
-    vh = "
-<VirtualHost *:80>
-
-  ServerName  #{vh_cnf.get('server_name')}
-  #{server_aliases}
-
-  #{server_admin}
-
-  DocumentRoot #{deploy_to}/current/public
-
-  #{env_vars}
-  PassEnv PATH
-
-  CustomLog #{deploy_to}/shared/log/bytes.log bytes
-  CustomLog #{deploy_to}/shared/log/combined.log combined
-  ErrorLog  #{deploy_to}/shared/log/error.log
-
-  <Directory #{deploy_to}/current/public>
-
-    Options Indexes MultiViews FollowSymLinks
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-    #{vh_cnf.get('version').to_f > 2.4 ? 'Require all granted' : ''}
-
-  </Directory>
-
-</VirtualHost>
-    "
-
-    # install the vhost
-    queue! %[touch /etc/apache2/sites-available/#{vhost}.conf]
-    queue! %[rm /etc/apache2/sites-available/#{vhost}.conf]
-    queue! %[echo "#{vh}" > /etc/apache2/sites-available/#{vhost}.conf]
 
     to :launch do
 
@@ -407,6 +381,7 @@ task :deploy => :environment do
         # write to the .htpasswd file
         queue! %[touch #{deploy_to}/current/.htpasswd]
         queue! %[echo "#{htpass}" > #{deploy_to}/current/.htpasswd]
+
       else
 
         # write the to the .haccess file
@@ -439,10 +414,8 @@ task :deploy => :environment do
       cmds = conf.get 'post_cmds'
       if cmds
         cmds = cmds.get env
-        if cmds
-          cmds.each do |index, cmd|
-            queue cmd
-          end
+        cmds.each do |index, cmd|
+          queue cmd
         end
       end
 
