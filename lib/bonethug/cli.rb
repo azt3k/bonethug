@@ -139,9 +139,22 @@ module Bonethug
         else # apache
 
           # install the vhost
-          exec "echo \"#{vh}\" > #{conf_path}/#{vhost}.conf"
+          system "echo \"#{vh}\" > #{conf_path}/#{vhost}.conf"
 
-        end  
+        end
+
+        # handle hosts file update
+        path = RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i ? '/c/Windows/System32/drivers/etc/hosts' : '/etc/hosts'
+        hosts = "
+          ## BONETHUG-#{vhost} ##
+            #{Configurator.hosts vh_cnf}
+          ## END_BONETHUG-#{vhost} ##
+        "
+
+        # write the to the hosts file
+        system "sed -i -e \"s/\\n?## BONETHUG-#{vhost} ##.+## END_BONETHUG-#{vhost} ##\\n?//g\" #{path}"
+        escaped = (hosts).gsub(/"/, '\"')
+        system "echo \"#{escaped}\" >> #{path}"
 
       when 'init', 'update'
 

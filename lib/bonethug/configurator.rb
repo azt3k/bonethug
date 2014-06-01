@@ -14,6 +14,17 @@ module Bonethug
     include FileUtils
     include Digest
 
+    def self.hosts(vh_cnf)
+      hosts = "127.0.0.1 #{vh_cnf.get('server_name')}\n"
+      aliases = vh_cnf.get('server_aliases')
+      if aliases
+        aliases.each do |index, server_alias|
+          hosts += "127.0.0.1 #{server_alias}\n"
+        end
+      end
+      hosts
+    end
+
     def self.vhost(vh_cnf, base_path, is_remote = false)
 
       # server aliases
