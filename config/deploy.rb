@@ -280,10 +280,10 @@ task :deploy => :environment do
     # build the vhosts
     vh_cnf = conf.get 'vhost'
     vh_cnf = conf.get 'apache' unless vh_cnf
-    vh_cnf = conf.get env
+    vh_cnf = vh_cnf.get env
     conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
-    vh = Configurator.vhost vh_cnf, deploy_to, true
+    vh = Bonethug::Configurator.vhost vh_cnf, deploy_to, true
 
     case vh_cnf.get('type')
 
@@ -296,7 +296,7 @@ task :deploy => :environment do
     else # apache
 
       # install the vhost
-      queue! %[echo "#{vh}" > #{conf_path}/#{vhost}.conf]
+      queue! %[sudo echo "#{vh}" > #{conf_path}/#{vhost}.conf]
 
     end
 

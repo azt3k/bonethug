@@ -65,7 +65,7 @@ module Bonethug
 
             CustomLog #{base_path + shared_path}/log/bytes.log bytes
             CustomLog #{base_path + shared_path}/log/combined.log combined
-            ErrorLog  #{base_path + shared_path}/shared/log/error.log
+            ErrorLog  #{base_path + shared_path}/log/error.log
 
             <Directory #{base_path + current_path}/public>
 

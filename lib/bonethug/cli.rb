@@ -1,5 +1,6 @@
 require 'rbconfig'
 require 'bonethug/conf'
+require 'bonethug/configurator'
 
 module Bonethug
   class CLI
@@ -112,7 +113,7 @@ module Bonethug
         exec_path   = File.expand_path('.')
 
         # load config
-        conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+        conf = Conf.new.add(exec_path + '/config/cnf.yml')
         conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'        
         deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env
 
@@ -122,10 +123,10 @@ module Bonethug
         # build the vhosts
         vh_cnf = conf.get 'vhost'
         vh_cnf = conf.get 'apache' unless vh_cnf
-        vh_cnf = conf.get env
+        vh_cnf = vh_cnf.get env
         conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
-        vh = Configurator.vhost vh_cnf, deploy_to, true
+        vh = Configurator.vhost vh_cnf, exec_path
 
         case vh_cnf.get('type')
 
@@ -138,7 +139,7 @@ module Bonethug
         else # apache
 
           # install the vhost
-          queue! %[echo "#{vh}" > #{conf_path}/#{vhost}.conf]
+          exec "echo \"#{vh}\" > #{conf_path}/#{vhost}.conf"
 
         end  
 
