@@ -158,7 +158,7 @@ module Bonethug
         system "echo \"#{escaped}\" >> #{path}"
 
         # reload apache - linux - but need a debian specific look up
-        system "a2ensite #{vhost} && service restart apache2" if RbConfig::CONFIG['target_os'] =~ /linux/i
+        system "a2ensite #{vhost} && service apache2 restart" if RbConfig::CONFIG['target_os'] =~ /linux/i
 
       when 'init', 'update'
 
