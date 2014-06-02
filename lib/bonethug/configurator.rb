@@ -61,6 +61,8 @@ module Bonethug
 
       else # apache
     
+        access = vh_cnf.get('version').to_f >= 2.4 ? "Require all granted" : "Order allow,deny\nAllow from all"
+
         vh = "
           <VirtualHost *:80>
 
@@ -82,9 +84,7 @@ module Bonethug
 
               Options Indexes MultiViews FollowSymLinks
               AllowOverride All
-              Order allow,deny
-              Allow from all
-              #{vh_cnf.get('version').to_f > 2.4 ? 'Require all granted' : ''}
+              #{access}
 
             </Directory>
 
