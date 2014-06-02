@@ -120,16 +120,17 @@ module Bonethug
         # vhost name
         vhost = deploy.get('project_slug') + '_' + env
 
-        # build the vhosts
+        # build the vhost conf
         vh_cnf = conf.get 'vhost'
         vh_cnf = conf.get 'apache' unless vh_cnf
         vh_cnf = vh_cnf.get env
         conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
+        # load the appropriate config for the web server
         vh = Configurator.vhost vh_cnf, exec_path
 
+        # check if we have a custom config for the webserver type
         case vh_cnf.get('type')
-
         when "nginx"
 
           # to be implemented
@@ -155,6 +156,9 @@ module Bonethug
         system "sed -i '/## BONETHUG-#{vhost} ##/,/## END_BONETHUG-#{vhost} ##/ s/.*//g' #{path}" 
         escaped = (hosts).gsub(/"/, '\"')
         system "echo \"#{escaped}\" >> #{path}"
+
+        # reload apache - linux - but need a debian specific look up
+        system "a2ensite #{vhost} && service restart apache2" if RbConfig::CONFIG['target_os'] =~ /linux/i
 
       when 'init', 'update'
 
