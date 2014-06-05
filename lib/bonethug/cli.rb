@@ -5,6 +5,39 @@ require 'bonethug/configurator'
 module Bonethug
   class CLI
 
+    @@tasks = [
+      'help',
+      'auth',
+      'install',
+      'init-db',
+      'init-local-db',
+      'setup-db',
+      'setup-env',
+      'vhost-local',
+      'init',
+      'update',
+      'run',
+      'rake',
+      'drush',
+      'drush-local',
+      'sake',
+      'sync-state',
+      'deploy',
+      'setup',
+      'remote-backup',
+      'local-backup',
+      'sync-backup-to',
+      'sync-backup-from',
+      'force-unlock',
+      'cleanup',
+      'clean',
+      'watch'    
+    ]
+
+    def self.tasks
+      @@tasks
+    end
+
     def self.handle(bin_name = 'thug')
 
       # what are we doing?

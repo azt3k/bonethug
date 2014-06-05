@@ -4,5 +4,17 @@ root_path = File.expand_path(File.dirname(__FILE__)) + '/..'
 
 require 'rubygems' unless Object.const_defined?(:Gem)
 require root_path +'/lib/bonethug'
+require 'readline'
 
-Bonethug::CLI.handle 'bonethug'
+list = Bonethug::CLI.tasks.sort
+
+comp = proc { |s| list.grep(/^#{Regexp.escape(s)}/) }
+
+Readline.completion_append_character = " "
+Readline.completion_proc = comp
+
+while line = Readline.readline('> ', true)
+  p line
+end
+
+Bonethug::CLI.handle 'thug'

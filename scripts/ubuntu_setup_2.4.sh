@@ -61,7 +61,7 @@ sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 # " > /etc/apache2/conf.d/php-fpm.conf
 # sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 
-sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
+sudo sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 # sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
 
 #apache2.4
@@ -75,8 +75,8 @@ sudo a2enconf php-fpm.conf
 sudo a2enmod actions fastcgi alias rewrite headers
 
 # phpmyadmin apache 2.4
-cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
-a2enconf phpmyadmin.conf
+sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
+sudo a2enconf phpmyadmin.conf
 
 # -----------------------------------------------------
 # Install Gems
@@ -96,7 +96,7 @@ sudo touch /etc/apache2/mods-available/passenger.conf
 # Node.js related
 # -----------------------------------------------------
 
-npm install bower -g
+sudo npm install bower -g
 
 # -----------------------------------------------------
 # Restart stuff

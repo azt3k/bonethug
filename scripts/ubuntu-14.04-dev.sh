@@ -8,11 +8,12 @@
 sudo apt-get install software-properties-common python-software-properties
 
 # add repos
-sudo add-apt-repository ppa:richarvey/nodejs
+# sudo add-apt-repository ppa:richarvey/nodejs
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository ppa:ondrej/apache2
 sudo add-apt-repository ppa:ondrej/php5
+sudo add-apt-repository ppa:ondrej/mysql-5.6
 
 # update
 sudo apt-get update && sudo apt-get upgrade
@@ -31,14 +32,14 @@ sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
 sudo apt-get install libxml2 g++
-sudo apt-get install git ruby1.9.3 nodejs npm
+sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 
 
 # -----------------------------------------------------
 # Configure stuff
 # -----------------------------------------------------
 
-# unix socket 
+# unix socket
 # echo "
 # <IfModule mod_fastcgi.c>
 #   AddHandler php5-fcgi .php
@@ -61,10 +62,10 @@ sudo apt-get install git ruby1.9.3 nodejs npm
 # sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 
 sudo sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
-sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -appConnTimeout 900 -idle-timeout 900 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
+# sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
 
 #apache2.4
-sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -appConnTimeout 900 -idle-timeout 900 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
+sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
 sudo a2enconf php-fpm.conf
 
 # Apache
@@ -73,21 +74,23 @@ sudo a2enconf php-fpm.conf
 # modules
 sudo a2enmod actions fastcgi alias rewrite headers
 
-# phpmyadmin
-sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
+# phpmyadmin apache 2.4
+sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
+sudo a2enconf phpmyadmin.conf
 
 # -----------------------------------------------------
 # Install Gems
 # -----------------------------------------------------
 
-# install some gems - yes gem1.9.3 - wtf
-sudo gem1.9.3 install mina bundler whenever astrails-safe
+# install some gems - yes gem1.9.3 - wtf - use rbenv
+# sudo gem1.9.3 install mina bundler whenever astrails-safe
 
 # install passenger
-sudo gem1.9.3 install passenger
+# sudo gem1.9.3 install passenger
+sudo gem install passenger
 sudo passenger-install-apache2-module
 sudo touch /etc/apache2/mods-available/passenger.load
-sudo touch /etc/apache2/mods-available/passenger.conf
+sudo touch /etc/apache2/mods-available/passenger.confc
 
 # -----------------------------------------------------
 # Node.js related
@@ -101,3 +104,35 @@ sudo npm install bower -g
 
 sudo service apache2 restart
 sudo service php5-fpm restart
+
+# -----------------------------------------------------
+# Build tools
+# -----------------------------------------------------
+
+sudo apt-get install pngcrush jpegoptim pngquant libcroco3*
+
+# -----------------------------------------------------
+# things bashit likes
+# -----------------------------------------------------
+
+sudo apt-get install irssi irissi-scripts
+
+# -----------------------------------------------------
+# rbenv
+# -----------------------------------------------------
+
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+# -----------------------------------------------------
+# Bash it
+# -----------------------------------------------------
+
+sudo apt-get install python-pip python-dev-all
+sudo pip install argcomplete
+sudo activate-global-python-argcomplete
+git clone https://github.com/revans/bash-it.git ~/.bash_it
+~/.bash_it/install.sh
+echo -e "BASH_IT=$HOME/.bash_it\nexport BASH_IT_THEME='bobby'\nexport GIT_HOSTING='git@github.com'\nexport EDITOR=\"/usr/bin/subl -w\"\nexport GIT_EDITOR='/usr/bin/subl -w'\nexport TODO=\"t\"\nexport IRC_CLIENT='irssi'\nsource $BASH_IT/bash_it.sh" >> ~/.bashrc
