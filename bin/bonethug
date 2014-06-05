@@ -4,17 +4,39 @@ root_path = File.expand_path(File.dirname(__FILE__)) + '/..'
 
 require 'rubygems' unless Object.const_defined?(:Gem)
 require root_path +'/lib/bonethug'
-require 'readline'
 
-list = Bonethug::CLI.tasks.sort
+#-----------------------------------
+# require 'io/console'
 
-comp = proc { |s| list.grep(/^#{Regexp.escape(s)}/) }
+# list = Bonethug::CLI.tasks.sort
 
-Readline.completion_append_character = " "
-Readline.completion_proc = comp
+# word = ""
 
-while line = Readline.readline('> ', true)
-  p line
-end
+# while (char = $stdin.getch) != "\r"
+#    word += char
+#    word = "" if char == " "
+#    if char == "\t"
+#    	  list.each do |task|
+#       	print task if task[0..word.length-1] == word
+#       end
+#    else
+#       print char
+#    end
+# end
+# puts
 
-Bonethug::CLI.handle 'thug'
+#-----------------------------------
+# require 'readline'
+
+# list = Bonethug::CLI.tasks.sort
+
+# comp = proc { |s| list.grep(/^#{Regexp.escape(s)}/) }
+
+# Readline.completion_append_character = " "
+# Readline.completion_proc = comp
+
+# while line = Readline.readline('> ', true)
+#   p line
+# end
+
+Bonethug::CLI.handle 'bone-thug'
