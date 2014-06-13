@@ -156,10 +156,10 @@ module Bonethug
 
         db = envs.get env
         if !db
-          puts "No db found check your config/cnf.yml file"
+          puts "No db for env " + env + " found - check your config file"
           exit
         else
-          puts "creating: " + db.get('name')
+          puts "Mysql user " + admin_user + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host')
           system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
         end
 
