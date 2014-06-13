@@ -303,7 +303,9 @@ module Bonethug
               # do the copy
               src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
               dst_file = target + '/' + file
-              FileUtils.cp src_file, dst_file
+              dir = File.dirname dst_file
+              FileUtils.mkdir_p dir
+              FileUtils.cp_r src_file, dst_file
 
             end
           end
@@ -320,6 +322,7 @@ module Bonethug
         gemfile_contents = File.read(gemfile_path)
 
         # identify what we are looking for
+        # this should have groups - i.e. dev
         required_gems = {
           'mina'              => 'nadarei/mina',
           'astrails-safe'     => 'astrails/safe',
