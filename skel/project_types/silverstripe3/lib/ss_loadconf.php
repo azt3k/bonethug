@@ -80,7 +80,8 @@ class SS_LoadConf {
 		$cnf = Yaml::parse($base_dir . '/config/cnf.yml');
 
 		// expected urls
-		$url = 'http://' . $cnf['apache'][APPLICATION_ENV]['server_name'];
+		$vhost = empty($cnf['vhost']) ? $cnf['apache'] : $cnf['vhost'];
+		$url = 'http://' . $vhost[APPLICATION_ENV]['server_name'];
 
 		// load db settings
 		$db = (object) $cnf['dbs']['default'][APPLICATION_ENV];

@@ -39,4 +39,4 @@ require root_path +'/lib/bonethug'
 #   p line
 # end
 
-Bonethug::CLI.handle 'bone-thug'
+Bonethug::CLI.handle 'bonethug'

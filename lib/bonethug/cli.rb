@@ -141,12 +141,13 @@ module Bonethug
 
         # get env
         env = ARGV.last
+        env = 'development' if env == 'vhost-local'
 
         # exec env
         exec_path   = File.expand_path('.')
 
         # load config
-        conf = Conf.new.add(exec_path + '/config/cnf.yml')
+        conf = Conf.new.add exec_path + '/config/cnf.yml'
         conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'        
         deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env
 

@@ -68,6 +68,9 @@ sudo sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" 
 sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
 sudo a2enconf php-fpm.conf
 
+# symlink node to nodejs
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+
 # Apache
 # ------
 
