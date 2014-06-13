@@ -187,7 +187,8 @@ module Bonethug
         "
 
         # write the to the hosts file
-        system "sed -i '/## BONETHUG-#{vhost} ##/,/## END_BONETHUG-#{vhost} ##/ s/.*//g' #{path}" 
+        # this needs work
+        system "sed -i '/## BONETHUG-#{vhost} ##/,/## END_BONETHUG-#{vhost} ##/ s/.*//g' #{path}"
         escaped = (hosts).gsub(/"/, '\"')
         system "echo \"#{escaped}\" >> #{path}"
 

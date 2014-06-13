@@ -155,8 +155,13 @@ module Bonethug
       conf.get('dbs').each do |name,envs|
 
         db = envs.get env
-        puts "creating: " + db.get('name')
-        system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
+        if !db
+          puts "No db found check your config/cnf.yml file"
+          exit
+        else
+          puts "creating: " + db.get('name')
+          system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
+        end
 
       end
 
