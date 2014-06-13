@@ -89,7 +89,7 @@ module Bonethug
         admin_user = ARGV.length == 3 ? ARGV[1] : 'root'
 
         # validate
-        unless env
+        if !env || env == task
           puts 'Usage: ' + bin_name + ' ' + task + ' [admin_user] [environment]'
           return
         end
@@ -108,7 +108,7 @@ module Bonethug
         env = ARGV.last
 
         # validate
-        unless env
+        if !env || env == task
           puts 'Usage: ' + bin_name + ' setup-env [environment]'
           return
         end
