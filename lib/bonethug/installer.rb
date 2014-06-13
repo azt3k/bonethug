@@ -260,7 +260,7 @@ module Bonethug
         end
 
         # kill this process and run the next step as a new process
-        exec 'bundle exec thug ' + mode.to_s + ' ' + (stage + 1).to_s
+        exec 'bundle exec thug ' + mode.to_s + ' ' + dir + ' ' + (stage + 1).to_s
 
       when 1
 
@@ -382,6 +382,8 @@ module Bonethug
 
         # run bundler
         exec 'bundle install --path vendor'
+      
+      end
 
       # self
 
