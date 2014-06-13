@@ -198,6 +198,7 @@ module Bonethug
 
         # handle args
         location = ARGV[1] || '.'
+        stage = ARGV[2] || 0
 
         # validate
         unless location
@@ -206,7 +207,7 @@ module Bonethug
         end
 
         # run the initaliser
-        Installer.bonethugise(location, task.to_sym)
+        Installer.bonethugise location, task.to_sym, stage.to_i
 
       when  'run',
             'rake',

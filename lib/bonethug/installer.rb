@@ -245,131 +245,143 @@ module Bonethug
     # add bonethug to gemfile if required
     # run bundle install
 
-    def self.bonethugise(dir='.', mode=:init)
+    def self.bonethugise(dir='.', mode=:init, stage=0)
 
       target = File.expand_path(dir)
 
-      # run bundle update first
-      system('bundle update bonethug') if mode == :update
+      case stage
+      when 0
 
-      # check for the existence of required dirs and create if required
-      [target + '/.bonethug', target + '/config', target + '/config/example'].each do |path|
-        FileUtils.mkdir path unless File.directory? path
-      end
-
-      # insert version file
-      File.open(target + '/.bonethug/version','w') { |file| file.puts VERSION }
-
-      # Handle config files
-      @@project_config_files.each do |type, dirs|
-        dirs.each do |config|
-
-          # vars
-          src_file      = @@bonthug_gem_dir + '/config/' + config
-          example_file  = target + '/config/example/' + config if type == :editable
-          target_file   = type == :editable ? target + '/config/' + config : target + '/.bonethug/' + config
-
-          # output
-          puts 'Handling ' + target_file
-
-          # what mode are we in?
-          if mode == :init
-            FileUtils.cp src_file, example_file if type == :editable and !File.exist?(example_file)
-            FileUtils.cp src_file, target_file unless File.exist?(target_file)
-          elsif mode == :update
-            FileUtils.cp src_file, example_file if type == :editable
-            FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)
-          else
-            puts "Invalid bonethugise mode"
-            exit
-          end
-
-        end
-      end
-
-      # Handle project type specific files
-      if mode == :update
-        target_cnf = target + '/config/cnf.yml'
-        project_conf = Conf.new.add target_cnf
-        project_type = project_conf.get('deploy.common.project_type')
-        if project_type
-          bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
-          if bonethug_files
-            bonethug_files.each do |index, file|
-
-              # push some output
-              puts 'Handling ' + index.to_s + ':' + file.to_s
-
-              # do the copy
-              src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
-              dst_file = target + '/' + file
-              dir = File.dirname dst_file
-              FileUtils.mkdir_p dir
-              FileUtils.cp_r src_file, dst_file
-
-            end
-          end
+        # get bonethug
+        if mode == :update
+          system 'bundle update bonethug'
         else
-          puts "Couldn't find project type in " + target_cnf
+          system 'bundle install bonethug'
         end
-      end
 
-      # handle gemfile
-      gemfile_path = target + '/Gemfile'
-      if File.exist? gemfile_path
+        # kill this process and run the next step as a new process
+        exec 'bundle exec thug ' + mode.to_s + ' ' + (stage + 1).to_s
 
-        # extract the contents
-        gemfile_contents = File.read(gemfile_path)
+      when 1
 
-        # identify what we are looking for
-        # this should have groups - i.e. dev
-        required_gems = {
-          'mina'              => 'nadarei/mina',
-          'astrails-safe'     => 'astrails/safe',
-          'whenever'          => 'javan/whenever',
-          'guard-erb'         => 'azt3k/guard-erb',
-          'coffee-script'     => 'josh/ruby-coffee-script',
-          'guard-uglify'      => 'customink/guard-uglify',
-          'guard-concat'      => 'mikz/guard-concat',
-          'bonethug'          => nil
-        }
+        # check for the existence of required dirs and create if required
+        [target + '/.bonethug', target + '/config', target + '/config/example'].each do |path|
+          FileUtils.mkdir path unless File.directory? path
+        end
 
-        # look at each requirement and identify if we need things
-        required_gems.each do |gem_name, github|
+        # insert version file
+        File.open(target + '/.bonethug/version','w') { |file| file.puts VERSION }
 
-          add_gem = false;
-          gem_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\']')
-          git_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\'],[^,]+github: ["\']'+github+'["\']') if github
+        # Handle config files
+        @@project_config_files.each do |type, dirs|
+          dirs.each do |config|
 
-          if gem_reg =~ gemfile_contents
-            puts 'Found '+gem_name+' in gem file.'
-            if github
-              puts 'Requires github version, checking...'
-              unless git_reg =~ gemfile_contents
-                puts 'Couldn\'t find '+gem_name+' (github) in gem file adding...'
-                gemfile_contents.gsub(gem_reg,'')
-                add_gem = true;
+            # vars
+            src_file      = @@bonthug_gem_dir + '/config/' + config
+            example_file  = target + '/config/example/' + config if type == :editable
+            target_file   = type == :editable ? target + '/config/' + config : target + '/.bonethug/' + config
+
+            # output
+            puts 'Handling ' + target_file
+
+            # what mode are we in?
+            if mode == :init
+              FileUtils.cp src_file, example_file if type == :editable and !File.exist?(example_file)
+              FileUtils.cp src_file, target_file unless File.exist?(target_file)
+            elsif mode == :update
+              FileUtils.cp src_file, example_file if type == :editable
+              FileUtils.cp src_file, target_file if type == :generated or !File.exist?(target_file)
+            else
+              puts "Invalid bonethugise mode"
+              exit
+            end
+
+          end
+        end
+
+        # Handle project type specific files
+        if mode == :update
+          target_cnf = target + '/config/cnf.yml'
+          project_conf = Conf.new.add target_cnf
+          project_type = project_conf.get('deploy.common.project_type')
+          if project_type
+            bonethug_files = @@conf.get 'project_types.' + project_type + '.bonethug_files'
+            if bonethug_files
+              bonethug_files.each do |index, file|
+
+                # push some output
+                puts 'Handling ' + index.to_s + ':' + file.to_s
+
+                # do the copy
+                src_file =  @@bonthug_gem_dir + '/skel/project_types/' + project_type + '/' + file
+                dst_file = target + '/' + file
+                dir = File.dirname dst_file
+                FileUtils.mkdir_p dir
+                FileUtils.cp_r src_file, dst_file
+
               end
             end
           else
-            puts "Couldn't find "+gem_name+" in gem file adding..."
-            add_gem = true;
+            puts "Couldn't find project type in " + target_cnf
           end
-
-          if add_gem
-            gemfile_contents += "\n" + 'gem "'+gem_name+'"'+(github ? ', github: "'+github+'"' : '') 
-            File.open(gemfile_path,'w') { |file| file.puts gemfile_contents }
-          end
-
         end
 
-      else
-        puts 'No Gemfile found, creating one...'
-        FileUtils.cp @@skel_dir + '/base/Gemfile', gemfile_path
-      end
+        # handle gemfile
+        gemfile_path = target + '/Gemfile'
+        if File.exist? gemfile_path
 
-      # run bundler
-      exec 'bundle install --path vendor'
+          # extract the contents
+          gemfile_contents = File.read(gemfile_path)
+
+          # identify what we are looking for
+          # this should have groups - i.e. dev
+          required_gems = {
+            'mina'              => 'nadarei/mina',
+            'astrails-safe'     => 'astrails/safe',
+            'whenever'          => 'javan/whenever',
+            'guard-erb'         => 'azt3k/guard-erb',
+            'coffee-script'     => 'josh/ruby-coffee-script',
+            'guard-uglify'      => 'customink/guard-uglify',
+            'guard-concat'      => 'mikz/guard-concat',
+            'bonethug'          => nil
+          }
+
+          # look at each requirement and identify if we need things
+          required_gems.each do |gem_name, github|
+
+            add_gem = false;
+            gem_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\']')
+            git_reg = Regexp.new('gem[^"\']+["\']'+gem_name+'["\'],[^,]+github: ["\']'+github+'["\']') if github
+
+            if gem_reg =~ gemfile_contents
+              puts 'Found '+gem_name+' in gem file.'
+              if github
+                puts 'Requires github version, checking...'
+                unless git_reg =~ gemfile_contents
+                  puts 'Couldn\'t find '+gem_name+' (github) in gem file adding...'
+                  gemfile_contents.gsub(gem_reg,'')
+                  add_gem = true;
+                end
+              end
+            else
+              puts "Couldn't find "+gem_name+" in gem file adding..."
+              add_gem = true;
+            end
+
+            if add_gem
+              gemfile_contents += "\n" + 'gem "'+gem_name+'"'+(github ? ', github: "'+github+'"' : '') 
+              File.open(gemfile_path,'w') { |file| file.puts gemfile_contents }
+            end
+
+          end
+
+        else
+          puts 'No Gemfile found, creating one...'
+          FileUtils.cp @@skel_dir + '/base/Gemfile', gemfile_path
+        end
+
+        # run bundler
+        exec 'bundle install --path vendor'
 
       # self
 
