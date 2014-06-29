@@ -11,6 +11,7 @@ sudo apt-get install software-properties-common python-software-properties
 # sudo add-apt-repository ppa:richarvey/nodejs
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
 sudo add-apt-repository "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
+sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo add-apt-repository ppa:ondrej/apache2
 sudo add-apt-repository ppa:ondrej/php5
 sudo add-apt-repository ppa:ondrej/mysql-5.6
@@ -21,7 +22,7 @@ sudo apt-get update && sudo apt-get upgrade
 # install
 
 # dev headers
-sudo apt-get install libcurl4-openssl-dev libssl-dev apache2-threaded-dev libapr1-dev libaprutil1-dev libapr1-dev libaprutil1-dev
+sudo apt-get install libcurl4-openssl-dev libssl-dev apache2-threaded-dev libapr1-dev libaprutil1-dev libapr1-dev libaprutil1-dev ruby2.1-dev
 sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev libxml2-dev libxslt1-dev
 
 # regular packages
@@ -32,7 +33,7 @@ sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
 sudo apt-get install libxml2 g++
-sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
+sudo apt-get install git ruby2.1 wkhtmltopdf nodejs npm
 
 
 # -----------------------------------------------------
@@ -62,11 +63,11 @@ sudo apt-get install git ruby1.9.3 wkhtmltopdf nodejs npm
 # sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 
 sudo sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
-# sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n </IfModule>" > /etc/apache2/conf.d/php-fpm.conf
-
-#apache2.4
 sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
 sudo a2enconf php-fpm.conf
+
+# node
+sudo ln -s /usr/bin/node /usr/bin/nodejs
 
 # Apache
 # ------
@@ -86,7 +87,6 @@ sudo a2enconf phpmyadmin.conf
 # sudo gem1.9.3 install mina bundler whenever astrails-safe
 
 # install passenger
-# sudo gem1.9.3 install passenger
 sudo gem install passenger
 sudo passenger-install-apache2-module
 sudo touch /etc/apache2/mods-available/passenger.load

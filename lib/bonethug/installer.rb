@@ -261,7 +261,8 @@ module Bonethug
         if mode == :update
           system 'bundle update bonethug'
         else
-          system 'bundle install bonethug'
+          system 'bundle init'
+          system 'bundle install'
         end
 
         # kill this process and run the next step as a new process

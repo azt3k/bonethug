@@ -2,25 +2,56 @@ Bonethug
 ========
 
 
+What is Bonethug?
+-----------------
 
-(Project) Bones in the basement and a thug to do the things you don't want to
-dirty your hands with.
-
-
+Bone thung arose because I got sick of doing the same things over and over again and I needed some ways to enforce consistency in terms of deployment, backup and configurartion between various web PHP, Ruby, HTML and Javascript projects.
 
 Bonethug could loosely be considered a "web project meta framework".  It uses a
-single configuration file (although it merges in the database.yml file for rails
-projects) for all project types and includes adapters to interface with project
-specific configs.  This keeps you configuration in one place and has the benefit
+single yml configuration file and includes adapters to interface with project
+specific configs.  This keeps your configuration in one place and has the benefit
 of being able to drive the automation of a number of other repeatitious taks
-like deployment, task scheduling, backups and asset / db synchronisation.
-
-
+like deployment, task scheduling, asset optimisation, backups and asset / db synchronisation.
 
 The goal of the project is to be able to handle the complete project life cycle
-using only bonethug, git and package managers - no ssh, ftp, mysqldump etc.
+using only bonethug, git and package managers - no manual ssh, ftp, mysqldump etc.
 
 
+What does bonethug support?
+---------------------------
+
+Currently we support Silverstripe 3, Drupal 7, Rails 4, Generic PHP, Static HTML and EDMs.
+
+We are aiming to provide more complete support for Drupal 6, Wordpress, Rails 3 and Express / NodeJS.  There will of course be other skeletons added down the line, but I dont really know what they might be at this point.
+
+
+Why not use Yeoman / Grunt or something similar?
+------------------------------------------------
+
+If you need a single language solution this is not it.  Yeoman and Grunt are great if you want to work with only javascript and do 60% of the job.  The goal with this project is to offer an end to end solution for automating most of the tasks you would do in a project life cylce using open source software.
+
+Requirements
+------------
+
+This works 100% on Ubuntu 14.04 and possibly other debian based linux distributions.  Most of the functionality will work well on other Unix like OSes as long as you have pre-installed apache, mysql, ruby, nodejs and if required php (and their executables are availble in your PATH).  Most of the functionality will work on windows, but in particular deploy will not work.
+
+# OS
+
+## Development
+
+- OSX (with manual dependency install)
+- Windows (partial with manual dependency install)
+- Ubuntu 14.04 (100%) and possibly other debian based Linux distributions
+
+## Deployment
+
+- Ubuntu 14.04
+- Partial support for Ubuntu 12.04+
+
+# Software - if you are on ubuntu you can run the setup script and ur good to go
+
+- Ruby / Bundler
+- Node JS / NPM 
 
 Installation
 ------------
@@ -283,7 +314,11 @@ What isn't implemented yet?
 - sync of just files between envs
 - remove a deployment from a target
 - support for more project types
-- support for other OSes
+- support for more deployment OSes
+- update dependencies
+- setup env support for OSes other than ubuntu
+- watch on windows
+- deploy on windows (mina fork and rewrite)
 - support for nginx
 
 
