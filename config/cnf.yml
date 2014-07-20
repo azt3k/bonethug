@@ -11,10 +11,19 @@ deploy:
     keep: 2
   environments:
     development:
+      os:
+        type: ubuntu
+        version: 14.04    
     staging:
+      os:
+        type: ubuntu
+        version: 12.04    
       domain: staging.domain.com
       default_branch: master
     production:
+      os:
+        type: ubuntu
+        version: 14.04  
       domain: production.domain.com
       default_branch: stable
 dbs:

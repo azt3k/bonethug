@@ -171,20 +171,30 @@ module Bonethug
     # Reads system setup scripts
     # --------------------------
 
-    def self.get_setup_script
-        @@bonthug_gem_dir + '/scripts/ubuntu_setup.sh'
+    def self.get_setup_script(env)
+      exec_path = File.expand_path(path)
+      conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
+      deploy = conf.node_merge 'deploy.common','deploy.environments.' + env
+      os_type = 'ubuntu'
+      os_version = ''
+      if os = deploy.get('os')
+        os_type = os.get('type') if os.get('type')
+        os_version = os.get('version') if os.get('version')
+      end
+      os_str = os_type + (os and os_version.to_s.length ? '-' + os_version.to_s : '')
+      @@bonthug_gem_dir + '/scripts/' + os_str
     end
 
-    def self.get_setup_script_content
-        File.read self.get_setup_script
+    def self.get_setup_script_content(env)
+      File.read self.get_setup_script(env)
     end
 
     def self.get_setup_env_cmds
-       self.parse_sh self.get_setup_script_content
+      self.parse_sh self.get_setup_script_content(env)
     end
 
     def self.parse_sh(content)
-        content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/ || line.strip.length == 0) }
+      content.split("\n").select { |line| !(line =~ /^[\s\t]+$/ || line =~ /^[\s\t]*#/ || line.strip.length == 0) }
     end
 
     # ---------

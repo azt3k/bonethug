@@ -158,6 +158,14 @@ module Bonethug
         vh_cnf = conf.get 'vhost'
         vh_cnf = conf.get 'apache' unless vh_cnf
         vh_cnf = vh_cnf.get env
+
+        # exit if we have no env
+        unless vh_cnf
+          puts "unable to find vhost conf for " + env
+          exit
+        end
+
+        # get the conf path
         conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
         # load the appropriate config for the web server

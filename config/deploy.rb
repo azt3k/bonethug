@@ -152,7 +152,7 @@ end
 
 desc "Sets up an environment"
 task :setup_env => :environment do
-  Bonethug::Installer.get_setup_env_cmds.each do |cmd|
+  Bonethug::Installer.get_setup_env_cmds(env).each do |cmd|
     queue! %[#{cmd}]
   end
 end

@@ -31,7 +31,7 @@ sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
 sudo apt-get install libxml2 g++
-sudo apt-get install git ruby1.9.3 nodejs npm
+sudo apt-get install git ruby1.9.3 nodejs npm at
 
 
 # -----------------------------------------------------
