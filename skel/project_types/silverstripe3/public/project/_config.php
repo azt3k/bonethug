@@ -141,9 +141,9 @@ Requirements::set_combined_files_enabled(true);
 // -----------
 
 $shimRequirements = array(
-    'vendor/selectivizr/selectivizr.min.js',
-    'vendor/respond/respond.min.js',
-    'vendor/modernizr/modernizr.js'
+    'thirdparty/selectivizr/selectivizr.min.js',
+    'thirdparty/respond/respond.min.js',
+    'thirdparty/modernizr/modernizr.js'
 );
 Requirements::combine_files('lte-ie8-shims.js',$shimRequirements);
 Requirements::process_combined_files(); // forces ss to generate the file regardless of blocking
@@ -161,7 +161,7 @@ Requirements::combine_files('application.css', $cssRequirements);
 // ----------
 
 $jsRequirements = array(
-    'vendor/jquery/jquery.min.js',
+    'thirdparty/jquery/jquery.min.js',
     'project/javascript/main.js',
     'project/javascript/forms.js'
 );

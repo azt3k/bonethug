@@ -180,6 +180,7 @@ resources:
   - public/uploads
 vendor:
   - vendor
+  - public/thirdparty  
   - public/vendor
 post_cmds:
   development:

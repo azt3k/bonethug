@@ -49,6 +49,12 @@ module Bonethug
 
         display_help
 
+      when 'tasks'
+
+        @@tasks.each do |task|
+          puts task
+        end
+
       when 'version'
 
         puts 'bonethug v' + VERSION + ' - build date: ' + BUILD_DATE
