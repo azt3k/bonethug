@@ -31,7 +31,7 @@ module Bonethug
       'force-unlock',
       'cleanup',
       'clean',
-      'watch'    
+      'watch'
     ]
 
     def self.tasks
@@ -154,7 +154,7 @@ module Bonethug
 
         # load config
         conf = Conf.new.add exec_path + '/config/cnf.yml'
-        conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'        
+        conf.add(exec_path + '/config/database.yml' => { root: 'dbs.default' }) if File.exist? exec_path + '/config/database.yml'
         deploy = conf.node_merge 'deploy.common', 'deploy.environments.' + env
 
         # vhost name
@@ -175,7 +175,7 @@ module Bonethug
         conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
         # load the appropriate config for the web server
-        vh = Configurator.vhost vh_cnf, exec_path, env
+        vh = Configurator.vhost vh_cnf, exec_path, deploy.get('project_type'), env
 
         # check if we have a custom config for the webserver type
         case vh_cnf.get('type')
