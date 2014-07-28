@@ -31,7 +31,7 @@ module Bonethug
 
     def self.vhost(vh_cnf, base_path, project_type, env = 'development', is_remote = false)
 
-      conf = @@conf.get project_type
+      conf = @@conf.get 'project_types.' + project_type
 
       # server aliases
       server_aliases = ''
