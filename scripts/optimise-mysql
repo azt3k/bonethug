@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mysqlcheck -u root -p -o --all-databases
