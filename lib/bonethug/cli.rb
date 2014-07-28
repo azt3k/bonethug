@@ -175,7 +175,7 @@ module Bonethug
         conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
         # load the appropriate config for the web server
-        vh = Configurator.vhost vh_cnf, exec_path
+        vh = Configurator.vhost vh_cnf, exec_path, env
 
         # check if we have a custom config for the webserver type
         case vh_cnf.get('type')

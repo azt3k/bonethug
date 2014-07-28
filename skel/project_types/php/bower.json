@@ -1,18 +1,21 @@
 {
-    "name": "bonethug/php",
-    "version": "0.0.1",
-    "authors": [
-        "azt3k <breaks.nz@gmail.com>"
-    ],
-    "license": "MIT",
-    "private": true,
-    "dependencies": {
-        "jquery"            : "~1.11.0",
-        "modernizr"         : "git://github.com/Modernizr/Modernizr.git",
-        "respond"           : "git://github.com/scottjehl/Respond.git",
-        "picturefill"       : "git://github.com/scottjehl/picturefill.git",
-        "selectivizr"       : "https://raw.githubusercontent.com/keithclark/selectivizr/master/selectivizr.js",
-        "html5-boilerplate" : "~4.3.0",
-        "yepnope"           : "git://github.com/SlexAxton/yepnope.js.git"
-    }
+  "name": "bonethug/php",
+  "version": "0.0.1",
+  "authors": [
+    "azt3k <breaks.nz@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery"            : "~1.11.1",
+    "jquery-cookie"     : "git://github.com/carhartl/jquery-cookie.git",
+    "modernizr"         : "git://github.com/Modernizr/Modernizr.git",
+    "respond"           : "git://github.com/scottjehl/Respond.git",
+    "picturefill"       : "git://github.com/scottjehl/picturefill.git",
+    "selectivizr"       : "https://raw.githubusercontent.com/keithclark/selectivizr/master/selectivizr.js",
+    "html5-boilerplate" : "~4.3.0",
+    "yepnope"           : "git://github.com/SlexAxton/yepnope.js.git",
+    "bootstrap-sass"    : "git://github.com/twbs/bootstrap-sass.git",
+    "icomoon"           : "git://github.com/layerssss/icomoon-bower.git"
+  }
 }

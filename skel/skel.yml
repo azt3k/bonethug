@@ -1,37 +1,45 @@
 base:
 project_types:
   drupal:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/drupal_flush_cache.php
       - lib/drupal_bootstrap.php
       - lib/boris.php
       - drupal-console
   drupal6:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/drupal_flush_cache.php
       - lib/drupal_bootstrap.php
       - lib/boris.php
       - drupal-console
   drupal7:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/drupal_flush_cache.php
       - lib/drupal_bootstrap.php
       - lib/boris.php
       - drupal-console
   drupal8:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/drupal_flush_cache.php
       - lib/drupal_bootstrap.php
       - lib/boris.php
       - drupal-console
   php:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/Thug/Conf/Load.php
   rails3:
+    env_var: RAILS_ENV
     bonethug_files:
   rails4:
+    env_var: RAILS_ENV
     bonethug_files:
   silverstripe3:
+    env_var: APPLICATION_ENV
     bonethug_files:
       - lib/ss_loadconf.php
       - lib/ss_bootstrap.php
@@ -39,6 +47,7 @@ project_types:
       - ss-console
       - public/_ss_environment.php
   sinatra:
+    env_var: RACK_ENV
     bonethug_files:
 exlcuded_paths:
   - Gemfile

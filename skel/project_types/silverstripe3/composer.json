@@ -6,6 +6,9 @@
     "silverstripe/cms"                  : "3.1.*@dev",
     "silverstripe/html5"                : "dev-master",
     "phpmailer/phpmailer"               : "dev-master",
+    "silverstripe/bootstrap-forms"      : "dev-master",
+    "undefinedoffset/sortablegridfield" : "dev-master",
+    "unclecheese/betterbuttons"         : "dev-master",    
     "azt3k/abc-silverstripe"            : "dev-master",
     "azt3k/abc-silverstripe-mailer"     : "dev-master",
     "nathancox/minify"                  : "dev-master",
@@ -21,6 +24,9 @@
         "silverstripe/html5",
         "azt3k/abc-silverstripe",
         "azt3k/abc-silverstripe-mailer",
+        "unclecheese/betterbuttons",
+        "undefinedoffset/sortablegridfield",
+        "silverstripe/bootstrap-forms",
         "nathancox/minify"
       ]
     }

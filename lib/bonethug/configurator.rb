@@ -14,6 +14,10 @@ module Bonethug
     include FileUtils
     include Digest
 
+    @@bonthug_gem_dir = File.expand_path File.dirname(__FILE__) + '/../..'
+    @@skel_dir = @@bonthug_gem_dir + '/skel'
+    @@conf = Conf.new.add @@skel_dir + '/skel.yml'
+
     def self.hosts(vh_cnf)
       hosts = "127.0.0.1 #{vh_cnf.get('server_name')}\n"
       aliases = vh_cnf.get('server_aliases')
@@ -25,7 +29,9 @@ module Bonethug
       hosts
     end
 
-    def self.vhost(vh_cnf, base_path, is_remote = false)
+    def self.vhost(vh_cnf, base_path, project_type, env = 'development', is_remote = false)
+
+    conf = @@conf.node_merge 'base', 'project_types.' + project_type
 
       # server aliases
       server_aliases = ''
@@ -37,7 +43,7 @@ module Bonethug
       end
 
       # environment variables
-      env_vars = ''
+      env_vars = 'SetEnv ' + conf.get('env_var') + ' ' + env + "\n"
       vars = vh_cnf.get('env_vars')
       if vars
         vars.each do |k, v|
@@ -47,7 +53,7 @@ module Bonethug
 
       # server admin
       admin = vh_cnf.get('server_admin')
-      server_admin = admin ? 'ServerAdmin ' + admin : ''      
+      server_admin = admin ? 'ServerAdmin ' + admin : ''
 
       # paths
       shared_path = is_remote ? '/shared' : ''
@@ -60,7 +66,7 @@ module Bonethug
         vh = ""
 
       else # apache
-    
+
         access = vh_cnf.get('version').to_f >= 2.4 ? "Require all granted" : "Order allow,deny\nAllow from all"
 
         vh = "
