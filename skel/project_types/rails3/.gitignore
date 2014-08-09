@@ -1,17 +1,13 @@
 # project framework
 /.bundle
 /vendor
-/bin
-/logs/*
+/log/*
 /backups/*
 /db_dumps
 /tmp/*
-/composer.phar
+.sass-cache
+/vendor/ruby
 /config/cnf-local.yml
-
-# components tracked by composer
-/public/assets/*
-/vendor
 
 # project files
 *.sublime-workspace

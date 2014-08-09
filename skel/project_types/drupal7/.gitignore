@@ -8,6 +8,7 @@
 /tmp/*
 /composer.phar
 .sass-cache
+/config/cnf-local.yml
 
 # drupal, good times...
 # block all files in the public dir then unblock the dirs

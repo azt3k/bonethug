@@ -11,6 +11,7 @@
 /public/assets/*
 /public/vendor/*
 /vendor/ruby
+/config/cnf-local.yml
 
 # project files
 *.sublime-workspace

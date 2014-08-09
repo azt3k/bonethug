@@ -20,7 +20,7 @@ namespace :thug do
     ver_path = File.expand_path File.dirname(__FILE__) + '/../bonethug/version.rb'
 
     # write data
-    File.open(ver_path,'w') do |file| 
+    File.open(ver_path,'w') do |file|
       file.puts content
     end
 
@@ -36,7 +36,7 @@ namespace :thug do
 
     puts "now " + Bonethug::VERSION
 
-  end  
+  end
 
   desc "Runs rake build + some other stuff"
   task :build do
