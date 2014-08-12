@@ -133,11 +133,11 @@ module Bonethug
     # Prepares init db scripts
     # --------------------------
 
-    def self.init_mysql_db_script(db, path, admin_user = 'root')
+    def self.init_mysql_db_script(db, admin_user = 'root')
 
       script_content = "
         CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
-        GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY '" + db.get('pass') + "'" : "") + ";     
+        GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY '" + db.get('pass') + "'" : "") + ";
         FLUSH PRIVILEGES;
       "
       cmd = 'cd ' + path + ' && ' +
@@ -158,7 +158,7 @@ module Bonethug
           puts "No db for env " + env + " found - check your config file"
           exit
         else
-          puts "Mysql user " + admin_user + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host') + ", you may be propmted for the password for the user: " + admin_user
+          puts "Mysql user " + admin_user + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host') + ", you may be prompted for the password for the user: " + admin_user
           system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
         end
 

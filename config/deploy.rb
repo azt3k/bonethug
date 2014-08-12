@@ -170,7 +170,7 @@ task :init_db => :environment do
     dbs.each do |name,envs|
       if envs
         db = envs.get env
-        cmd = Bonethug::Installer.init_mysql_db_script db, deploy_to + '/current', ENV['admin_user']
+        cmd = Bonethug::Installer.init_mysql_db_script db, ENV['admin_user']
         queue! %[#{cmd}]
       end
     end
