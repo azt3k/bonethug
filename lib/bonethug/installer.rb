@@ -141,8 +141,7 @@ module Bonethug
         FLUSH PRIVILEGES;
       "
       cmd = 'cd ' + path + ' && ' +
-            'echo "' + script_content + '" > .bonethug/sql.txt && ' +
-            'mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p < .bonethug/sql.txt'
+            'echo "' + script_content + '" | mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p'
 
     end
 

@@ -12,6 +12,7 @@ if (!defined('APPLICATION_ENV')) define('APPLICATION_ENV', getenv('APPLICATION_E
 // prep some data
 $db_cnf = Yaml::parse(file_get_contents(__DIR__.'/../../../config/cnf.yml'));
 $db = (object) $db_cnf['dbs']['default'][APPLICATION_ENV];
+$apache = empty($cnf['apache']) ? $cnf['vhost'][APPLICATION_ENV] : $cnf['apache'][APPLICATION_ENV];
 
 // what conf are we using
 require APPLICATION_ENV . '.settings.php';
