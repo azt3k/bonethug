@@ -93,19 +93,20 @@ module Bonethug
         # handle args
         env = ARGV.last
         admin_user = ARGV.length == 3 ? ARGV[1] : 'root'
+        admin_pass = ARGV.length == 4 ? ARGV[2] : ''
 
         # validate
         if !env || env == task
-          puts 'Usage: ' + bin_name + ' ' + task + ' [admin_user] [environment]'
+          puts 'Usage: ' + bin_name + ' ' + task + ' [admin_user] [admin_pass] [environment]'
           return
         end
 
         if task == 'init-local-db'
-          Installer.execute_init_mysql_db_script env, admin_user
+          Installer.execute_init_mysql_db_script env, admin_user, admin_pass
         elsif task == 'setup-db'
-          exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb setup_db --verbose"
+          exec "export to=#{env} && export admin_user=#{admin_user} && export admin_pass=#{admin_pass} && bundle exec mina -f .bonethug/deploy.rb setup_db --verbose"
         else
-          exec "export to=#{env} && export admin_user=#{admin_user} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
+          exec "export to=#{env} && export admin_user=#{admin_user} && export admin_pass=#{admin_pass} && bundle exec mina -f .bonethug/deploy.rb init_db --verbose"
         end
 
       when 'setup-env'

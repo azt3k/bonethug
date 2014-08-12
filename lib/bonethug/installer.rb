@@ -133,18 +133,18 @@ module Bonethug
     # Prepares init db scripts
     # --------------------------
 
-    def self.init_mysql_db_script(db, admin_user = 'root')
+    def self.init_mysql_db_script(db, admin_user = 'root', admin_pass = '')
 
       script_content = "
         CREATE DATABASE IF NOT EXISTS " + db.get('name') + ";
         GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY '" + db.get('pass') + "'" : "") + ";
         FLUSH PRIVILEGES;
       "
-      cmd = 'echo "' + script_content + '" | mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p'
+      cmd = 'echo "' + script_content + '" | mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p' + admin_pass
 
     end
 
-    def self.execute_init_mysql_db_script(env, admin_user = 'root', path = '.')
+    def self.execute_init_mysql_db_script(env, admin_user = 'root', admin_pass = '', path = '.')
 
       exec_path = File.expand_path(path)
       conf = Bonethug::Conf.new.add(exec_path + '/config/cnf.yml')
@@ -159,7 +159,7 @@ module Bonethug
         else
           puts "Mysql user " + admin_user + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host') + ", you may be prompted for the password for the user: " + admin_user
           puts "NB: You may be affected by this bug if your admin user pass is longer than 8 chars: http://dev.mysql.com/doc/refman/5.0/en/password-too-long.html"
-          system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
+          system Bonethug::Installer.init_mysql_db_script(db, admin_user, admin_pass)
         end
 
       end
