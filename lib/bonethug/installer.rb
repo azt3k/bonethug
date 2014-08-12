@@ -158,6 +158,7 @@ module Bonethug
           exit
         else
           puts "Mysql user " + admin_user + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host') + ", you may be prompted for the password for the user: " + admin_user
+          puts "NB: You may be affected by this bug if your admin user pass is longer than 8 chars: http://dev.mysql.com/doc/refman/5.0/en/password-too-long.html"
           system Bonethug::Installer.init_mysql_db_script(db, path, admin_user)
         end
 
