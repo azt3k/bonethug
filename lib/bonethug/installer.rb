@@ -140,8 +140,7 @@ module Bonethug
         GRANT ALL ON " + db.get('name') + ".* TO " + db.get('user') + "@" + db.get('host') + (db.get('pass') ? " IDENTIFIED BY '" + db.get('pass') + "'" : "") + ";
         FLUSH PRIVILEGES;
       "
-      cmd = 'cd ' + path + ' && ' +
-            'echo "' + script_content + '" | mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p'
+      cmd = 'echo "' + script_content + '" | mysql -h ' + db.get('host') + ' -u ' + admin_user + ' -p'
 
     end
 
