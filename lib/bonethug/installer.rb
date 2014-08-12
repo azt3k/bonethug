@@ -396,8 +396,8 @@ module Bonethug
         end
 
         # run bundler
-        exec 'bundle install --path vendor'
-      
+        exec 'bundle install'
+
       end
 
       # self
