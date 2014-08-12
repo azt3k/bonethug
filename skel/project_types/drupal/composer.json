@@ -349,11 +349,9 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "cp -rp vendor/drupal/drupal/. public/",
             "rm -rf public/.gitignore"
         ],
         "post-install-cmd": [
-            "cp -rp vendor/drupal/drupal/. public/",
             "rm -rf public/.gitignore"
         ]
     }
