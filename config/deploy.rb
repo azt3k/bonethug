@@ -147,7 +147,7 @@ desc "Updates bundled dependencies"
 task :update_packages => :environment do
   invoke :'bundle:update'
   queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
-  queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type') 
+  queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
 end
 
 desc "Sets up an environment"
@@ -170,8 +170,15 @@ task :init_db => :environment do
     dbs.each do |name,envs|
       if envs
         db = envs.get env
-        cmd = Bonethug::Installer.init_mysql_db_script db, ENV['admin_user'], ENV['admin_pass']
-        queue! %[#{cmd}]
+        if !db
+          puts "No db for env " + env + " found - check your config file"
+          exit
+        else
+          puts "Mysql user " + ENV['admin_user'] + " is creating db: " + db.get('name') + " and granting access to " + db.get('user') + "@" + db.get('host') + ", you may be prompted for the password for the user: " + ENV['admin_user']
+          puts "NB: You may be affected by this bug if your admin user pass is longer than 8 chars: http://dev.mysql.com/doc/refman/5.0/en/password-too-long.html"
+          cmd = Bonethug::Installer.init_mysql_db_script db, ENV['admin_user'], ENV['admin_pass']
+          queue! %[#{cmd}]
+        end
       end
     end
   end
