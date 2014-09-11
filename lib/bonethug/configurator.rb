@@ -59,9 +59,13 @@ module Bonethug
       shared_path = is_remote ? '/shared' : ''
       current_path = is_remote ? '/current' : ''
 
-      # ssl
+      # ssl key
       ssl_key = vh_cnf.get 'ssl_key'
+      ssl_key = base_path + current_path + '/' + ssl_key if ssl_key and ssl_key[0] != '/'
+
+      # ssl crt
       ssl_crt = vh_cnf.get 'ssl_crt'
+      ssl_crt = base_path + current_path + '/' + ssl_crt if ssl_crt and ssl_crt[0] != '/'
 
       case vh_cnf.get('type')
 
