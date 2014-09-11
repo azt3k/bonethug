@@ -35,7 +35,7 @@ module Bonethug
 
       # server aliases
       server_aliases = ''
-      aliases = vh_cnf.get('server_aliases')
+      aliases = vh_cnf.get 'server_aliases'
       if aliases
         aliases.each do |index, server_alias|
           server_aliases += 'ServerAlias ' + server_alias + "\n"
@@ -52,12 +52,16 @@ module Bonethug
       end
 
       # server admin
-      admin = vh_cnf.get('server_admin')
+      admin = vh_cnf.get 'server_admin'
       server_admin = admin ? 'ServerAdmin ' + admin : ''
 
       # paths
       shared_path = is_remote ? '/shared' : ''
       current_path = is_remote ? '/current' : ''
+
+      # ssl
+      ssl_key = vh_cnf.get 'ssl_key'
+      ssl_crt = vh_cnf.get 'ssl_crt'
 
       case vh_cnf.get('type')
 
@@ -96,6 +100,48 @@ module Bonethug
 
           </VirtualHost>
         "
+
+        if ssl_key and ssl_crt
+
+          vh += "
+            <VirtualHost *:443>
+
+              ServerName  #{vh_cnf.get('server_name')}
+              #{server_aliases}
+
+              #{server_admin}
+
+              DocumentRoot #{base_path + current_path}/public
+
+              #{env_vars}
+              PassEnv PATH
+
+              SSLEngine on
+              SSLCertificateFile #{ssl_crt}
+              SSLCertificateKeyFile #{ssl_crt}
+
+              CustomLog #{base_path + shared_path}/log/bytes.log bytes
+              CustomLog #{base_path + shared_path}/log/combined.log combined
+              ErrorLog  #{base_path + shared_path}/log/error.log
+
+              <Directory #{base_path + current_path}/public>
+
+                SSLOptions +StdEnvVars
+                Options Indexes MultiViews FollowSymLinks
+                AllowOverride All
+                #{access}
+
+              </Directory>
+
+              BrowserMatch \"MSIE [2-6]\" \
+                              nokeepalive ssl-unclean-shutdown \
+                              downgrade-1.0 force-response-1.0
+              BrowserMatch \"MSIE [17-9]\" ssl-unclean-shutdown
+
+            </VirtualHost>
+          "
+
+        end
       end
 
       vh
