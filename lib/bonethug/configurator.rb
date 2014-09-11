@@ -121,7 +121,7 @@ module Bonethug
               PassEnv PATH
 
               SSLEngine on
-              SSLCertificateFile #{ssl_crt}
+              SSLCertificateFile #{ssl_key}
               SSLCertificateKeyFile #{ssl_crt}
 
               CustomLog #{base_path + shared_path}/log/bytes.log bytes
