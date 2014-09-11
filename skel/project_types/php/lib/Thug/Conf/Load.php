@@ -66,7 +66,8 @@ class Load {
 		$cnf = Yaml::parse($base_dir . '/config/cnf.yml');
 
 		// expected urls
-		$url = 'http://' . $cnf['apache'][APPLICATION_ENV]['server_name'];
+		$apache = empty($cnf['apache']) ? $cnf['vhost'] : $cnf['apache'];
+		$url = 'http://' . $apache[APPLICATION_ENV]['server_name'];
 
 		// load db settings
 		$db = (object) $cnf['dbs']['default'][APPLICATION_ENV];
