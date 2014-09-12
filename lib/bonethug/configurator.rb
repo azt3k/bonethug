@@ -67,6 +67,11 @@ module Bonethug
       ssl_crt = vh_cnf.get 'ssl_crt'
       ssl_crt = base_path + current_path + '/' + ssl_crt if ssl_crt and ssl_crt[0...0] != '/'
 
+      # ssl crt
+      ssl_ca_bundle = vh_cnf.get 'ssl_ca_bundle'
+      ssl_ca_bundle = base_path + current_path + '/' + ssl_ca_bundle if ssl_ca_bundle and ssl_ca_bundle[0...0] != '/'
+      ca_str = ssl_ca_bundle ? 'SSLCertificateChainFile ' + ssl_ca_bundle : ''
+
       case vh_cnf.get('type')
 
       when "nginx"
@@ -123,6 +128,7 @@ module Bonethug
               SSLEngine on
               SSLCertificateFile #{ssl_crt}
               SSLCertificateKeyFile #{ssl_key}
+              #{ca_str}
 
               CustomLog #{base_path + shared_path}/log/bytes.log bytes
               CustomLog #{base_path + shared_path}/log/combined.log combined

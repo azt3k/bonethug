@@ -140,6 +140,7 @@ vhost:
     version: 2.4
     ssl_key: /etc/ssl/private/ssl-cert-snakeoil.key
     ssl_crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    ssl_ca_bundle:
     server_name: production.domain.com
     server_aliases:
       - www.production.domain.com
