@@ -241,7 +241,7 @@ module Bonethug
         else
           case task
           when 'rake'
-            cmd_task = 'rake'
+            cmd_task = 'bundle exec rake'
           when 'drush', 'drush-local'
             cmd_task = File.expand_path('./vendor/drush/drush/drush') + ' -r ' + File.expand_path('./public')
           when 'sake'

@@ -145,7 +145,7 @@ end
 
 desc "Load Environment"
 task :run_task do
-  queue! %[export APPLICATION_ENV=#{env} && export RAILS_ENV=#{env} cd "#{deploy_to}/current" && #{ENV['task']}]
+  queue! %[export APPLICATION_ENV=#{env} && export RAILS_ENV=#{env} && cd "#{deploy_to}/current" && #{ENV['task']}]
 end
 
 desc "Updates bundled dependencies"
