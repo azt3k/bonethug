@@ -143,7 +143,7 @@ task :setup => :environment do
 
 end
 
-desc "Load Environment"
+desc "Run task"
 task :run_task do
   queue! %[export APPLICATION_ENV=#{env} && export RAILS_ENV=#{env} && cd "#{deploy_to}/current" && #{ENV['task']}]
 end
