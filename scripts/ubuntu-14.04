@@ -1,8 +1,11 @@
-# /bin/bash
+#!/bin/bash
 
 # -----------------------------------------------------
 # install native stuff
 # -----------------------------------------------------
+
+# update
+sudo apt-get update && sudo apt-get upgrade
 
 # install the repo adding scripts
 sudo apt-get install software-properties-common python-software-properties
@@ -109,59 +112,7 @@ sudo a2enconf phpmyadmin.conf
 # -----------------------------------------------------
 
 # install some gems - yes gem1.9.3 - wtf - use rbenv
-# sudo gem1.9.3 install mina bundler whenever astrails-safe
-
-# install passenger
-sudo gem install passenger
-sudo passenger-install-apache2-module
-sudo touch /etc/apache2/mods-available/passenger.load
-sudo touch /etc/apache2/mods-available/passenger.confc
-
-# -----------------------------------------------------
-# Node.js related
-# -----------------------------------------------------
-
-sudo npm install bower -g
-
-# -----------------------------------------------------
-# Restart stuff
-# -----------------------------------------------------
-
-sudo service apache2 restart
-sudo service php5-fpm restart
-# Apache
-# ------
-
-# config modules
-
-# php fpm
-sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" > /etc/apache2/conf-available/php-fpm.conf
-sudo a2enconf php-fpm.conf
-
-# DDoS Protection
-sudo mkdir -p /var/log/apache2/evasive
-sudo chown -R www-data:root /var/log/apache2/evasive
-sudo echo -e "<IfModule mod_spamhaus.c>\n  DOSHashTableSize 2048\n  DOSPageCount 20  # maximum number of requests for the same page\n  DOSSiteCount 300  # total number of requests for any object by the same client IP on the same listener\n  DOSPageInterval 1.0 # interval for the page count threshold\n  DOSSiteInterval 1.0  # interval for the site count threshold\n  DOSBlockingPeriod 10.0 # time that a client IP will be blocked for\n  DOSLogDir “/var/log/apache2/evasive”\n  DOSEmailNotify root@localhost\n</IfModule>" > /etc/apache2/conf-available/mod-evasive.conf
-sudo a2enconf mod-evasive.conf
-
-# DNS Injection
-sudo touch /etc/spamhaus.wl
-sudo echo -e "<IfModule mod_spamhaus.c>\n  MS_METHODS POST,PUT,OPTIONS,CONNECT\n  MS_WhiteList /etc/spamhaus.wl\n  MS_CacheSize 256\n</IfModule>" > /etc/apache2/conf-available/spamhaus.conf
-sudo a2enconf spamhauf.conf
-
-# enable modules
-sudo a2enmod actions fastcgi alias rewrite headers qos spamhaus evasive cache cache_disk
-
-# phpmyadmin apache 2.4
-sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
-sudo a2enconf phpmyadmin.conf
-
-# -----------------------------------------------------
-# Install Gems
-# -----------------------------------------------------
-
-# install some gems - yes gem1.9.3 - wtf - use rbenv
-# sudo gem1.9.3 install mina bundler whenever astrails-safe
+sudo gem install bundler
 
 # install passenger
 sudo gem install passenger

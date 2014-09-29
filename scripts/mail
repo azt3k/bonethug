@@ -1,4 +1,4 @@
-# /bin/bash
+#!/bin/bash
 
 cd /usr/share && sudo git clone https://github.com/joshdata/mailinabox
 sudo bash mailinabox/setup/start.sh

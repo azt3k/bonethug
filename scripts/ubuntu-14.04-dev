@@ -1,4 +1,4 @@
-# /bin/bash
+#!/bin/bash
 
 # -----------------------------------------------------
 # install native stuff
@@ -84,7 +84,7 @@ sudo a2enconf phpmyadmin.conf
 # -----------------------------------------------------
 
 # install some gems - yes gem1.9.3 - wtf - use rbenv
-# sudo gem1.9.3 install mina bundler whenever astrails-safe
+sudo gem install bundler
 
 # install passenger
 sudo gem install passenger

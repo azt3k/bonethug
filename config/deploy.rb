@@ -143,11 +143,16 @@ task :setup => :environment do
 
 end
 
+desc "Load Environment"
+task :run_task do
+  queue! %[export APPLICATION_ENV=#{env} && export RAILS_ENV=#{env} cd "#{deploy_to}/current" && #{ENV['task']}]
+end
+
 desc "Updates bundled dependencies"
 task :update_packages => :environment do
-  invoke :'bundle:update'
-  queue! %[php #{deploy_to}/shared/composer.phar update] if use_composer
-  queue! %[php #{deploy_to}/current/public/framework/cli-script.php dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
+  queue! %[cd "#{deploy_to}/current" && bundle update]
+  queue! %[php "#{deploy_to}/shared/composer.phar" update] if use_composer
+  queue! %[php "#{deploy_to}/current/public/framework/cli-script.php" dev/build] if ['silverstripe','silverstripe3'].include? deploy.get('project_type')
 end
 
 desc "Sets up an environment"

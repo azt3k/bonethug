@@ -260,7 +260,7 @@ module Bonethug
         else
 
           # build command
-          run = "\"run[#{cmd_task} #{args.join(' ')}]\""
+          run = "run_task task=\"#{cmd_task} #{args.join(' ')}\""
 
           # do it!
           exec "export to=#{environment} && bundle exec mina -f .bonethug/deploy.rb #{run} --verbose"
