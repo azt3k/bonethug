@@ -1,6 +1,6 @@
 
         module Bonethug
-          VERSION = "0.0.89"
-          BUILD_DATE = "2014-09-30 11:34:00 +1300"
+          VERSION = "0.0.90"
+          BUILD_DATE = "2014-10-22 15:40:01 +1300"
         end
       
