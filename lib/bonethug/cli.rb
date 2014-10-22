@@ -189,7 +189,7 @@ module Bonethug
         else # apache
 
           # install the vhost
-          system "sudo echo \"#{vh}\" > #{conf_path}/#{vhost}.conf"
+          system "echo \"#{vh}\" | sudo tee #{conf_path}/#{vhost}.conf"
 
         end
 
@@ -205,7 +205,7 @@ module Bonethug
         # this needs work
         system "sudo sed -i '/## BONETHUG-#{vhost} ##/,/## END_BONETHUG-#{vhost} ##/ s/.*//g' #{path}"
         escaped = (hosts).gsub(/"/, '\"')
-        system "sudo echo \"#{escaped}\" >> #{path}"
+        system "echo \"#{escaped}\" | sudo tee -a #{path}"
 
         # reload apache - linux - but need a debian specific look up
         system "sudo a2ensite #{vhost} && sudo service apache2 restart" if RbConfig::CONFIG['target_os'] =~ /linux/i
