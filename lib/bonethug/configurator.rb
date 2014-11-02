@@ -71,7 +71,7 @@ module Bonethug
       custom_str = ''
       if custom
         custom.each do |k, v|
-          custom_str += 'v' + "\n"
+          custom_str += v + "\n"
         end
       end
 
