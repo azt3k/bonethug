@@ -295,7 +295,7 @@ task :deploy => :environment do
     vh_cnf = vh_cnf.get env
     conf_path = vh_cnf.get('conf_path') || '/etc/apache2/sites-available'
 
-    vh = Bonethug::Configurator.vhost vh_cnf, deploy_to, deploy.get('project_type'), env, true
+    vh = Bonethug::Configurator.vhost(vh_cnf, deploy_to, deploy.get('project_type'), env, true).gsub('"','\"')
 
     case vh_cnf.get('type')
 

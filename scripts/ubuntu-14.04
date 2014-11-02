@@ -101,7 +101,7 @@ sudo echo -e "<IfModule mod_spamhaus.c>\n  MS_METHODS POST,PUT,OPTIONS,CONNECT\n
 sudo a2enconf spamhauf.conf
 
 # enable modules
-sudo a2enmod actions fastcgi alias rewrite headers qos spamhaus evasive cache cache_disk ssl
+sudo a2enmod actions fastcgi alias rewrite expires headers qos spamhaus evasive cache cache_disk ssl
 
 # phpmyadmin apache 2.4
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf

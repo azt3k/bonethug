@@ -67,7 +67,7 @@ sudo echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5
 # ------
 
 # modules
-sudo a2enmod actions fastcgi alias rewrite headers
+sudo a2enmod actions fastcgi alias expires rewrite headers
 
 # phpmyadmin
 sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
