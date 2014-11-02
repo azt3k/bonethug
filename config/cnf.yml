@@ -145,6 +145,11 @@ vhost:
     server_aliases:
       - www.production.domain.com
     server_admin: dev@domain.com
+    custom:
+      - CacheRoot /tmp/http_cache
+      - CacheEnable disk /
+      - CacheDirLevels 5
+      - CacheDirLength 3
     env_vars:
       RAILS_ENV: production
       APPLICATION_ENV: production

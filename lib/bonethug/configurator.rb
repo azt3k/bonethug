@@ -44,7 +44,7 @@ module Bonethug
 
       # environment variables
       env_vars = 'SetEnv ' + conf.get('env_var') + ' ' + env + "\n"
-      vars = vh_cnf.get('env_vars')
+      vars = vh_cnf.get 'env_vars'
       if vars
         vars.each do |k, v|
           env_vars += 'SetEnv ' + k + ' ' + v + "\n"
@@ -66,6 +66,14 @@ module Bonethug
       # ssl crt
       ssl_crt = vh_cnf.get 'ssl_crt'
       ssl_crt = base_path + current_path + '/' + ssl_crt if ssl_crt and ssl_crt[0...0] != '/'
+
+      custom = vh_cnf.get 'custom'
+      custom_str = ''
+      if custom
+        custom.each do |k, v|
+          custom_str += 'v' + "\n"
+        end
+      end
 
       # ssl crt
       ssl_ca_bundle = vh_cnf.get 'ssl_ca_bundle'
@@ -94,6 +102,8 @@ module Bonethug
 
             #{env_vars}
             PassEnv PATH
+
+            #{custom_str}
 
             CustomLog #{base_path + shared_path}/log/bytes.log bytes
             CustomLog #{base_path + shared_path}/log/combined.log combined
@@ -129,6 +139,8 @@ module Bonethug
               SSLCertificateFile #{ssl_crt}
               SSLCertificateKeyFile #{ssl_key}
               #{ca_str}
+
+              #{custom_str}
 
               CustomLog #{base_path + shared_path}/log/bytes.log bytes
               CustomLog #{base_path + shared_path}/log/combined.log combined
