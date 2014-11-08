@@ -360,7 +360,7 @@ task :deploy => :environment do
       queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
 
       # update bower
-      queue! %[cd #{deploy_to}/current && bower install --allow-root] if use_bower
+      queue! %[cd #{deploy_to}/current && bower install --allow-root && bower update --allow-root] if use_bower
 
       # trigger a restart on rack based systems
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]
