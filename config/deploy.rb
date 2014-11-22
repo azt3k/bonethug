@@ -279,9 +279,23 @@ task :deploy => :environment do
       #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
     }
 
-    # !!!!!!
-    # COMPOSER INSTALL AND BOWER INSTALL NEEDS TO RUN HERE!!!!!!! - ASSET PRECOMPILE WILL FAIL IF DEPENDENCIES ARE NOT INCLUDED!!!!
-    # !!!!!!
+    # update composer
+    # queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
+    if use_composer
+      queue %{
+        echo "-----> Installing php dependencies using Composer"
+        #{echo_cmd %[php composer.phar install]}
+      }
+    end
+
+    # update bower
+    # queue! %[cd #{deploy_to}/current && bower install --allow-root && bower update --allow-root] if use_bower
+    if use_bower
+      queue %{
+        echo "-----> Installing front end dependencies using Bower"
+        #{echo_cmd %[bower install --allow-root && bower update --allow-root]}
+      }
+    end
 
     # rails deploy tasks
     if deploy.get('project_type') =~ /rails[0-9]?/
@@ -355,12 +369,6 @@ task :deploy => :environment do
           queue! %[chmod -R #{chmod.get('mode')} #{deploy_to}/current/#{chmod.get('path')}]
         end
       end
-
-      # update composer
-      queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
-
-      # update bower
-      queue! %[cd #{deploy_to}/current && bower install --allow-root && bower update --allow-root] if use_bower
 
       # trigger a restart on rack based systems
       queue! %[touch #{deploy_to}/current/tmp/restart.txt]
