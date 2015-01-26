@@ -189,7 +189,7 @@ module Bonethug
         else # apache
 
           # install the vhost
-          system "echo \"#{vh}\" | sudo tee #{conf_path}/#{vhost}.conf"
+          system "echo \"#{vh.gsub('"','\"')}\" | sudo tee #{conf_path}/#{vhost}.conf"
 
         end
 

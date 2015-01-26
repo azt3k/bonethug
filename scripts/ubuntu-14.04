@@ -97,7 +97,7 @@ sudo gem install bundler
 sudo gem install passenger
 sudo passenger-install-apache2-module
 sudo touch /etc/apache2/mods-available/passenger.load
-sudo touch /etc/apache2/mods-available/passenger.confc
+sudo touch /etc/apache2/mods-available/passenger.conf
 
 # -----------------------------------------------------
 # Node.js related

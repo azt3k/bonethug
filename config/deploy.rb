@@ -274,7 +274,7 @@ task :deploy => :environment do
     # invoke :'bundle:install'
     # we are omitting the symlink step because vendor should already be symlinked
     queue %{
-      echo "-----> Installing gem dependencies using Bundler"
+      echo "\n-----> Installing gem dependencies using Bundler"
       #{echo_cmd %[mkdir -p "#{File.dirname bundle_path}"]}
       #{echo_cmd %[#{bundle_bin} install #{bundle_options}]}
     }
@@ -283,7 +283,7 @@ task :deploy => :environment do
     # queue! %[php #{deploy_to}/shared/composer.phar install] if use_composer
     if use_composer
       queue %{
-        echo "-----> Installing php dependencies using Composer"
+        echo "\n-----> Installing php dependencies using Composer"
         #{echo_cmd %[php composer.phar install]}
       }
     end
@@ -292,7 +292,7 @@ task :deploy => :environment do
     # queue! %[cd #{deploy_to}/current && bower install --allow-root && bower update --allow-root] if use_bower
     if use_bower
       queue %{
-        echo "-----> Installing front end dependencies using Bower"
+        echo "\n-----> Installing front end dependencies using Bower"
         #{echo_cmd %[bower install --allow-root && bower update --allow-root]}
       }
     end
