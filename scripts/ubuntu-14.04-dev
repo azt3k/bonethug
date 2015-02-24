@@ -23,12 +23,13 @@ sudo apt-get update && sudo apt-get upgrade
 # install
 
 # dev headers
+sudo apt-get install build-essential
 sudo apt-get install libcurl4-openssl-dev libssl-dev apache2-threaded-dev libapr1-dev libaprutil1-dev libapr1-dev libaprutil1-dev ruby2.1-dev
 sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev libxml2-dev libxslt1-dev
 
 # regular packages
 sudo apt-get install apache2-mpm-event
-sudo apt-get install curl libapache2-mod-fastcgi php5-fpm php5 php5-fcli php5-curl php5-gd php5-imagick php-apc php5-mysql php5-xdebug
+sudo apt-get install curl libapache2-mod-fastcgi php5-fpm php5 php5-cli php5-curl php5-gd php5-imagick php-apc php5-mysql php5-xdebug
 sudo apt-get install mysql-server mysql-client sqlite3
 sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
@@ -76,7 +77,7 @@ sudo touch /etc/apache2/mods-available/passenger.confc
 # -----------------------------------------------------
 
 curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+sudo mv composer.phar /usr/local/bin/composer
 
 # -----------------------------------------------------
 # Node.js related

@@ -356,8 +356,8 @@ module Bonethug
             'whenever'          => 'javan/whenever',
             'guard-erb'         => 'azt3k/guard-erb',
             'coffee-script'     => 'josh/ruby-coffee-script',
-            'guard-uglify'      => 'customink/guard-uglify',
-            'guard-concat'      => 'mikz/guard-concat',
+            'guard-uglify'      => 'pferdefleisch/guard-uglify',
+            'guard-concat'      => 'makevoid/guard-concat',
             'bonethug'          => nil
           }
 

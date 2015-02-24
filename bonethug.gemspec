@@ -52,7 +52,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'uglifier'
   spec.add_dependency 'sass'
   spec.add_dependency 'guard-sass'
-  spec.add_dependency 'guard-coffeescript', '1.3.4'
+  spec.add_dependency 'guard-coffeescript'
   spec.add_dependency 'guard-erb'
   spec.add_dependency 'guard-slim'
   spec.add_dependency 'guard-concat'

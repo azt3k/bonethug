@@ -26,6 +26,7 @@ sudo apt-get update && sudo apt-get upgrade
 # install
 
 # dev headers
+sudo apt-get install build-essential
 sudo apt-get install libcurl4-openssl-dev libssl-dev apache2-threaded-dev libapr1-dev libaprutil1-dev libapr1-dev libaprutil1-dev ruby2.1-dev
 sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev libxml2-dev libxslt1-dev
 
@@ -37,7 +38,7 @@ sudo apt-get install mysql-server mysql-client sqlite3
 sudo apt-get install imagemagick
 sudo apt-get install phpmyadmin
 sudo apt-get install sshpass
-sudo apt-get install libxml2 g++
+sudo apt-get install libxml2 g++ libreadline build
 sudo apt-get install git ruby2.1 wkhtmltopdf nodejs npm at
 
 
