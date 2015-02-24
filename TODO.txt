@@ -11,4 +11,4 @@
 - need more modular configuration of server components for setup scripts
 - thug vhost-local and thug deploy could share more code
 - log rotate
-- SSL support
+- gemfile parsing is a bit flaky
