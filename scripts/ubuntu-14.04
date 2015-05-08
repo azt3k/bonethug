@@ -66,8 +66,8 @@ update-alternatives --set ruby /usr/bin/ruby2.1
 # config modules
 
 # php fpm
-echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" sudo tee /etc/apache2/conf-available/php-fpm.conf
-sudo a2enconf php-fpm.conf
+echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi /php5-fcgi\n Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -idle-timeout 250 -pass-header Authorization\n <Directory />\nRequire all granted\n </Directory>\n </IfModule>" sudo tee /etc/apache2/conf-available/php5-fpm.conf
+sudo a2enconf php5-fpm.conf
 
 # DDoS Protection
 sudo mkdir -p /var/log/apache2/evasive
@@ -91,7 +91,7 @@ sudo a2enconf phpmyadmin.conf
 # Install Gems
 # -----------------------------------------------------
 
-# install some gems - yes gem1.9.3 - wtf - use rbenv
+# install some gems
 sudo gem install bundler
 
 # install passenger
@@ -112,3 +112,10 @@ sudo npm install bower -g
 
 sudo service apache2 restart
 sudo service php5-fpm restart
+
+# -----------------------------------------------------
+# Install composer
+# -----------------------------------------------------
+
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
