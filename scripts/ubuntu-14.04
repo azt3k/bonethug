@@ -104,7 +104,7 @@ sudo touch /etc/apache2/mods-available/passenger.conf
 # Node.js related
 # -----------------------------------------------------
 
-sudo npm install bower -g
+sudo npm install bower npm gulp -g
 
 # -----------------------------------------------------
 # Restart stuff
@@ -118,4 +118,4 @@ sudo service php5-fpm restart
 # -----------------------------------------------------
 
 curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+sudo mv composer.phar /usr/local/bin/composer
