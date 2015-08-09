@@ -77,9 +77,9 @@ module Bonethug
         db_local  = db.get env_local
 
         if push == 'local' and pull == 'remote'
-          cmd = "#{remote_ssh} \"mysqldump -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'} --verbose --single-transaction -CceKq | bzip2 -c\" | bunzip2 -c | mysql -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'}"
+          cmd = "#{remote_ssh} \"mysqldump -u #{db_remote.get 'user'} -h #{db_remote.get 'host'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'} --verbose --single-transaction -CceKq | bzip2 -c\" | bunzip2 -c | mysql -u #{db_local.get 'user'} -h #{db_local.get 'host'} -p#{db_local.get 'pass'} #{db_local.get 'name'}"
         elsif pull == 'local' and push == 'remote'
-          cmd = "mysqldump -u #{db_local.get 'user'} -p#{db_local.get 'pass'} #{db_local.get 'name'} --verbose --single-transaction -CceKq | bzip2 -c | #{remote_ssh} \"bunzip2 -c | mysql -u #{db_remote.get 'user'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'}\""
+          cmd = "mysqldump -u #{db_local.get 'user'} -h #{db_local.get 'host'} -p#{db_local.get 'pass'} #{db_local.get 'name'} --verbose --single-transaction -CceKq | bzip2 -c | #{remote_ssh} \"bunzip2 -c | mysql -u #{db_remote.get 'user'} -h #{db_remote.get 'host'} -p#{db_remote.get 'pass'} #{db_remote.get 'name'}\""
         end
 
         puts cmd
