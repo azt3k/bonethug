@@ -31,8 +31,7 @@ sudo apt-get install libmysqlclient-dev libmagickwand-dev libsqlite3-dev libxml2
 # regular packages
 sudo apt-get install apache2-mpm-event
 sudo apt-get install apt-transport-https ca-certificates
-sudo apt-get install ibapache2-mod-passenger
-sudo apt-get install libapache2-mod-qos libapache2-mod-spamhaus libapache2-mod-fastcgi libapache2-mod-evasive
+sudo apt-get install libapache2-mod-passenger libapache2-mod-qos libapache2-mod-spamhaus libapache2-mod-fastcgi libapache2-mod-evasive
 sudo apt-get install curl php5-fpm php5 php5-cli php5-curl php5-gd php5-imagick php-apc php5-mysql
 sudo apt-get install mysql-server mysql-client sqlite3
 sudo apt-get install imagemagick
@@ -69,7 +68,7 @@ echo -e "<IfModule mod_fastcgi.c>\n AddHandler php5-fcgi .php\n Action php5-fcgi
 sudo a2enconf php-fpm.conf
 
 # enable modules
-sudo a2enmod actions fastcgi alias rewrite expires headers cache cache_disk ssl mpm_event
+sudo a2enmod passenger actions fastcgi alias rewrite expires headers cache cache_disk ssl mpm_event
 
 # -----------------------------------------------------
 # Install Gems
@@ -77,12 +76,6 @@ sudo a2enmod actions fastcgi alias rewrite expires headers cache cache_disk ssl 
 
 # install some gems
 sudo gem install bundler
-
-# install passenger
-sudo gem install passenger
-sudo passenger-install-apache2-module
-sudo touch /etc/apache2/mods-available/passenger.load
-sudo touch /etc/apache2/mods-available/passenger.confc
 
 # -----------------------------------------------------
 # Node.js related
