@@ -12,3 +12,4 @@
 - thug vhost-local and thug deploy could share more code
 - log rotate
 - gemfile parsing is a bit flaky
+- need to look at best practice around compiling assets also compile on deploy.

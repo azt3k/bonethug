@@ -89,9 +89,11 @@ module Bonethug
       else # apache
 
         access = vh_cnf.get('version').to_f >= 2.4 ? "Require all granted" : "Order allow,deny\nAllow from all"
+        port = vh_cnf.get('port') || 80
+        ssl_port = vh_cnf.get('ssl_port') || 443
 
         vh = "
-          <VirtualHost *:80>
+          <VirtualHost *:#{port.to_s}>
 
             ServerName  #{vh_cnf.get('server_name')}
             #{server_aliases}
@@ -123,7 +125,7 @@ module Bonethug
         if ssl_key and ssl_crt
 
           vh += "
-            <VirtualHost *:443>
+            <VirtualHost *:#{ssl_port.to_s}>
 
               ServerName  #{vh_cnf.get('server_name')}
               #{server_aliases}
