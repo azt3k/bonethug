@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/share && sudo git clone https://github.com/joshdata/mailinabox
-sudo bash mailinabox/setup/start.sh
+curl -s https://mailinabox.email/bootstrap.sh | sudo bash
 
+# this kills apache so it needs to be re-set up post install
 # need to go in and change the default listening ports in /etc/nginx/conf.d/local.conf
