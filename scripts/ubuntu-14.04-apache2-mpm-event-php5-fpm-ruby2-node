@@ -33,12 +33,15 @@ sudo apt-get install apache2-mpm-event
 sudo apt-get install apt-transport-https ca-certificates
 sudo apt-get install libapache2-mod-passenger libapache2-mod-qos libapache2-mod-spamhaus libapache2-mod-fastcgi libapache2-mod-evasive
 sudo apt-get install curl php5-fpm php5 php5-cli php5-curl php5-gd php5-imagick php-apc php5-mysql
-sudo apt-get install mysql-server mysql-client sqlite3
+sudo apt-get install mysql-server-5.6 mysql-client-5.6 sqlite3
 sudo apt-get install imagemagick
 sudo apt-get install sshpass
 sudo apt-get install libxml2 g++
-sudo apt-get install git ruby2.1 wkhtmltopdf nodejs npm at
+sudo apt-get install git ruby2.2 wkhtmltopdf at
 
+# nodejs
+wget -qO- https://deb.nodesource.com/setup_5.x | sudo bash -
+sudo apt-get install nodejs
 
 # -----------------------------------------------------
 # Configure stuff
@@ -46,16 +49,14 @@ sudo apt-get install git ruby2.1 wkhtmltopdf nodejs npm at
 
 # php
 sudo sed -i -e "s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
+sudo sed -i -e "s/memory_limit = 128M/memory_limit = 512M/g" /etc/php5/fpm/php.ini
 
 # secure mysql install
 sudo mysql_secure_installation
 
-# node
-sudo ln -s /usr/bin/nodejs /usr/bin/node
-
 # ruby
-update-alternatives --set gem /usr/bin/gem2.1
-update-alternatives --set ruby /usr/bin/ruby2.1
+update-alternatives --set gem /usr/bin/gem2.2
+update-alternatives --set ruby /usr/bin/ruby2.2
 
 
 # Apache
@@ -70,18 +71,33 @@ sudo a2enconf php-fpm.conf
 # enable modules
 sudo a2enmod passenger actions fastcgi alias rewrite expires headers cache cache_disk ssl mpm_event
 
+# cache locks
+mkdir -p /var/cache/locks/
+chown -R www-data:www-data /var/cache/locks/
+
+# explicitly add root to www:data
+sudo usermod -a -G www-data root
+
 # -----------------------------------------------------
 # Install Gems
 # -----------------------------------------------------
 
 # install some gems
-sudo gem install bundler
+sudo gem install bundler sass whenever
 
 # -----------------------------------------------------
 # Node.js related
 # -----------------------------------------------------
 
-sudo npm install bower gulp -g
+# install node global stuff
+sudo npm install -g npm gulp bower jshint
+
+# -----------------------------------------------------
+# PHP Related
+# -----------------------------------------------------
+
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
 
 # -----------------------------------------------------
 # Restart stuff
