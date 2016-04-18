@@ -236,8 +236,8 @@ watch:
       filter: "*"
   uglify:
     -
-      src:  public/project/javascript
-      dest: public/project/javascript
-      filter: !ruby/regexp '/^.+(?<!min)\.js$/'
+      src:  public/project/javascript/main.js
+      dest: public/project/javascript/main.min.js
+      filter: public/project/javascript/main.js
 log_dirs:
   - log

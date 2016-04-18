@@ -74,7 +74,7 @@ class Watcher
     uglify = []
     if uglifies = conf.get('watch.uglify')
       uglifies.each do |index, watch|
-        uglify.push(src: watch.get('src','Array'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :uglify)
+        uglify.push(src: watch.get('src'), dest: watch.get('dest'), filter: watch.get('filter'), all_on_start: watch.get('onstart').to_bool, type: :uglify)
       end
     end
 
@@ -159,7 +159,7 @@ class Watcher
           "
         elsif watch[:type] == :uglify
           guardfile_content += "
-            guard 'uglify', :output => '#{watch[:dest]}', :input => #{watch[:src].to_s}, :all_on_start => #{watch[:all_on_start].to_s} do
+            guard 'uglify', :output => '#{watch[:dest]}', :input => '#{watch[:src].to_s}', :all_on_start => #{watch[:all_on_start].to_s} do
               #{filter}
             end
           "
